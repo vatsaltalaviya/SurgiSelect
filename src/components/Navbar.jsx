@@ -12,8 +12,7 @@ const data = [
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
-  console.log(query);
-  
+  // console.log(query);
 
   //   console.log(showMenu);
   const navigate = useNavigate();
@@ -37,27 +36,34 @@ const Navbar = () => {
               <div>
                 <button className="flex justify-between h-full items-center text-lg relative  w-36 rounded-l py-2 px-3 text-left font-medium">
                   <i className="ri-map-pin-line text-gray-500"></i>
-                  <span>All India
-                  </span>
-                    <i className="ri-arrow-down-s-line text-2xl text-emerald-500 "></i>
+                  <span>All India</span>
+                  <i className="ri-arrow-down-s-line text-2xl text-emerald-500 "></i>
                 </button>
               </div>
               <div className="">
-              
                 <Autocomplete
                   disablePortal
+                   freeSolo
+                  id="free-solo-2-demo"
                   options={data}
                   getOptionLabel={(option) => option.label}
-                  sx={{ width: 380, fontSize:20 }}
+                  sx={{ width: 380, fontSize: 20, fontWeight:500 }}
                   onChange={(event, newValue) => {
                     if (newValue) {
-                      setQuery(newValue.label); // ✅ store the ID only
+                      setQuery(newValue.label); // or setQuery(newValue.id) if needed
                     } else {
                       setQuery(null);
                     }
                   }}
+                  onInputChange={(event, inputValue) => {
+                    setQuery(inputValue); // For two-way binding
+                  }}
                   renderInput={(params) => (
-                    <TextField placeholder="Enter Product/Service to search" className="border outline-none w-[380px] h-full py-2 px-1 text-lg border-gray-500" {...params}  />
+                    <TextField
+                      {...params}
+                      placeholder="Enter Product/Service to search"
+                      className="border outline-none w-[380px] h-full py-2 px-1 text-lg border-gray-500"
+                    />
                   )}
                 />
               </div>
