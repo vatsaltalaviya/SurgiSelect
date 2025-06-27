@@ -7,7 +7,7 @@ const HomeProductDisplay = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center  ">
       {Array.from({length:3}).map((_,i)=>(<div key={i} className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5">
-        <Link to="#">
+        <Link to="/categorydetail">
           <h1 className="text-xl md:text-3xl inline hover:underline hover:text-blue-900 font-semibold">
             Building Construction Material & Equipment
           </h1>
@@ -58,7 +58,7 @@ const HomeProductDisplay = () => {
                   </div>
                   <div className="w-fit space-y-14">
                    {Array.from({length:4}).map((_,i)=>( <Link to="#" key={i} className="">
-                      <h1 className="font-bold sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[16px] md:text-xl hover:underline">
+                      <h1 className="font-bold sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-xl hover:underline">
                         Brick Making Machines
                       </h1>
                     </Link>))}

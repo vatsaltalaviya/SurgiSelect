@@ -78,8 +78,13 @@ const CategoryDetail = () => {
             {/* Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {itemsToShow.map((item, index) => (
+                  <Link
+                   key={index}
+                    to="/allproducts"
+                    className="text-sm font-medium underline text-blue-900 hover:text-blue-600"
+                  >
                 <div
-                  key={index}
+                 
                   className="flex flex-col items-center text-center bg-gray-50 p-3 rounded hover:shadow-md transition"
                 >
                   <img
@@ -87,14 +92,11 @@ const CategoryDetail = () => {
                     alt={item.title}
                     className="w-32 h-32 aspect-square object-cover mb-2"
                   />
-                  <Link
-                    to="#"
-                    className="text-sm font-medium underline text-blue-900 hover:text-blue-600"
-                  >
+                
                     {item.title}
-                  </Link>
                   <span className="text-xs text-gray-600 mt-1">({item.count})</span>
                 </div>
+                  </Link>
               ))}
             </div>
 

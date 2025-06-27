@@ -9,12 +9,12 @@ const ProductPage = () => {
       <div className="flex-res gap-2">
         <ProductImage />
         <div className="flex flex-col w-full px-2">
-          <div>
+          {/* <div>
             <span className="font-medium">
               IndiaMART \ Street, Flood and Commercial Lights \ Party Light \ DJ
               LED Lights
             </span>
-          </div>
+          </div> */}
           <div>
             {/* === product name and details ===== */}
             <h1 className="text-3xl font-medium py-1">

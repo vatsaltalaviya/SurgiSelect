@@ -88,7 +88,7 @@ const HomeCrousel = () => {
         </Slider>
       </div>
       <div className=" lg:hidden bg-opacity-50 p-6 rounded text-white max-w-sm">
-        <h1 className="w-full text-xl text-center text-black">Get free quotes from multiple sellers</h1>
+        <h1 className="w-full text-xl font-medium text-center text-black">Get free quotes from multiple sellers</h1>
               <form className="space-y-2">
                 <input
                   type="text"
