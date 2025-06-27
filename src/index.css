@@ -1,0 +1,21 @@
+@import "tailwindcss";
+body{
+    font-family: "Poppins", sans-serif;
+}
+@layer components {
+    .grid-auto-fill {
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    }
+  }
+  @theme{
+    --color-primary:#2e3192;
+  }
+
+@utility flex-res{
+  @apply flex flex-col lg:flex-row;
+}
+@utility noscrollbar {
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
