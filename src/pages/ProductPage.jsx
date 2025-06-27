@@ -9,18 +9,13 @@ const ProductPage = () => {
       <div className="flex-res gap-2">
         <ProductImage />
         <div className="flex flex-col w-full px-2">
-          {/* <div>
-            <span className="font-medium">
-              IndiaMART \ Street, Flood and Commercial Lights \ Party Light \ DJ
-              LED Lights
-            </span>
-          </div> */}
+         
           <div>
             {/* === product name and details ===== */}
-            <h1 className="text-3xl font-medium py-1">
-              LED Stan 2-WAY BLINDER LIGHT
+            <h1  className="text-3xl font-medium text-Black w-full break-words whitespace-normal xl:line-clamp-3">
+              LED Stan 2-WAY BLINDER LIGHT Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae rem suscipit veniam quibusdam ab reiciendis magnam nam dolore dolores. Eveniet?
             </h1>
-            <div className="w-full">
+            <div className="w-full mt-4">
               <form className=" space-y-3">
                 <div className="w-full flex flex-col justify-center items-center md:flex-row gap-2">
                   <input

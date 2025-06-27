@@ -1,17 +1,29 @@
+import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const data = [
+  { id: 1, label: "Door" },
+  { id: 2, label: "mouse" },
+  { id: 3, label: "Laptop" },
+  { id: 4, label: "Phone Cover" },
+  { id: 5, label: "Door mat" },
+];
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
+  const [query, setQuery] = useState(null);
+  console.log(query);
+  
+
   //   console.log(showMenu);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <nav className="bg-[#2e3192] relative z-20 px-4 ">
       <div className="flex py-3 md:px-2 items-center justify-between">
         <div className="flex">
           <div className=" md:w-46 px-2 justify-center items-center">
             <img
-            onClick={()=>navigate('/')}
+              onClick={() => navigate("/")}
               className="w-20 md:w-40 object-cover"
               src="https://imgs.search.brave.com/qxP4z9-3av0kLFti5Lfb1y3jIIEk65opGan9wQl42fk/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9jZG4u/c2FuaXR5LmlvL2lt/YWdlcy9neG11YjJv/bC9wcm9kdWN0aW9u/L2ExMzI0Yjg5Yjhk/ODE4NzZlYjQ5MTM0/YTg5OTFmNTEyYWMw/NjIzNjEtNzc3eDE3/OS5wbmc"
               alt=""
@@ -23,18 +35,30 @@ const navigate = useNavigate()
               onSubmit={(e) => e.preventDefault()}
             >
               <div>
-                <button className="flex h-full items-center text-lg relative  w-30 rounded-l py-2 px-3 text-left font-medium">
-                  <i className="ri-map-pin-line text-gray-500"></i>All India{" "}
-                  <span>
-                    <i className="ri-arrow-down-s-line text-2xl text-emerald-500 absolute right-0 top-1"></i>
+                <button className="flex justify-between h-full items-center text-lg relative  w-36 rounded-l py-2 px-3 text-left font-medium">
+                  <i className="ri-map-pin-line text-gray-500"></i>
+                  <span>All India
                   </span>
+                    <i className="ri-arrow-down-s-line text-2xl text-emerald-500 "></i>
                 </button>
               </div>
               <div className="">
-                <input
-                  className="border outline-none w-[380px] h-full py-2 px-1 text-lg border-gray-500"
-                  type="text"
-                  placeholder="Enter Product/Service to search"
+              
+                <Autocomplete
+                  disablePortal
+                  options={data}
+                  getOptionLabel={(option) => option.label}
+                  sx={{ width: 380, fontSize:20 }}
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      setQuery(newValue.label); // ✅ store the ID only
+                    } else {
+                      setQuery(null);
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField placeholder="Enter Product/Service to search" className="border outline-none w-[380px] h-full py-2 px-1 text-lg border-gray-500" {...params}  />
+                  )}
                 />
               </div>
               <div>

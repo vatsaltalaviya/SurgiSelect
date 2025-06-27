@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Link } from "react-router-dom";
 import ProductAside from "../components/ProductAside";
+import TabProductAside from "../components/TabProductAside";
 
 const cities = [
   "Mumbai",
@@ -35,7 +36,8 @@ const sidebardata = [
 ];
 const products = [
   {
-    title: "Transfer Blade OEM No A03U553000",
+    title:
+      "Transfer Blade OEM No A03U553000 fgdja shadoi whejlwdx ljhcud fudigdiu sjbsajk dbjk sdkj a hkasd bkbh fh fh g shj h jghj  ghgk jkj kjh kjh hjh kjhkj",
     price: 683,
     image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
     details: [
@@ -61,7 +63,7 @@ const products = [
     ],
   },
   {
-    title: "Transfer Blade OEM No A03U553000",
+    title: "Transfer Blade OEM No A03U553000bvjhvjhvhjvhjvhvv  nmkhg kbut y t8t7t7578tgiujh uy98t7 yt7587yfyy  hgyfvhjghggknvbnmvbjcydduty",
     price: 683,
     image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
     details: [
@@ -142,6 +144,7 @@ const products = [
 
 const AllProducts = () => {
   const scrollRef = useRef();
+  const [showFilterforTab, setshowFilterforTab] = useState(false)
   const cityScrollRef = useRef(null);
 
   const scroll = (dir) => {
@@ -168,20 +171,20 @@ const AllProducts = () => {
       {/* Filter Row */}
       <div className="bg-white w-full flex-res lg:justify-between px-2 md:px-5 py-4 rounded space-y-4 lg:space-y-0">
         {/* Input + Near Me */}
-        <form className="flex-res items-center gap-2">
+        <form className="flex-res w-full xl:w-1/2 items-center gap-2">
           <div className="relative w-full max-w-md">
             <i className="ri-map-pin-fill text-primary text-sm md:text-xl absolute top-2 left-3" />
             <input
               placeholder="Enter City"
               type="text"
-              className="w-full border border-primary text-primary pl-10 pr-10 py-2 text-sm md:text-xl rounded outline-primary"
+              className="w-full  border border-primary text-primary pl-10 pr-10 py-2 text-sm md:text-xl rounded outline-primary"
             />
             <button className="text-primary text-sm md:text-xl absolute top-2 right-3">
               <i className="ri-search-line" />
             </button>
           </div>
 
-          <button className="whitespace-nowrap hidden md:block px-4 py-1 bg-blue-400/30 text-primary text-sm md:text-xl font-semibold rounded-full flex-1/2 items-center gap-1">
+          <button className="whitespace-nowrap hidden md:block px-4 py-1 bg-blue-400/30 text-primary text-sm md:text-xl font-semibold rounded-full  items-center gap-1">
             <i className="ri-focus-3-line" />
             near me
           </button>
@@ -229,7 +232,7 @@ const AllProducts = () => {
           <ul className="flex flex-nowrap items-center gap-3 overflow-x-auto scroll-smooth noscrollbar w-full">
             {sidebardata.map((data, i) => (
               <Link key={i} to="#">
-                <li className="whitespace-nowrap px-4 py-1 bg-blue-400/30 text-primary text-sm md:text-xl font-semibold rounded-full hover:bg-primary hover:text-white transition">
+                <li className="whitespace-nowrap px-4 py-1 bg-blue-400/10 text-primary text-sm md:text-xl font-semibold rounded-full hover:bg-primary hover:text-white transition">
                   {data}
                 </li>
               </Link>
@@ -237,11 +240,23 @@ const AllProducts = () => {
           </ul>
         </div>
       </div>
+      
+      {/* Add Button for display aside bar */}
+      <div className="relative hidden  lg:block 2xl:hidden w-fit 2xl:w-7xl my-3 overflow-hidden">
+        <button onClick={()=>setshowFilterforTab((p)=>!p)} className="flex items-center gap-2 px-2 py-1 text-3xl border rounded font-semibold">
+        Filter
+        <i className="ri-equalizer-line font-medium"></i>
+        </button>
+      </div>
 
       {/* main content */}
-      <div className="w-full flex flex-col md:flex-row gap-2 items-start">
+      <div className="w-full relative flex flex-col md:flex-row gap-2 items-start">
         {/* left side */}
         <ProductAside />
+
+        <div className="relative">
+          <TabProductAside show={showFilterforTab}/>
+        </div>
 
         <div className="flex flex-col gap-2 flex-grow">
           {products.map((product, i) => (
@@ -265,12 +280,14 @@ const AllProducts = () => {
               {/* Right - Info */}
               <div className="flex flex-col 2xl:flex-row w-full">
                 <div className="flex flex-col justify-between w-full">
-                  <div>
+                  <div className="w-full xl:w-2xl">
                     <Link
                       to="/productdetail"
-                      className="text-2xl font-semibold text-primary hover:text-red-500 break-words"
+                     className="text-lg xl:text-2xl font-semibold text-primary hover:text-red-500 "
+
                     >
-                      {product.title}
+                      <p className="text-wrap xl:w-xl text-justify px-1.5">{product.title}</p>
+                      
                     </Link>
 
                     <div className="text-lg lg:text-xl font-bold mt-1 text-zinc-800">
@@ -295,12 +312,10 @@ const AllProducts = () => {
                         ))}
                       </tbody>
                     </table>
-
-                   
                   </div>
                 </div>
 
-                <div className="w-full text-lg py-1">
+                <div className="w-full h-full text-lg py-1">
                   <div className="bg-zinc-200 py-2 px-2 pb-3 rounded ">
                     <Link to="#">
                       <h1 className="text-sm lg:text-lg font-medium underline">

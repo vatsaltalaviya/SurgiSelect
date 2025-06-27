@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* @plugin '@tailwindcss/line-clamp'; */
+
 body{
     font-family: "Poppins", sans-serif;
 }

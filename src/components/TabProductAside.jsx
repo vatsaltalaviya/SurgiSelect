@@ -2,10 +2,14 @@ import React from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import { Link } from 'react-router-dom'
 
-const ProductAside = () => {
+const TabProductAside = ({show}) => {
+    console.log(show);
+    
   return (
     <aside
-          className="space-y-4 hidden shrink-0 2xl:block sticky top-4 self-start max-h-[80vh] overflow-y-auto pr-2 noscrollbar"
+           className={`fixed left-0 h-full z-50 bg-white shadow-md transition-transform duration-300 transform ${
+    show ? 'translate-x-0' : '-translate-x-full'
+  } w-[300px] overflow-y-auto noscrollbar`}
         >
           {/* related Category */}
           <div className="bg-white rounded px-2 py-1 text-wrap">
@@ -70,7 +74,7 @@ const ProductAside = () => {
           {/* related Brand */}
           <div className="bg-white rounded px-2 py-1 text-wrap">
             <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
-              Related Brands
+              Related Brands form
             </h1>
 
             {Array.from({ length: 3 }).map((_, i) => (
@@ -128,4 +132,4 @@ const ProductAside = () => {
   )
 }
 
-export default ProductAside
+export default TabProductAside
