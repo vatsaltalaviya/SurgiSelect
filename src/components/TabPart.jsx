@@ -29,7 +29,7 @@ const companyInfo = [
   { label: "Nature of Business", value: "Trader - Wholesaler/Distributor" },
   { label: "Number of Employees", value: "11 To 25 People" },
   { label: "Annual Turnover", value: "5 - 25 Cr" },
-  { label: "IndiaMART Member Since", value: "Aug 2006" },
+  { label: "SurgiSelect Member Since", value: "Aug 2006" },
   { label: "GST", value: "07AAVPM9674P1ZB" },
   { label: "Import Export Code (IEC)", value: "05169*****" },
 ];

@@ -7,6 +7,7 @@ import ProductPage from "./pages/ProductPage";
 import Industry from "./pages/Industry";
 import CategoryDetail from "./pages/CategaryDetail";
 import AllProducts from "./pages/AllProducts";
+import Login from "./pages/Login";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Login />} />
         <Route path="/productdetail" element={<ProductPage />} />
         <Route path="/industry" element={<Industry />} />
         <Route path="/categorydetail" element={<CategoryDetail />} />

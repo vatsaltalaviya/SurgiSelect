@@ -20,7 +20,7 @@ const HomeCrousel = () => {
         <h1 className="text-lg md:text-4xl font-medium">We connect </h1>
         <h1 className="text-lg md:text-4xl font-semibold">Buyers & Sellers</h1>
         <h3 className="text-xs md:text-lg tracking-tight leading-6 font-medium pt-4">
-          IndiaMART is India's largest online B2B
+          SurgiSelect is India's largest online B2B
         </h3>
         <h3 className="text-xs md:text-lg tracking-tight leading-6 font-medium">
           marketplace, connecting buyers with suppliers.

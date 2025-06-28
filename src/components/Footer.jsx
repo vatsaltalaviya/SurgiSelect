@@ -21,10 +21,10 @@ const Footer = () => {
     "Contact Us",
   ];
   const suppliersToolKit = [
-    "Sell on IndiaMART",
+    "Sell on SurgiSelect",
     "Latest BuyLead",
     "Learning Centre",
-    "Ship With IndiaMART",
+    "Ship With SurgiSelect",
   ];
 
   const buyersToolKit = [
@@ -134,7 +134,7 @@ const Footer = () => {
       </div>
       <div className="w-full md:w-[70vw] px-2 py-2 flex flex-col lg:flex-row md:justify-between">
         <span className="text-base lg:text-lg font-medium text-gray-500">
-          Copyright © 1996-2025 IndiaMART InterMESH Ltd. All rights reserved.
+          Copyright © 1996-2025 SurgiSelect InterMESH Ltd. All rights reserved.
         </span>
         <span className="text-lg font-medium text-gray-500">
           <Link to='#' className="hover:text-primary hover:underline">Terms of use</Link>

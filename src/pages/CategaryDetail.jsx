@@ -60,7 +60,7 @@ const CategoryDetail = () => {
     <div className="bg-gray-100 px-4 py-6 lg:px-16">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-600 mb-3">
-        IndiaMART &gt; Consumer Electronics &gt;{" "}
+        SurgiSelect &gt; Consumer Electronics &gt;{" "}
         <span className="text-black font-medium">Computer Hardware & Peripherals</span>
       </div>
 
