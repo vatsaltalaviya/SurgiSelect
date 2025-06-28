@@ -57,7 +57,7 @@ const HomeProductDisplay = () => {
                     />
                   </div>
                   <div className="w-fit space-y-14">
-                   {Array.from({length:4}).map((_,i)=>( <Link to="#" key={i} className="">
+                   {Array.from({length:4}).map((_,i)=>( <Link to="/industry" key={i} className="">
                       <h1 className={`font-medium ${i == 0 ?'font-bold':""} sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-xl hover:underline`}>
                         Brick Making Machines
                       </h1>
