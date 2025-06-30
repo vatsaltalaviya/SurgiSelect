@@ -42,6 +42,11 @@ const banks = [
 const Orderpage = () => {
   const [showAddCard, setshowAddCard] = useState(false);
   const bgref = useRef(null);
+  const closePopUp = (e) => {
+    if (bgref.current === e.target) {    
+      setshowAddCard(false);
+    }
+  }
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 16 }, (_, i) => currentYear + i);
   return (
@@ -273,7 +278,7 @@ const Orderpage = () => {
       </div>
 
 
-     {showAddCard && <div className="h-screen w-full flex items-center justify-center fixed top-0 bg-black/50">
+     {showAddCard && <div ref={bgref} onClick={closePopUp} className="h-screen w-full flex items-center justify-center fixed top-0 bg-black/50">
         <div className="bg-white px-5 py-2">
           <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
             Add your new Credit card or Debit Card
