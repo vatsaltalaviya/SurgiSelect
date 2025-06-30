@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Footer from "./components/Footer";
@@ -8,20 +8,30 @@ import Industry from "./pages/Industry";
 import CategoryDetail from "./pages/CategaryDetail";
 import AllProducts from "./pages/AllProducts";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App = () => {
+  const location = useLocation();
+  const hideHeaderFooterRoutes = ["/signup","/signin"];
+
+  const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
+    location.pathname
+  );
   return (
     <>
-      <Navbar />
+      {!shouldHideHeaderFooter && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Login />} />
         <Route path="/productdetail" element={<ProductPage />} />
         <Route path="/industry" element={<Industry />} />
         <Route path="/categorydetail" element={<CategoryDetail />} />
         <Route path="/allproducts" element={<AllProducts />} />
+        <Route path="/signup" element={<Login />} />
+        <Route path="/signin" element={<Register />} />
       </Routes>
-      <Footer />
+
+      {!shouldHideHeaderFooter && <Footer />}
     </>
   );
 };

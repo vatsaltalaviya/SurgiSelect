@@ -1,6 +1,7 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/mainlogo.png"; // Adjust the path as necessary
 
 const data = [
   { id: 1, label: "Door" },
@@ -17,14 +18,19 @@ const Navbar = () => {
   //   console.log(showMenu);
   const navigate = useNavigate();
   return (
-    <nav className="bg-[#2e3192] relative z-20 px-4 ">
+    <nav
+      className={`bg-[#2e3192] w-full ${
+        showMenu ? "fixed top-0" : "relative"
+      } z-20 px-4 `}
+    >
       <div className="flex py-3 md:px-2 items-center justify-between">
         <div className="flex">
           <div className=" md:w-46 px-2 justify-center items-center">
             <img
               onClick={() => navigate("/")}
-              className="w-20 md:w-40 object-cover"
-              src="https://imgs.search.brave.com/qxP4z9-3av0kLFti5Lfb1y3jIIEk65opGan9wQl42fk/rs:fit:0:180:1:0/g:ce/aHR0cHM6Ly9jZG4u/c2FuaXR5LmlvL2lt/YWdlcy9neG11YjJv/bC9wcm9kdWN0aW9u/L2ExMzI0Yjg5Yjhk/ODE4NzZlYjQ5MTM0/YTg5OTFmNTEyYWMw/NjIzNjEtNzc3eDE3/OS5wbmc"
+              className="w-20 md:w-32 object-cover"
+              // src={logo}
+              src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751262201/mainlogo_rdbo0v.png"
               alt=""
             />
           </div>
@@ -43,11 +49,11 @@ const Navbar = () => {
               <div className="">
                 <Autocomplete
                   disablePortal
-                   freeSolo
+                  freeSolo
                   id="free-solo-2-demo"
                   options={data}
                   getOptionLabel={(option) => option.label}
-                  sx={{ width: 380, fontSize: 20, fontWeight:500 }}
+                  sx={{ width: 380, fontSize: 20, fontWeight: 500 }}
                   onChange={(event, newValue) => {
                     if (newValue) {
                       setQuery(newValue.label); // or setQuery(newValue.id) if needed
@@ -111,12 +117,26 @@ const Navbar = () => {
             <span className="text-white text-[18px] font-light">
               Signin <i className="ri-arrow-down-s-line"></i>
             </span>
-            <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
+            <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
               <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
-                <p className="cursor-pointer hover:text-black">Home</p>
-                <p className="cursor-pointer hover:text-black">
-                  Post Your Requirement
-                </p>
+                <Link
+                  to="/signup"
+                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                >
+                  Sign UP
+                </Link>
+                <Link to="/">
+                  <p className="cursor-pointer text-lg space-x-3 hover:text-black">
+                    <i class="ri-home-9-fill text-xl" />
+                    <span className="text-lg">Home</span>
+                  </p>
+                </Link>
+                <Link to="/cart">
+                  <p className="cursor-pointer space-x-3 hover:text-black">
+                    <i class="ri-shopping-cart-fill text-xl" />
+                    <span className="text-lg">Cart</span>
+                  </p>
+                </Link>
               </div>
             </div>
           </div>
@@ -134,7 +154,7 @@ const Navbar = () => {
       {/* ------- for mobile version */}
 
       <div
-        className={`bg-[#2e3192] absolute w-72 transition-all z-10 duration-200 ${
+        className={`bg-[#2e3192]  absolute w-72 transition-all z-10 duration-200 ${
           showMenu ? "left-0" : "-left-1000"
         }`}
       >
@@ -156,10 +176,31 @@ const Navbar = () => {
             <span className="text-white text-[12px] font-light">Message</span>
           </div>
           <div className="flex gap-4 items-center">
-            <i className="ri-user-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">
-              Signin <i className="ri-arrow-down-s-line"></i>
-            </span>
+            <details className="appearance-none list-none cursor-pointer font-medium text-lg">
+              <summary className="marker:content-none flex items-center gap-1">
+                <i className="ri-user-line text-xl font-medium text-white"></i>
+                <span className="text-white text-[12px] font-light flex items-center gap-1">
+                  Signin <i className="ri-arrow-down-s-line"></i>
+                </span>
+              </summary>
+
+              <div className="w-full text-base font-medium text-gray-600">
+                <div className="w-full bg-stone-100 flex flex-col gap-4 p-4">
+                  <Link
+                    to="/signup"
+                    className="px-3 py-2 text-white bg-primary text-sm text-center rounded-xl"
+                  >
+                    Sign UP
+                  </Link>
+                  <p className="cursor-pointer text-xs hover:text-black">
+                    Home
+                  </p>
+                  <p className="cursor-pointer text-xs hover:text-black">
+                    <i class="ri-shopping-cart-fill text-xl" />
+                  </p>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
