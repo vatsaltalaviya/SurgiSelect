@@ -1,7 +1,6 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/mainlogo.png"; // Adjust the path as necessary
 
 const data = [
   { id: 1, label: "Door" },
@@ -13,9 +12,7 @@ const data = [
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
-  // console.log(query);
-
-  //   console.log(showMenu);
+ 
   const navigate = useNavigate();
   return (
     <nav
@@ -127,13 +124,13 @@ const Navbar = () => {
                 </Link>
                 <Link to="/">
                   <p className="cursor-pointer text-lg space-x-3 hover:text-black">
-                    <i class="ri-home-9-fill text-xl" />
+                    <i className="ri-home-9-fill text-xl" />
                     <span className="text-lg">Home</span>
                   </p>
                 </Link>
                 <Link to="/cart">
                   <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i class="ri-shopping-cart-fill text-xl" />
+                    <i className="ri-shopping-cart-fill text-xl" />
                     <span className="text-lg">Cart</span>
                   </p>
                 </Link>
@@ -196,7 +193,7 @@ const Navbar = () => {
                     Home
                   </p>
                   <p className="cursor-pointer text-xs hover:text-black">
-                    <i class="ri-shopping-cart-fill text-xl" />
+                    <i className="ri-shopping-cart-fill text-xl" />
                   </p>
                 </div>
               </div>
