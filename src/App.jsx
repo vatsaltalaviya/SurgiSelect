@@ -26,10 +26,10 @@ const App = () => {
       <ToastContainer position="top-right" autoClose={1000} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/productdetail" element={<ProductPage />} />
-        <Route path="/industry" element={<Industry />} />
+        <Route path="/productdetail/:id" element={<ProductPage />} />
+        <Route path="/industry/" element={<Industry />} />
         <Route path="/categorydetail" element={<CategoryDetail />} />
-        <Route path="/allproducts" element={<AllProducts />} />
+        <Route path="/allproducts/:subcategoryid" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Orderpage />} />
         <Route path="/signup" element={<Login />} />

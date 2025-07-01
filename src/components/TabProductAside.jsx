@@ -3,7 +3,6 @@ import { PhotoProvider, PhotoView } from 'react-photo-view'
 import { Link } from 'react-router-dom'
 
 const TabProductAside = ({show}) => {
-    console.log(show);
     
   return (
     <aside

@@ -1,8 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductAside from "../components/ProductAside";
 import TabProductAside from "../components/TabProductAside";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItemsBySubCategory } from "../slices/items.slice";
+import { fetchAllCompanies } from "../slices/company.slice";
+import { ClipLoader } from "react-spinners";
 
 const cities = [
   "Mumbai",
@@ -142,11 +146,47 @@ const products = [
   },
 ];
 
+
+
 const AllProducts = () => {
-  const scrollRef = useRef();
+  const {subcategoryid} = useParams();
+  
   const [showFilterforTab, setshowFilterforTab] = useState(false)
   const cityScrollRef = useRef(null);
 
+  const dispatch = useDispatch();
+  const {items, loading} = useSelector((state) => state.items);
+  const {company} = useSelector((state) => state.companies);
+
+  useEffect(() => {
+    dispatch(fetchItemsBySubCategory(subcategoryid));
+    dispatch(fetchAllCompanies());
+  },[])
+
+  // console.log(items , company);
+
+  const itemsObj = useMemo(() => {
+    if (!items?.length || !company?.length) return [];
+  
+    return items?.map((item) => {
+      const matchedCompany = company?.find(
+        (cat) => cat._id === item.companyId
+      );
+  
+      return {
+        itemId: item._id,
+        companyName: matchedCompany?.name || "Unknown",
+        item:item
+        // subCategories: item.subCategories?.slice(0, 9),
+      };
+    });
+  }, [items, company]);
+
+  console.log(company ,itemsObj);
+  
+  
+
+  
   const scroll = (dir) => {
     if (cityScrollRef.current) {
       cityScrollRef.current.scrollBy({
@@ -259,7 +299,8 @@ const AllProducts = () => {
         </div>
 
         <div className="flex flex-col gap-2 flex-grow">
-          {products.map((product, i) => (
+          
+          {loading ?<div className="w-full h-screen flex items-center justify-center"><ClipLoader size={50} /></div>:itemsObj?.map((product, i) => (
             <section
               key={i}
               className="w-full lg:flex-1 bg-white p-4 rounded shadow flex-col lg:flex-row flex gap-4"
@@ -267,10 +308,10 @@ const AllProducts = () => {
               {/* Left - Image */}
               <div className="md:w-[350px] md:h-[250px]  flex-shrink-0">
                 <PhotoProvider>
-                  <PhotoView src={product.image}>
+                  <PhotoView src={product.item.logoImage}>
                     <img
-                      src={product.image}
-                      alt={product.title}
+                      src={product.item.logoImage}
+                      alt={product.item.title}
                       className="w-full h-full object-contain cursor-zoom-in rounded"
                     />
                   </PhotoView>
@@ -282,16 +323,16 @@ const AllProducts = () => {
                 <div className="flex flex-col justify-between w-full">
                   <div className="w-full xl:w-2xl">
                     <Link
-                      to="/productdetail"
+                      to={`/productdetail/${product.item._id}`}
                      className="text-lg xl:text-2xl font-semibold text-primary hover:text-red-500 "
 
                     >
-                      <p className="text-wrap xl:w-xl text-justify px-1.5">{product.title}</p>
+                      <p className="text-wrap xl:w-xl text-justify px-1.5">{product.item.name}</p>
                       
                     </Link>
 
                     <div className="text-lg lg:text-xl font-bold mt-1 text-zinc-800">
-                      ₹ {product.price}
+                      ₹ {product.item.sellingPrice}
                       <span className="text-sm lg:text-xl font-normal text-gray-600 ml-1">
                         /Piece
                       </span>
@@ -302,14 +343,26 @@ const AllProducts = () => {
 
                     <table className="text-sm lg:text-lg mt-2 text-gray-700">
                       <tbody>
-                        {product.details.map((row, i) => (
-                          <tr key={i}>
+                       
+                          <tr>
                             <td className="pr-2 md:w-52 font-medium text-black">
-                              {row.label}:
+                              Colour:
                             </td>
-                            <td>{row.value}</td>
+                            <td>{product.item.color}</td>
                           </tr>
-                        ))}
+                          <tr>
+                            <td className="pr-2 md:w-52 font-medium text-black">
+                              Size:
+                            </td>
+                            <td>{product.item.size}</td>
+                          </tr>
+                          <tr>
+                            <td className="pr-2 md:w-52 font-medium text-black">
+                              Type:
+                            </td>
+                            <td>{product.item.type}</td>
+                          </tr>
+                        
                       </tbody>
                     </table>
                   </div>
@@ -319,7 +372,7 @@ const AllProducts = () => {
                   <div className="bg-zinc-200 py-2 px-2 pb-3 rounded ">
                     <Link to="#">
                       <h1 className="text-sm lg:text-lg font-medium underline">
-                        Cine Audo Viso Equipments
+                        {product.companyName}
                       </h1>
                     </Link>
                     <h3>
@@ -375,6 +428,7 @@ const AllProducts = () => {
               </div>
             </section>
           ))}
+
         </div>
 
         {/* right side */}

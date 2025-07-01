@@ -7,7 +7,22 @@ export const registerUser = createAsyncThunk("Adduser", async (userData,thunkAPI
         const data = res.data;
         if(res.status === 201) {
         localStorage.setItem("user",data.user._id);
+        localStorage.setItem("username",data.user.name);
             return data.user;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+});
+export const loginUser = createAsyncThunk("loginUser", async (userData,thunkAPI) => {
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, userData)
+        const data = res.data;
+        
+        if(res.status === 200) {
+        localStorage.setItem("user",data.data.userId);
+        localStorage.setItem("username",data.data.name);
+            return data.data;
         }
     } catch (error) {
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
@@ -59,6 +74,19 @@ const userslices = createSlice({
             state.error = null;
         })
         .addCase(registerUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(loginUser.pending, (state, action) =>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(loginUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload;
+            state.error = null;
+        })
+        .addCase(loginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         })

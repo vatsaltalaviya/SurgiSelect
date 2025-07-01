@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { registerUser, sendOTP, verifyOTP } from "../slices/user.slice";
-import axios from "axios";
+
 
 
 const Register = () => {
@@ -28,7 +28,7 @@ const Register = () => {
     if (!name || !email || !pass || !number) {
       toast.warn("Please fill all fields");
     }
-    console.log(email);
+    
     dispatch(sendOTP(email)).then(()=>setshowVerifyOTP(true))
  
     

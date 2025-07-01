@@ -15,6 +15,8 @@ const Navbar = () => {
   const [query, setQuery] = useState(null);
 
   const user = useSelector((state) => state.user.user);
+  const username = localStorage.getItem("username");
+  const userid = localStorage.getItem("user");
 
  
   const navigate = useNavigate();
@@ -116,16 +118,23 @@ const Navbar = () => {
           <div className="flex flex-col group items-center relative">
             <i className="ri-user-line text-2xl font-medium text-white"></i>
             <span className="text-white text-[18px] font-light">
-              {user?.name || "sign in"} <i className="ri-arrow-down-s-line"></i>
+              {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
             </span>
             <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
               <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
-                <Link
+                {!userid ?<Link
                   to="/signup"
                   className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
                 >
                   Sign UP
-                </Link>
+                </Link>:
+                <Link
+                  to="/"
+                  onClick={()=>localStorage.clear()}
+                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                >
+                  Log Out
+                </Link>}
                 <Link to="/">
                   <p className="cursor-pointer text-lg space-x-3 hover:text-black">
                     <i className="ri-home-9-fill text-xl" />
@@ -181,18 +190,25 @@ const Navbar = () => {
               <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
                 <span className="text-white text-[12px] font-light flex items-center gap-1">
-                  {user?.name || "sign in"} <i className="ri-arrow-down-s-line"></i>
+                  {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
                 </span>
               </summary>
 
               <div className="w-full text-base font-medium text-gray-600">
                 <div className="w-full rounded bg-stone-100 flex flex-col gap-4 p-4">
-                  <Link
+                 {!userid ?<Link
                   to="/signup"
-                  className="px-3 py-2 text-white bg-primary text-sm text-center rounded"
+                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
                 >
                   Sign UP
-                </Link>
+                </Link>:
+                <Link
+                  to="/"
+                  onClick={()=>localStorage.clear()}
+                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                >
+                  Log Out
+                </Link>}
                 <Link to="/">
                   <p className="cursor-pointer text-lg space-x-3 hover:text-black">
                     <i className="ri-home-9-fill text-lg" />

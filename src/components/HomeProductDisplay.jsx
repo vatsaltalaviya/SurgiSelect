@@ -1,15 +1,49 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchCategories, fetchlandingPageCategories } from "../slices/Category.slice";
+import { ClipLoader } from "react-spinners";
 
 const HomeProductDisplay = () => {
-  const Arr = Array.from({ length: 9 });
+
+  const dispatch = useDispatch();
+  const {categories ,landingpageCategories,loading} = useSelector((state) => state.category);
+
+const CategoryObj = useMemo(() => {
+  if (!categories?.length || !landingpageCategories?.length) return [];
+
+  return landingpageCategories?.map((item) => {
+    const matchedCategory = categories?.find(
+      (cat) => cat._id === item.categoryId
+    );
+
+
+    return {
+      categoryId: item.categoryId,
+      categoryName: matchedCategory?.name || "Unknown",
+      categoryImage: matchedCategory?.image || "Unknown",
+      subCategories: item.subCategories?.slice(0, 9),
+    };
+  });
+}, [categories, landingpageCategories]);
+
+console.log(CategoryObj);
+
+  
+useEffect(() => {
+  dispatch(fetchCategories());
+  dispatch(fetchlandingPageCategories());
+},[])
+
+  
 
   return (
     <div className="w-full flex flex-col items-center justify-center  ">
-      {Array.from({length:3}).map((_,i)=>(<div key={i} className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5">
+      {loading ?<ClipLoader size={50} />:<>
+      {CategoryObj?.map((cat,i)=>(<div key={i} className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5">
         <Link to="/categorydetail">
           <h1 className="text-xl md:text-3xl inline hover:underline hover:text-blue-900 font-semibold">
-            Building Construction Material & Equipment
+            {cat?.categoryName}
           </h1>
         </Link>
         <div className="flex-res  justify-center mt-5">
@@ -17,7 +51,7 @@ const HomeProductDisplay = () => {
           <div className="hidden shrink-0 2xl:flex w-sm h-[55vh] relative">
             <img
               className="w-full h-full object-cover"
-              src="https://img.freepik.com/free-photo/high-angle-measuring-tools-still-life_23-2150440970.jpg"
+              src={cat?.categoryImage}
               alt="Construction tools"
             />
 
@@ -44,24 +78,29 @@ const HomeProductDisplay = () => {
           <div className=" w-full relative lg:px-4">
             {/* <div className="w-full grid [grid-template-columns:repeat(auto-fill,minmax(400px,1fr))] gap-4"> */}
             <div className="flex flex-row lg:flex-wrap flex-nowrap gap-1 xl:overflow-hidden overflow-x-scroll">
-              {Arr.map((_, i) => (
+              {cat.subCategories.map((subcat, i) => (
                 <div
                   key={i}
-                  className="shrink-0 md:w-[30em] w-full rounded flex flex-row gap-4 md:justify-center items-center border border-gray-500 p-1.5 md:p-2 py-5"
+                  className="shrink-0 md:w-[30em] w-full rounded flex flex-row gap-4 items-center border border-gray-500 p-1.5 md:p-2 py-5"
                 >
                   <div className="w-26 md:w-1/3">
                     <img
                       className="w-full object-fill"
-                      src="https://3.imimg.com/data3/RS/UH/GLADMIN-5385/brick-making-machines-125x125.jpg"
+                      src={subcat.image}
                       alt=""
                     />
                   </div>
                   <div className="w-fit space-y-14">
-                   {Array.from({length:4}).map((_,i)=>( <Link to="/industry" key={i} className="">
+                   { <Link to={`/allproducts/${subcat._id}`} key={i} className="">
+                      <h1 className={`font-medium ${i == 0 ?'font-bold':""} sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-xl hover:underline`}>
+                        {subcat.name}
+                      </h1>
+                    </Link>}
+                   {/* {Array.from({length:4}).map((_,i)=>( <Link to="/industry" key={i} className="">
                       <h1 className={`font-medium ${i == 0 ?'font-bold':""} sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-xl hover:underline`}>
                         Brick Making Machines
                       </h1>
-                    </Link>))}
+                    </Link>))} */}
                   </div>
                 </div>
               ))}
@@ -69,6 +108,8 @@ const HomeProductDisplay = () => {
           </div>
         </div>
       </div>))}
+      </>}
+      
     </div>
   );
 };
