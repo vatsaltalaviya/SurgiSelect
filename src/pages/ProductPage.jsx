@@ -19,7 +19,6 @@ const ProductPage = () => {
   const updatedProduct = {
     ...items,
     images: [
-      items?.logoImage,
       ...(items?.images || []).filter((img) => img !== items?.logoImage),
     ],
   };
@@ -100,7 +99,7 @@ const ProductPage = () => {
               <div className="w-full mt-5">
                 <h2 className="text-lg font-medium">{updatedProduct?.about}</h2>
 
-                <h1 className="text-xl mt-6 font-medium">Features:</h1>
+                <h1 className="text-xl font-medium">Features:</h1>
                 <ul className="list-disc mt-6 pl-5 space-y-2 text-gray-800">
                   {parsedFeatures?.map((feature, index) => (
                     <li key={index} className="ml-10 text-base font-medium">
