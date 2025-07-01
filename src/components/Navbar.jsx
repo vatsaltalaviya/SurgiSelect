@@ -1,5 +1,6 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const data = [
@@ -12,6 +13,9 @@ const data = [
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
+
+  const user = useSelector((state) => state.user.user);
+
  
   const navigate = useNavigate();
   return (
@@ -112,7 +116,7 @@ const Navbar = () => {
           <div className="flex flex-col group items-center relative">
             <i className="ri-user-line text-2xl font-medium text-white"></i>
             <span className="text-white text-[18px] font-light">
-              Signin <i className="ri-arrow-down-s-line"></i>
+              {user?.name || "sign in"} <i className="ri-arrow-down-s-line"></i>
             </span>
             <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
               <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
@@ -151,7 +155,7 @@ const Navbar = () => {
       {/* ------- for mobile version */}
 
       <div
-        className={`bg-[#2e3192]  absolute w-72 transition-all z-10 duration-200 ${
+        className={`bg-[#2e3192] absolute w-72 transition-all z-10 duration-200 ${
           showMenu ? "left-0" : "-left-1000"
         }`}
       >
@@ -172,29 +176,35 @@ const Navbar = () => {
             <i className="ri-message-2-line text-xl font-medium text-white"></i>
             <span className="text-white text-[12px] font-light">Message</span>
           </div>
-          <div className="flex gap-4 items-center">
-            <details className="appearance-none list-none cursor-pointer font-medium text-lg">
-              <summary className="marker:content-none flex items-center gap-1">
+          <div className="flex w-full gap-4 items-center">
+            <details className="appearance-none w-52 list-none cursor-pointer font-medium text-lg">
+              <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
                 <span className="text-white text-[12px] font-light flex items-center gap-1">
-                  Signin <i className="ri-arrow-down-s-line"></i>
+                  {user?.name || "sign in"} <i className="ri-arrow-down-s-line"></i>
                 </span>
               </summary>
 
               <div className="w-full text-base font-medium text-gray-600">
-                <div className="w-full bg-stone-100 flex flex-col gap-4 p-4">
+                <div className="w-full rounded bg-stone-100 flex flex-col gap-4 p-4">
                   <Link
-                    to="/signup"
-                    className="px-3 py-2 text-white bg-primary text-sm text-center rounded-xl"
-                  >
-                    Sign UP
-                  </Link>
-                  <p className="cursor-pointer text-xs hover:text-black">
-                    Home
+                  to="/signup"
+                  className="px-3 py-2 text-white bg-primary text-sm text-center rounded"
+                >
+                  Sign UP
+                </Link>
+                <Link to="/">
+                  <p className="cursor-pointer text-lg space-x-3 hover:text-black">
+                    <i className="ri-home-9-fill text-lg" />
+                    <span className="text-sm">Home</span>
                   </p>
-                  <p className="cursor-pointer text-xs hover:text-black">
-                    <i className="ri-shopping-cart-fill text-xl" />
+                </Link>
+                  <Link to="/cart">
+                  <p className="cursor-pointer space-x-3 hover:text-black">
+                    <i className="ri-shopping-cart-fill text-lg" />
+                    <span className="text-sm">Cart</span>
                   </p>
+                </Link>
                 </div>
               </div>
             </details>

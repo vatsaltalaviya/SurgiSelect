@@ -1,23 +1,32 @@
 @import "tailwindcss";
 /* @plugin '@tailwindcss/line-clamp'; */
 
-body{
-    font-family: "Poppins", sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
 }
 @layer components {
-    .grid-auto-fill {
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    }
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   }
-  @theme{
-    --color-primary:#2e3192;
+}
+@theme {
+  --color-primary: #2e3192;
+}
+.phone::-webkit-inner-spin-button,
+  .phone::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .phone {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 
-@utility flex-res{
+@utility flex-res {
   @apply flex flex-col lg:flex-row;
 }
 @utility noscrollbar {
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     display: none;
   }
 }

@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Orderpage from "./pages/Orderpage";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <>
       {!shouldHideHeaderFooter && <Navbar />}
-
+      <ToastContainer position="top-right" autoClose={1000} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productdetail" element={<ProductPage />} />
