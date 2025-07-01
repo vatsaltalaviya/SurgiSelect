@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Orderpage from "./pages/Orderpage";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const App = () => {
     <>
       {!shouldHideHeaderFooter && <Navbar />}
       <ToastContainer position="top-right" autoClose={1000} />
+        <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productdetail/:id" element={<ProductPage />} />
