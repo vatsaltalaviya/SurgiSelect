@@ -61,7 +61,7 @@ const Register = () => {
         {showVerifyOTP ? (
           <form
             onSubmit={handleSubmit}
-            className="px-5  xl:w-xl shrink-0 py-1 mt-2"
+            className="xl:px-5 xl:w-xl shrink-0 py-1 mt-2"
           >
             <div className="flex flex-col items-center gap-2 mb-4">
               <img
@@ -79,7 +79,7 @@ const Register = () => {
                 value={otp}
                 onChange={(e) => setotp(e.target.value)}
                 autoComplete="off"
-                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-4 text-lg"
+                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
             
             </div>
@@ -111,7 +111,7 @@ const Register = () => {
         ) : (
           <form
             onSubmit={handleSendOTP}
-            className="px-5  xl:w-xl shrink-0 py-1 mt-2"
+            className="xl:px-5  xl:w-xl shrink-0 py-1 mt-2"
           >
             <div className="flex flex-col items-center gap-2 mb-4">
               <img
@@ -127,7 +127,7 @@ const Register = () => {
                 placeholder="Enter your name"
                 value={name}
                 onChange={(e) => setname(e.target.value)}
-                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-4 text-lg"
+                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
              
             </div>
@@ -139,7 +139,7 @@ const Register = () => {
                 minLength={10}
                 value={number}
                 onChange={(e) => setnumber(e.target.value)}
-                className="w-full phone appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-4 text-lg"
+                className="w-full phone appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
               
             </div>
@@ -150,7 +150,7 @@ const Register = () => {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setemail(e.target.value)}
-                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-4 text-lg"
+                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
              
             </div>
@@ -163,7 +163,7 @@ const Register = () => {
                 placeholder="Enter your password"
                 value={pass}
                 onChange={(e) => setpass(e.target.value)}
-                className="w-full border border-gray-300 rounded-md p-4 text-lg"
+                className="w-full border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
               <i
                 onClick={() => setShowPassword((p) => !p)}

@@ -44,7 +44,7 @@ const ProductPage = () => {
         <div className="flex flex-col w-full px-2">
           <div>
             {/* === product name and details ===== */}
-            <h1 className="text-3xl font-medium text-Black w-full break-words whitespace-normal xl:line-clamp-3">
+            <h1 className="text-lg xl:text-3xl font-medium text-Black w-full break-words whitespace-normal xl:line-clamp-3">
               {updatedProduct?.name}
             </h1>
             <div className="w-full mt-4">
@@ -64,7 +64,7 @@ const ProductPage = () => {
                   </select>
                 </div>
                 <div className="w-full flex items-center justify-center">
-                  <button className="px-3 py-2 rounded bg-[#2e3192] text-white font-medium text-2xl">
+                  <button className="px-3 py-2 rounded bg-[#2e3192] text-white font-medium md:text-2xl">
                     Submit Requirement
                   </button>
                 </div>
@@ -97,11 +97,11 @@ const ProductPage = () => {
               </div>
 
               {/* =========== aditional Detail==================== */}
-              <div className="w-full py-1">
+              <div className="w-full mt-5">
                 <h2 className="text-lg font-medium">{updatedProduct?.about}</h2>
 
-                <h1 className="text-xl font-medium">Features:</h1>
-                <ul className="list-disc pl-5 space-y-2 text-gray-800">
+                <h1 className="text-xl mt-6 font-medium">Features:</h1>
+                <ul className="list-disc mt-6 pl-5 space-y-2 text-gray-800">
                   {parsedFeatures?.map((feature, index) => (
                     <li key={index} className="ml-10 text-base font-medium">
                       <strong>{feature.key}:</strong> {feature.value}
