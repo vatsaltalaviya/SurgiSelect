@@ -37,116 +37,7 @@ const sidebardata = [
   "Filter result",
   "Related Brand",
   "Business Type",
-];
-const products = [
-  {
-    title:
-      "Transfer Blade OEM No A03U553000 fgdja shadoi whejlwdx ljhcud fudigdiu sjbsajk dbjk sdkj a hkasd bkbh fh fh g shj h jghj  ghgk jkj kjh kjh hjh kjhkj",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000bvjhvjhvhjvhjvhvv  nmkhg kbut y t8t7t7578tgiujh uy98t7 yt7587yfyy  hgyfvhjghggknvbnmvbjcydduty",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Transfer Blade OEM No A03U553000",
-    price: 683,
-    image: "https://images.unsplash.com/photo-1630327722923-5ebd594ddda9?w=600",
-    details: [
-      { label: "Part Type", value: "IBT Belt" },
-      { label: "Quality", value: "OEM parts" },
-      { label: "Application", value: "Copier Machine" },
-      { label: "Brand", value: "NEHA" },
-      { label: "Model No.", value: "C5500 / 5501 / 6500 / C6000 / C7000" },
-      { label: "Part Name", value: "Transfer Cleaning Blade" },
-    ],
-  },
-  {
-    title: "Canon IR 5000 Ir6000 Control Panel Cover",
-    price: 550,
-    image: "https://example.com/panel.jpg",
-    details: [
-      { label: "Part Type", value: "Cartridge" },
-      { label: "Compatible Brand", value: "Canon" },
-      { label: "Country of Origin", value: "Made in India" },
-      { label: "Material", value: "Fiber" },
-      { label: "Package Size", value: "1 Piece/Box" },
-      { label: "Packing Type", value: "Box, Cartons etc" },
-    ],
-  },
-];
-
-
+]
 
 const AllProducts = () => {
   const {subcategoryid} = useParams();
@@ -162,8 +53,6 @@ const AllProducts = () => {
     dispatch(fetchItemsBySubCategory(subcategoryid));
     dispatch(fetchAllCompanies());
   },[])
-
-  // console.log(items , company);
 
   const itemsObj = useMemo(() => {
     if (!items?.length || !company?.length) return [];
@@ -182,9 +71,6 @@ const AllProducts = () => {
     });
   }, [items, company]);
 
-  console.log(company ,itemsObj);
-  
-  
 
   
   const scroll = (dir) => {
@@ -298,7 +184,7 @@ const AllProducts = () => {
           <TabProductAside show={showFilterforTab}/>
         </div>
 
-        <div className="flex flex-col gap-2 flex-grow">
+        <div className="flex flex-col gap-2 w-full flex-grow">
           
           {loading ?<div className="w-full h-screen flex items-center justify-center"><ClipLoader size={50} /></div>:itemsObj?.map((product, i) => (
             <section

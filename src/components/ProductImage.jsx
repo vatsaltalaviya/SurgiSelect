@@ -27,9 +27,9 @@ const productImages = [
 
 ];
 
-const ProductImage = () => {
+const ProductImage = ({images}) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const hasManyImages = productImages.length > 5; // You can tweak this threshold
+  const hasManyImages = images.length > 5; // You can tweak this threshold
 
   return (
     <div className="flex flex-col md:flex-row gap-4 w-full max-w-6xl mx-auto px-2">
@@ -39,10 +39,10 @@ const ProductImage = () => {
           hasManyImages ? "md:max-h-[35vh]" : ""
         } overflow-x-auto md:overflow-y-auto md:overflow-x-hidden md:flex-col flex-row gap-2 md:w-20`}
       >
-        {productImages.map((item, index) => (
+        {images.map((item, index) => (
           <img
             key={index}
-            src={item.url}
+            src={item}
             alt={`thumb-${index}`}
             onClick={() => setActiveIndex(index)}
             className={`w-16 h-16 object-cover rounded cursor-pointer border-2 ${
@@ -57,11 +57,11 @@ const ProductImage = () => {
       {/* Main Image */}
       <div className="flex-1 border border-gray-300 rounded flex items-center justify-center max-h-[450px] min-h-[300px]">
         <PhotoProvider>
-          {productImages.map((item, i) => (
-            <PhotoView key={i} src={item.url}>
+          {images.map((item, i) => (
+            <PhotoView key={i} src={item}>
               {i === activeIndex && (
                 <img
-                  src={item.url}
+                  src={item}
                   alt={`Image-${i}`}
                   className="max-w-full max-h-[450px] object-contain cursor-zoom-in"
                 />

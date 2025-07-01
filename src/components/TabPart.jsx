@@ -34,7 +34,7 @@ const companyInfo = [
   { label: "Import Export Code (IEC)", value: "05169*****" },
 ];
 
-const TabSwitcher = () => {
+const TabSwitcher = ({images}) => {
   const [activeTab, setActiveTab] = useState("gallery");
 
   const tabs = [
@@ -70,10 +70,10 @@ const TabSwitcher = () => {
             </h2>
             <PhotoProvider>
               <div className="flex flex-col items-center gap-4 py-4">
-                {productImages.map((img, i) => (
-                  <PhotoView key={i} src={img.url}>
+                {images.map((img, i) => (
+                  <PhotoView key={i} src={img}>
                     <img
-                      src={img.url}
+                      src={img}
                       alt={`product-${i}`}
                       className="w-full max-w-md object-cover rounded cursor-zoom-in shadow"
                     />

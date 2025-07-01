@@ -27,9 +27,7 @@ const CategoryObj = useMemo(() => {
   });
 }, [categories, landingpageCategories]);
 
-console.log(CategoryObj);
 
-  
 useEffect(() => {
   dispatch(fetchCategories());
   dispatch(fetchlandingPageCategories());
