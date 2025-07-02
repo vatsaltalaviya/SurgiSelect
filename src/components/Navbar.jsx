@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
@@ -15,24 +15,41 @@ const data = [
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
-  const input = useDebounce(query ,1000)
+  const input = useDebounce(query, 1000);
   const dispatch = useDispatch();
-  const {items , suggestions, loading} = useSelector((state)=>state.items)
+  const { suggestions } = useSelector((state) => state.items);
 
- 
   const username = localStorage.getItem("username");
   const userid = localStorage.getItem("user");
 
   useEffect(() => {
-    if(input){
-      dispatch(fetchSuggestions(input))
+    if (input) {
+      dispatch(fetchSuggestions(input));
     }
-  }, [input])
-  
-  // console.log(suggestions);
-  // console.log(query);
+  }, [input]);
 
- 
+  function saveSearchQuery(query) {
+    let history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+    // Remove duplicates and add new query to the beginning
+    history = [query, ...history.filter((item) => item !== query)];
+
+    // Limit to 10 recent searches
+    if (history.length > 10) {
+      history = history.slice(0, 10);
+    }
+
+    localStorage.setItem("searchHistory", JSON.stringify(history));
+  }
+
+  const localSuggestions = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem("searchHistory")) || [];
+    } catch (err) {
+      return [];
+    }
+  }, []);
+
   const navigate = useNavigate();
   return (
     <nav
@@ -68,7 +85,7 @@ const Navbar = () => {
                   disablePortal
                   freeSolo
                   id="free-solo-2-demo"
-                  options={suggestions}
+                  options={query?.trim() ? suggestions : localSuggestions}
                   getOptionLabel={(option) => option}
                   sx={{ width: 380, fontSize: 20, fontWeight: 500 }}
                   onChange={(event, newValue) => {
@@ -81,17 +98,45 @@ const Navbar = () => {
                   onInputChange={(event, inputValue) => {
                     setQuery(inputValue); // For two-way binding
                   }}
+                  renderOption={(props, option) => {
+                    const isFromHistory = localSuggestions.includes(option);
+                    const { key: itemKey, ...restProps } = props;
+                    return (
+                      <li  key={itemKey}
+                  {...restProps} className="flex text-lg font-medium items-center gap-2 px-2">
+                        {isFromHistory && (
+                          <i className="ri-time-line text-gray-500 cursor-pointer " />
+                        )}
+                        <span className="font-semibold cursor-pointer">{option}</span>
+                      </li>
+                    );
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          if (query?.trim()) {
+                            saveSearchQuery(query);
+                            navigate(`/sercheditem/${query}`);
+                          }
+                        }
+                      }}
                       placeholder="Enter Product/Service to search"
-                      className="border outline-none w-[380px] h-full py-2 px-1 text-lg border-gray-500"
+                      className="border outline-none w-[380px] font-medium h-full py-2 px-1 text-lg border-gray-500"
                     />
                   )}
                 />
               </div>
               <div>
-                <button onClick={()=>navigate(`/sercheditem/${query}`)} className="flex justify-center gap-2 px-0.5 h-full items-center text-lg bg-emerald-500 text-white w-28 rounded-r py-2 text-left font-medium">
+                <button
+                  onClick={() => {
+                    navigate(`/sercheditem/${query}`);
+                    saveSearchQuery(query);
+                  }}
+                  className="flex justify-center gap-2 px-0.5 h-full items-center text-lg bg-emerald-500 text-white w-28 rounded-r py-2 text-left font-medium"
+                >
                   <i className="ri-search-line"></i>Search
                 </button>
               </div>
@@ -136,19 +181,22 @@ const Navbar = () => {
             </span>
             <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
               <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
-                {!userid ?<Link
-                  to="/signup"
-                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
-                >
-                  Sign UP
-                </Link>:
-                <Link
-                  to="/"
-                  onClick={()=>localStorage.clear()}
-                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
-                >
-                  Log Out
-                </Link>}
+                {!userid ? (
+                  <Link
+                    to="/signup"
+                    className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                  >
+                    Sign UP
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    onClick={() => localStorage.clear()}
+                    className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                  >
+                    Log Out
+                  </Link>
+                )}
                 <Link to="/">
                   <p className="cursor-pointer text-lg space-x-3 hover:text-black">
                     <i className="ri-home-9-fill text-xl" />
@@ -204,37 +252,41 @@ const Navbar = () => {
               <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
                 <span className="text-white text-[12px] font-light flex items-center gap-1">
-                  {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
+                  {username || "sign in"}{" "}
+                  <i className="ri-arrow-down-s-line"></i>
                 </span>
               </summary>
 
               <div className="w-full text-base font-medium text-gray-600">
                 <div className="w-full rounded bg-stone-100 flex flex-col gap-4 p-4">
-                 {!userid ?<Link
-                  to="/signup"
-                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
-                >
-                  Sign UP
-                </Link>:
-                <Link
-                  to="/"
-                  onClick={()=>localStorage.clear()}
-                  className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
-                >
-                  Log Out
-                </Link>}
-                <Link to="/">
-                  <p className="cursor-pointer text-lg space-x-3 hover:text-black">
-                    <i className="ri-home-9-fill text-lg" />
-                    <span className="text-sm">Home</span>
-                  </p>
-                </Link>
+                  {!userid ? (
+                    <Link
+                      to="/signup"
+                      className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                    >
+                      Sign UP
+                    </Link>
+                  ) : (
+                    <Link
+                      to="/"
+                      onClick={() => localStorage.clear()}
+                      className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                    >
+                      Log Out
+                    </Link>
+                  )}
+                  <Link to="/">
+                    <p className="cursor-pointer text-lg space-x-3 hover:text-black">
+                      <i className="ri-home-9-fill text-lg" />
+                      <span className="text-sm">Home</span>
+                    </p>
+                  </Link>
                   <Link to="/cart">
-                  <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i className="ri-shopping-cart-fill text-lg" />
-                    <span className="text-sm">Cart</span>
-                  </p>
-                </Link>
+                    <p className="cursor-pointer space-x-3 hover:text-black">
+                      <i className="ri-shopping-cart-fill text-lg" />
+                      <span className="text-sm">Cart</span>
+                    </p>
+                  </Link>
                 </div>
               </div>
             </details>

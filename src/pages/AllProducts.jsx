@@ -55,7 +55,7 @@ const AllProducts = () => {
   // console.log(name);
 
   const [showFilterforTab, setshowFilterforTab] = useState(false);
-  const [subcatname, setsubcatname] = useState('');
+  const [subcatname, setsubcatname] = useState("");
 
   const [page, setPage] = useState(1);
   const cityScrollRef = useRef(null);
@@ -73,38 +73,36 @@ const AllProducts = () => {
   const { items, loading, subcategoryLoading, hasMore } = useSelector(
     (state) => state.items
   );
-    const { subCategories } = useSelector(
-      (state) => state.category
-    );
+  const { subCategories } = useSelector((state) => state.category);
   const { company } = useSelector((state) => state.companies);
 
-function handlesubcategoryname() {
-  const subcat = subCategories?.find(
-    (subcat) => String(subcat?._id) == String(subcategoryid)
-  );
+  function handlesubcategoryname() {
+    const subcat = subCategories?.find(
+      (subcat) => String(subcat?._id) == String(subcategoryid)
+    );
 
-  if (subcat) {
-    setsubcatname(subcat.name);
-  } else {
-    console.warn("Subcategory not found for:", subcategoryid);
-    setsubcatname("Unknown Subcategory");
+    if (subcat) {
+      setsubcatname(subcat.name);
+    } else {
+      console.warn("Subcategory not found for:", subcategoryid);
+      setsubcatname("Unknown Subcategory");
+    }
   }
-}
 
- useEffect(() => {
-  if (subcategoryid) {
-    dispatch(fetchItemsBySubCategory(subcategoryid));
-    dispatch(fetchAllCompanies());
-    dispatch(fetchlandingPageCategories());
-  }
-}, [subcategoryid]);
+  useEffect(() => {
+    if (subcategoryid) {
+      dispatch(fetchItemsBySubCategory(subcategoryid));
+      dispatch(fetchAllCompanies());
+      dispatch(fetchlandingPageCategories());
+    }
+  }, [subcategoryid]);
 
-useEffect(() => {
-  if (subcategoryid && subCategories?.length > 0) {
-    handlesubcategoryname();
-  }
-}, [subcategoryid, subCategories]);
-  
+  useEffect(() => {
+    if (subcategoryid && subCategories?.length > 0) {
+      handlesubcategoryname();
+    }
+  }, [subcategoryid, subCategories]);
+
   useEffect(() => {
     if (name) {
       dispatch(resetItems());
@@ -266,13 +264,15 @@ useEffect(() => {
           <TabProductAside show={showFilterforTab} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full flex-grow">
-          <InfiniteScroll
+        <div className="flex flex-col space-y-3 gap-4 w-full flex-grow">
+          {subcategoryid && subcategoryLoading ?<div className="w-full h-screen flex items-center justify-center">
+                  <ClipLoader size={50} />
+                </div>: <InfiniteScroll
             dataLength={items?.length || 0}
             next={() => loadMore()}
             hasMore={hasMore}
             loader={
-              !subcategoryLoading && loading ? (
+               loading ? (
                 <div className="w-full h-24 flex items-center justify-center">
                   <ClipLoader size={50} />
                 </div>
@@ -283,7 +283,7 @@ useEffect(() => {
             {itemsObj?.map((product, i) => (
               <section
                 key={i}
-                className="w-full lg:flex-1 bg-white p-4 rounded shadow flex-col lg:flex-row flex gap-4"
+                className="w-full lg:flex-1 bg-white p-4 mt-3 rounded shadow flex-col lg:flex-row flex gap-4"
               >
                 {/* Left - Image */}
                 <div className="md:w-[350px] md:h-[250px]  flex-shrink-0">
@@ -301,12 +301,12 @@ useEffect(() => {
                 {/* Right - Info */}
                 <div className="flex flex-col 2xl:flex-row w-full">
                   <div className="flex flex-col justify-between w-full">
-                    <div className="w-full xl:w-2xl">
+                    <div className="w-full 2xl:w-2xl">
                       <Link
                         to={`/productdetail/${product.item._id}`}
-                        className="text-lg xl:text-2xl font-semibold text-primary hover:text-red-500 "
+                        className="text-lg xl:text-xl font-semibold text-primary hover:text-red-500 "
                       >
-                        <p className="text-wrap xl:w-full text-justify px-1.5">
+                        <p className="text-wrap px-1.5">
                           {product.item.name}
                         </p>
                       </Link>
@@ -356,7 +356,7 @@ useEffect(() => {
                       <h3>
                         <i className="ri-map-pin-fill text-sm lg:text-lg mr-2"></i>
                         <span className="text-sm lg:text-lg">
-                          {" "}
+                          
                           Chandni Chowk, New Delhi
                         </span>
                       </h3>
@@ -406,7 +406,7 @@ useEffect(() => {
                 </div>
               </section>
             ))}
-          </InfiniteScroll>
+          </InfiniteScroll>}
         </div>
         <div className="lg:hidden">
           <Drawer
@@ -418,7 +418,7 @@ useEffect(() => {
             <div className="min-h-[200px] max-h-[75vh] overflow-y-auto">
               {drawerContent === "Related Product" && (
                 <div className="w-full">
-                  <div className="bg-white rounded px-2 py-1 text-wrap">
+                  <div className="bg-white rounded px-2 py-3 text-wrap">
                     <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium">
                       Related Category
                     </h1>
@@ -450,13 +450,120 @@ useEffect(() => {
                 </div>
               )}
               {drawerContent === "Filter result" && (
-                <div>Showing filters here...</div>
+                <div className="w-full">
+                  <div className="bg-white rounded px-2 py-1">
+                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+                      Filter Result
+                    </h1>
+                    <form className="w-full">
+                      <div className="py-2">
+                        <input
+                          className="form-checkbox h-5 w-5 mx-2 text-primary"
+                          type="checkbox"
+                          name=""
+                          id=""
+                        />
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          Your city
+                        </Link>
+                      </div>
+                      <div className="py-2">
+                        <input
+                          className="form-checkbox h-5 w-5 mx-2 text-primary"
+                          type="checkbox"
+                          name=""
+                          id=""
+                        />
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          Video
+                        </Link>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               )}
               {drawerContent === "Related Brand" && (
-                <div>Showing brands related...</div>
+                <div className="w-full">
+                  <div className="bg-white rounded px-2 py-1 text-wrap">
+                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+                      Related Brands
+                    </h1>
+
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
+                      >
+                        <div className="w-1/3">
+                          <PhotoProvider>
+                            <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
+                              <img
+                                src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg"
+                                alt={`Image`}
+                                className="max-w-full max-h-full object-contain cursor-zoom-in"
+                              />
+                            </PhotoView>
+                          </PhotoProvider>
+                        </div>
+                        <div className="text-xl font-medium w-2/3 break-words">
+                          <Link className="hover:underline ">
+                            Fingerprint Devices
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
               {drawerContent === "Business Type" && (
-                <div>Showing business types...</div>
+                <div className="w-full">
+                  
+                  <div className="bg-white rounded px-2 py-1">
+                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+                      Business Type
+                    </h1>
+                    <div className="w-full">
+                      <div className="py-1 px-2">
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          Menufacture
+                        </Link>
+                      </div>
+                      <div className="py-1 px-2">
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          Retailer
+                        </Link>
+                      </div>
+                      <div className="py-1 px-2">
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          WholeSeller/Distributer
+                        </Link>
+                      </div>
+                      <div className="py-1 px-2">
+                        <Link
+                          className="text-xl font-medium hover:underline"
+                          to="#"
+                        >
+                          Expoter
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </Drawer>
