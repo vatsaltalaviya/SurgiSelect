@@ -30,6 +30,9 @@ const HomeProductDisplay = () => {
     });
   }, [categories, landingpageCategories]);
 
+  
+  
+
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchlandingPageCategories());

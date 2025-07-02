@@ -25,13 +25,14 @@ const App = () => {
     <>
       {!shouldHideHeaderFooter && <Navbar />}
       <ToastContainer position="top-right" autoClose={1000} />
-        <ScrollToTop />
+        {/* <ScrollToTop /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productdetail/:id" element={<ProductPage />} />
         <Route path="/industry/" element={<Industry />} />
         <Route path="/categorydetail" element={<CategoryDetail />} />
         <Route path="/allproducts/:subcategoryid" element={<AllProducts />} />
+        <Route path="/sercheditem/:name" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Orderpage />} />
         <Route path="/signup" element={<Login />} />

@@ -23,27 +23,60 @@ export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thun
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+export const fetchItemsBySearch = createAsyncThunk("fetchItemsBySearch", async ({ name, page }, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/searchAll/${name}?page=${page}`);
+
+        const data = res.data;
+        if (data.success) {
+            return { items: data.data, page };
+        }
+
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+})
+export const fetchSuggestions = createAsyncThunk("fetchSuggestions", async (input, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/suggestion/${input}`);
+        const data = res.data;
+        if (data.success) {
+            return data.suggestions
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+})
 
 const itemSlice = createSlice({
     name: 'items',
     initialState: {
         items: [],
+        suggestions: [],
         loading: false,
-        error: null
+        subcategoryLoading: false,
+        error: null,
+        hasMore: true,
+    },
+    reducers: {
+        resetItems: (state) => {
+            state.items = [];
+            state.hasMore = true;
+        }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchItemsBySubCategory.pending, (state, action) => {
-                state.loading = true;
+            .addCase(fetchItemsBySubCategory.pending, (state) => {
+                state.subcategoryLoading = true;
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.fulfilled, (state, action) => {
-                state.loading = false;
+                state.subcategoryLoading = false;
                 state.items = action.payload;
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.rejected, (state, action) => {
-                state.loading = false;
+                state.subcategoryLoading = false;
                 state.error = action.payload;
             })
             .addCase(fetchItemsById.pending, (state, action) => {
@@ -59,7 +92,43 @@ const itemSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(fetchSuggestions.pending, (state, action) => {
+
+                state.error = null;
+            })
+            .addCase(fetchSuggestions.fulfilled, (state, action) => {
+
+                state.suggestions = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchSuggestions.rejected, (state, action) => {
+
+                state.error = action.payload;
+            })
+            .addCase(fetchItemsBySearch.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchItemsBySearch.fulfilled, (state, action) => {
+                state.loading = false;
+                const newItems = action.payload.items;
+
+                if (action.payload.page === 1) {
+                    state.items = newItems;
+                } else {
+                    state.items = [...state.items, ...newItems];
+                }
+
+                // Check if more items available (based on API response or length)
+                state.hasMore = newItems.length > 0;
+                state.error = null;
+            })
+            .addCase(fetchItemsBySearch.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
     }
 })
 
 export default itemSlice.reducer;
+export const { resetItems } = itemSlice.actions

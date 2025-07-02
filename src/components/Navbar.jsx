@@ -1,7 +1,9 @@
 import { Autocomplete, TextField } from "@mui/material";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import useDebounce from "../hook/useDebounce";
+import { fetchItemsBySearch, fetchSuggestions } from "../slices/items.slice";
 
 const data = [
   { id: 1, label: "Door" },
@@ -13,10 +15,22 @@ const data = [
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
+  const input = useDebounce(query ,1000)
+  const dispatch = useDispatch();
+  const {items , suggestions, loading} = useSelector((state)=>state.items)
 
-  const user = useSelector((state) => state.user.user);
+ 
   const username = localStorage.getItem("username");
   const userid = localStorage.getItem("user");
+
+  useEffect(() => {
+    if(input){
+      dispatch(fetchSuggestions(input))
+    }
+  }, [input])
+  
+  // console.log(suggestions);
+  // console.log(query);
 
  
   const navigate = useNavigate();
@@ -54,12 +68,12 @@ const Navbar = () => {
                   disablePortal
                   freeSolo
                   id="free-solo-2-demo"
-                  options={data}
-                  getOptionLabel={(option) => option.label}
+                  options={suggestions}
+                  getOptionLabel={(option) => option}
                   sx={{ width: 380, fontSize: 20, fontWeight: 500 }}
                   onChange={(event, newValue) => {
                     if (newValue) {
-                      setQuery(newValue.label); // or setQuery(newValue.id) if needed
+                      setQuery(newValue); // or setQuery(newValue.id) if needed
                     } else {
                       setQuery(null);
                     }
@@ -77,8 +91,8 @@ const Navbar = () => {
                 />
               </div>
               <div>
-                <button className="flex justify-center gap-2 px-0.5 h-full items-center text-lg bg-emerald-500 text-white w-28 rounded-r py-2 text-left font-medium">
-                  <i className="ri-search-line"></i>Search{" "}
+                <button onClick={()=>navigate(`/sercheditem/${query}`)} className="flex justify-center gap-2 px-0.5 h-full items-center text-lg bg-emerald-500 text-white w-28 rounded-r py-2 text-left font-medium">
+                  <i className="ri-search-line"></i>Search
                 </button>
               </div>
             </form>
