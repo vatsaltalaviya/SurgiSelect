@@ -12,6 +12,20 @@ export const fetchItemsBySubCategory = createAsyncThunk("fetchItemsBySubCategory
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+export const fetchItems = createAsyncThunk("fetchItems", async (_, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items`);
+        const data = res.data
+        if (data.success) {
+            return data.data.map((item)=>({
+            id:item._id,
+            name:item.name,
+        }));
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+})
 export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thunkAPI) => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${id}`);
@@ -66,6 +80,19 @@ const itemSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchItems.pending, (state) => {
+                state.subcategoryLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchItems.fulfilled, (state, action) => {
+                state.subcategoryLoading = false;
+                state.items = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchItems.rejected, (state, action) => {
+                state.subcategoryLoading = false;
+                state.error = action.payload;
+            })
             .addCase(fetchItemsBySubCategory.pending, (state) => {
                 state.subcategoryLoading = true;
                 state.error = null;

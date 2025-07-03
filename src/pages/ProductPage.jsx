@@ -71,7 +71,7 @@ const ProductPage = () => {
                 <div className="w-full flex items-center space-x-3 py-2">
                   <div className="flex items-center border px-2 py-1 rounded gap-2">
                     <button type="button"
-                      onClick={() => setqty((p) => p - 1)}
+                      onClick={() => setqty((p) => Math.max(p - 1, 1))}
                       className="text-2xl font-semibold text-gray-600 hover:text-black"
                     >
                       -

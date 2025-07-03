@@ -102,12 +102,17 @@ const Navbar = () => {
                     const isFromHistory = localSuggestions.includes(option);
                     const { key: itemKey, ...restProps } = props;
                     return (
-                      <li  key={itemKey}
-                  {...restProps} className="flex text-lg font-medium items-center gap-2 px-2">
+                      <li
+                        key={itemKey}
+                        {...restProps}
+                        className="flex text-lg font-medium items-center gap-2 px-2"
+                      >
                         {isFromHistory && (
                           <i className="ri-time-line text-gray-500 cursor-pointer " />
                         )}
-                        <span className="font-semibold cursor-pointer">{option}</span>
+                        <span className="font-semibold cursor-pointer">
+                          {option}
+                        </span>
                       </li>
                     );
                   }}
@@ -252,7 +257,7 @@ const Navbar = () => {
               <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
                 <span className="text-white text-[12px] font-light flex items-center gap-1">
-                  {username || "sign in"}{" "}
+                  {username || "sign in"}
                   <i className="ri-arrow-down-s-line"></i>
                 </span>
               </summary>
@@ -269,20 +274,23 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to="/"
-                      onClick={() => localStorage.clear()}
+                      onClick={() => {
+                        localStorage.clear();
+                        setshowMenu(false)
+                      }}
                       className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
                     >
                       Log Out
                     </Link>
                   )}
                   <Link to="/">
-                    <p className="cursor-pointer text-lg space-x-3 hover:text-black">
+                    <p onClick={()=>setshowMenu(false)} className="cursor-pointer text-lg space-x-3 hover:text-black">
                       <i className="ri-home-9-fill text-lg" />
                       <span className="text-sm">Home</span>
                     </p>
                   </Link>
                   <Link to="/cart">
-                    <p className="cursor-pointer space-x-3 hover:text-black">
+                    <p onClick={()=>setshowMenu(false)} className="cursor-pointer space-x-3 hover:text-black">
                       <i className="ri-shopping-cart-fill text-lg" />
                       <span className="text-sm">Cart</span>
                     </p>
