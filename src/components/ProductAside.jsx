@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const ProductAside = () => {
   return (
     <aside
-          className="space-y-4 hidden shrink-0 2xl:block sticky top-4 self-start max-h-[80vh] overflow-y-auto pr-2 noscrollbar"
+          className="space-y-1 xl:w-[16em] hidden shrink-0 2xl:block sticky top-4 self-start max-h-[80vh] overflow-y-auto pr-2 noscrollbar"
         >
           {/* related Category */}
           <div className="bg-white rounded px-2 py-1 text-wrap">
@@ -42,9 +42,9 @@ const ProductAside = () => {
               Filter Result
             </h1>
             <form className="w-full">
-              <div className="py-2">
+              <div className="py-2 flex items-center">
                 <input
-                  className="form-checkbox h-5 w-5 mx-2 text-primary"
+                  className="form-checkbox h-3 w-3 mx-2 text-primary"
                   type="checkbox"
                   name=""
                   id=""
@@ -53,9 +53,9 @@ const ProductAside = () => {
                   Your city
                 </Link>
               </div>
-              <div className="py-2">
+              <div className="py-2 flex items-center">
                 <input
-                  className="form-checkbox h-5 w-5 mx-2 text-primary"
+                  className="form-checkbox h-3 w-3 mx-2 text-primary"
                   type="checkbox"
                   name=""
                   id=""

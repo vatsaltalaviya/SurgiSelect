@@ -74,7 +74,7 @@ const Navbar = () => {
               onSubmit={(e) => e.preventDefault()}
             >
               <div>
-                <button className="flex justify-between h-full items-center text-sm relative  w-36 rounded-l py-0.5 px-3 text-left font-medium">
+                <button className="flex justify-between h-full items-center text-sm relative  w-36 rounded-l py-1.5 px-3 text-left font-medium">
                   <i className="ri-map-pin-line text-gray-500"></i>
                   <span>All India</span>
                   <i className="ri-arrow-down-s-line text-lg text-emerald-500 "></i>
@@ -84,6 +84,7 @@ const Navbar = () => {
                 <Autocomplete
                   disablePortal
                   freeSolo
+                  size="small"
                   id="free-solo-2-demo"
                   options={query?.trim() ? suggestions : localSuggestions}
                   getOptionLabel={(option) => option}
@@ -128,21 +129,27 @@ const Navbar = () => {
                           }
                         }
                       }}
+                      size="small"
                       placeholder="Enter Product/Service to search"
                       className="border outline-none w-[380px] p-0 font-medium h-full border-gray-500"
-                      InputProps={{
-                        ...params.InputProps,
-                        sx: {
-                          padding: "4px 8px", // Reduce top/bottom and side padding
-                          "& .MuiInputBase-input": {
-                            padding: "6px 8px", // Inner input padding
-                            fontSize: "16px",
+                      sx={{
+                        
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            border: "none",
+                          },
+                          "&.Mui-focused fieldset": {
+                            border: "none",
+                          },
+                          "&:hover fieldset": {
+                            border: "none",
                           },
                         },
                       }}
                     />
                   )}
                 />
+                {/* <input type="text" className="w-full h-full " /> */}
               </div>
               <div>
                 <button
