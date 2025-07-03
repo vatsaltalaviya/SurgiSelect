@@ -57,37 +57,37 @@ const Navbar = () => {
         showMenu ? "fixed top-0" : "relative"
       } z-20 px-4 `}
     >
-      <div className="flex py-3 md:px-2 items-center justify-between">
-        <div className="flex">
+      <div className="flex py-1.5 md:px-2 items-center justify-between">
+        <div className="flex items-center">
           <div className=" md:w-46 px-2 justify-center items-center">
             <img
               onClick={() => navigate("/")}
-              className="w-20 md:w-32 object-cover"
+              className="w-20 md:w-26 object-cover"
               // src={logo}
               src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751262201/mainlogo_rdbo0v.png"
               alt=""
             />
           </div>
-          <div className="h-full hidden xl:flex">
+          <div className="h-full hidden xl:flex items-center">
             <form
               className="flex bg-white rounded"
               onSubmit={(e) => e.preventDefault()}
             >
               <div>
-                <button className="flex justify-between h-full items-center text-lg relative  w-36 rounded-l py-2 px-3 text-left font-medium">
+                <button className="flex justify-between h-full items-center text-sm relative  w-36 rounded-l py-0.5 px-3 text-left font-medium">
                   <i className="ri-map-pin-line text-gray-500"></i>
                   <span>All India</span>
-                  <i className="ri-arrow-down-s-line text-2xl text-emerald-500 "></i>
+                  <i className="ri-arrow-down-s-line text-lg text-emerald-500 "></i>
                 </button>
               </div>
-              <div className="">
+              <div className="h-full flex items-center">
                 <Autocomplete
                   disablePortal
                   freeSolo
                   id="free-solo-2-demo"
                   options={query?.trim() ? suggestions : localSuggestions}
                   getOptionLabel={(option) => option}
-                  sx={{ width: 380, fontSize: 20, fontWeight: 500 }}
+                  sx={{ width: 380, fontSize: 15, fontWeight: 500 }}
                   onChange={(event, newValue) => {
                     if (newValue) {
                       setQuery(newValue); // or setQuery(newValue.id) if needed
@@ -129,7 +129,17 @@ const Navbar = () => {
                         }
                       }}
                       placeholder="Enter Product/Service to search"
-                      className="border outline-none w-[380px] font-medium h-full py-2 px-1 text-lg border-gray-500"
+                      className="border outline-none w-[380px] p-0 font-medium h-full border-gray-500"
+                      InputProps={{
+                        ...params.InputProps,
+                        sx: {
+                          padding: "4px 8px", // Reduce top/bottom and side padding
+                          "& .MuiInputBase-input": {
+                            padding: "6px 8px", // Inner input padding
+                            fontSize: "16px",
+                          },
+                        },
+                      }}
                     />
                   )}
                 />
@@ -140,14 +150,14 @@ const Navbar = () => {
                     navigate(`/sercheditem/${query}`);
                     saveSearchQuery(query);
                   }}
-                  className="flex justify-center gap-2 px-0.5 h-full items-center text-lg bg-emerald-500 text-white w-28 rounded-r py-2 text-left font-medium"
+                  className="flex justify-center gap-2 px-0.5 h-full items-center text-sm bg-emerald-500 text-white w-28 rounded-r py-0.5 text-left font-medium"
                 >
                   <i className="ri-search-line"></i>Search
                 </button>
               </div>
             </form>
             <div>
-              <button className="2xl:flex ml-10 hidden justify-center gap-2 px-2 py-1 h-full items-center text-[16px] bg-white text-[#2e3192] rounded text-left font-semibold">
+              <button className="2xl:flex ml-10 h-10 hidden justify-center gap-2 px-2 py-0.5  items-center text-[10px] bg-white text-[#2e3192] rounded text-left font-semibold">
                 Get Best Price
               </button>
             </div>
@@ -155,16 +165,16 @@ const Navbar = () => {
         </div>
         <div className="h-full hidden xl:flex gap-4 items-center">
           <div className="flex flex-col items-center">
-            <i className="ri-shopping-bag-3-line text-2xl font-medium text-white"></i>
-            <span className="text-white text-[18px] font-light">Shopping</span>
+            <i className="ri-shopping-bag-3-line text-lg font-medium text-white"></i>
+            <span className="text-white text-[12px] font-light">Shopping</span>
           </div>
           <div className="flex flex-col items-center">
-            <i className="ri-store-line text-2xl font-medium text-white"></i>
-            <span className="text-white text-[18px] font-light">Sell</span>
+            <i className="ri-store-line text-lg font-medium text-white"></i>
+            <span className="text-white text-[12px] font-light">Sell</span>
           </div>
           <div className="flex flex-col items-center relative group">
-            <i className="ri-question-line text-2xl font-medium text-white"></i>
-            <span className="text-white text-[18px] font-light">Help</span>
+            <i className="ri-question-line text-lg font-medium text-white"></i>
+            <span className="text-white text-[12px] font-light">Help</span>
 
             <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
               <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
@@ -176,12 +186,12 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <i className="ri-message-2-line text-2xl font-medium text-white"></i>
-            <span className="text-white text-[18px] font-light">Message</span>
+            <i className="ri-message-2-line text-lg font-medium text-white"></i>
+            <span className="text-white text-[12px] font-light">Message</span>
           </div>
           <div className="flex flex-col group items-center relative">
-            <i className="ri-user-line text-2xl font-medium text-white"></i>
-            <span className="text-white text-[18px] font-light">
+            <i className="ri-user-line text-lg font-medium text-white"></i>
+            <span className="text-white text-[12px] font-light">
               {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
             </span>
             <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
@@ -189,7 +199,7 @@ const Navbar = () => {
                 {!userid ? (
                   <Link
                     to="/signup"
-                    className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                    className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
                   >
                     Sign UP
                   </Link>
@@ -197,7 +207,7 @@ const Navbar = () => {
                   <Link
                     to="/"
                     onClick={() => localStorage.clear()}
-                    className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                    className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
                   >
                     Log Out
                   </Link>
@@ -235,7 +245,7 @@ const Navbar = () => {
           showMenu ? "left-0" : "-left-1000"
         }`}
       >
-        <div className="h-screen w-90 flex flex-col gap-4 justify-start px-2 py-1 ">
+        <div className="h-screen w-90 flex flex-col gap-4 justify-start px-2 py-0.5 ">
           <div className="flex gap-4 items-center">
             <i className="ri-shopping-bag-3-line hover:ri-shopping-bag-3-fill  text-xl font-medium text-white"></i>
             <span className="text-white text-[12px] font-light">Shopping</span>
@@ -267,7 +277,7 @@ const Navbar = () => {
                   {!userid ? (
                     <Link
                       to="/signup"
-                      className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                      className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
                     >
                       Sign UP
                     </Link>
@@ -276,21 +286,27 @@ const Navbar = () => {
                       to="/"
                       onClick={() => {
                         localStorage.clear();
-                        setshowMenu(false)
+                        setshowMenu(false);
                       }}
-                      className="px-3 py-2 text-white bg-primary text-xl text-center rounded-xl"
+                      className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
                     >
                       Log Out
                     </Link>
                   )}
                   <Link to="/">
-                    <p onClick={()=>setshowMenu(false)} className="cursor-pointer text-lg space-x-3 hover:text-black">
+                    <p
+                      onClick={() => setshowMenu(false)}
+                      className="cursor-pointer text-lg space-x-3 hover:text-black"
+                    >
                       <i className="ri-home-9-fill text-lg" />
                       <span className="text-sm">Home</span>
                     </p>
                   </Link>
                   <Link to="/cart">
-                    <p onClick={()=>setshowMenu(false)} className="cursor-pointer space-x-3 hover:text-black">
+                    <p
+                      onClick={() => setshowMenu(false)}
+                      className="cursor-pointer space-x-3 hover:text-black"
+                    >
                       <i className="ri-shopping-cart-fill text-lg" />
                       <span className="text-sm">Cart</span>
                     </p>

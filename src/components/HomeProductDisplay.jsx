@@ -50,13 +50,13 @@ const HomeProductDisplay = () => {
               className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5"
             >
               <Link to="/categorydetail">
-                <h1 className="text-xl md:text-3xl inline hover:underline hover:text-blue-900 font-semibold">
+                <h1 className="text-xl md:text-2xl inline hover:underline hover:text-blue-900 font-semibold">
                   {cat?.categoryName}
                 </h1>
               </Link>
               <div className="flex-res  justify-center mt-5">
                 {/* ========== left side ================ */}
-                <div className="hidden shrink-0 2xl:flex w-sm h-[55vh] relative">
+                <div className="hidden shrink-0 2xl:flex w-[280px] h-[55vh] relative">
                   <img
                     className="w-full h-full object-cover"
                     src={cat?.categoryImage}
@@ -88,11 +88,11 @@ const HomeProductDisplay = () => {
                       >
                         <div
                           key={i}
-                          className="shrink-0 md:w-[30em] w-full rounded flex flex-row gap-4 items-center border border-gray-500 p-1.5 md:p-2 py-5"
+                          className="shrink-0 md:w-[22em] h-[8em] w-full rounded flex flex-row gap-4 items-center border border-gray-500 p-1.5 md:p-2 py-5"
                         >
-                          <div className="w-26 md:w-1/3">
+                          <div className="w-26 h-full md:w-1/3">
                             <img
-                              className="w-full object-fill"
+                              className="w-full h-full object-fill"
                               src={subcat.image}
                               alt=""
                             />
@@ -102,7 +102,7 @@ const HomeProductDisplay = () => {
                               <h1
                                 className={`font-medium ${
                                   i == 0 ? "font-bold" : ""
-                                } sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-xl hover:underline`}
+                                } sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-[16px] hover:underline`}
                               >
                                 {subcat.name}
                               </h1>

@@ -9,7 +9,7 @@ const ProductAside = () => {
         >
           {/* related Category */}
           <div className="bg-white rounded px-2 py-1 text-wrap">
-            <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
               Related Category
             </h1>
 
@@ -18,7 +18,7 @@ const ProductAside = () => {
                 key={i}
                 className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
               >
-                <div className="w-1/3">
+                <div className="w-[3em]">
                   <PhotoProvider>
                     <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
                       <img
@@ -29,7 +29,7 @@ const ProductAside = () => {
                     </PhotoView>
                   </PhotoProvider>
                 </div>
-                <div className="text-xl font-medium w-2/3 break-words">
+                <div className="text-xs font-medium w-2/3 break-words">
                   <Link className="hover:underline ">Fingerprint Devices</Link>
                 </div>
               </div>
@@ -38,7 +38,7 @@ const ProductAside = () => {
 
           {/* Filter result */}
           <div className="bg-white rounded px-2 py-1">
-            <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
               Filter Result
             </h1>
             <form className="w-full">
@@ -49,7 +49,7 @@ const ProductAside = () => {
                   name=""
                   id=""
                 />
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   Your city
                 </Link>
               </div>
@@ -60,7 +60,7 @@ const ProductAside = () => {
                   name=""
                   id=""
                 />
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   Video
                 </Link>
               </div>
@@ -69,7 +69,7 @@ const ProductAside = () => {
 
           {/* related Brand */}
           <div className="bg-white rounded px-2 py-1 text-wrap">
-            <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
               Related Brands
             </h1>
 
@@ -78,7 +78,7 @@ const ProductAside = () => {
                 key={i}
                 className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
               >
-                <div className="w-1/3">
+                <div className="w-[3em]">
                   <PhotoProvider>
                     <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
                       <img
@@ -89,7 +89,7 @@ const ProductAside = () => {
                     </PhotoView>
                   </PhotoProvider>
                 </div>
-                <div className="text-xl font-medium w-2/3 break-words">
+                <div className="text-xs font-medium w-2/3 break-words">
                   <Link className="hover:underline ">Fingerprint Devices</Link>
                 </div>
               </div>
@@ -98,27 +98,27 @@ const ProductAside = () => {
 
           {/* Business Type */}
           <div className="bg-white rounded px-2 py-1">
-            <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
+            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
               Business Type
             </h1>
             <div className="w-full">
               <div className="py-1 px-2">
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   Menufacture
                 </Link>
               </div>
               <div className="py-1 px-2">
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   Retailer
                 </Link>
               </div>
               <div className="py-1 px-2">
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   WholeSeller/Distributer
                 </Link>
               </div>
               <div className="py-1 px-2">
-                <Link className="text-xl font-medium hover:underline" to="#">
+                <Link className="text-xs font-medium hover:underline" to="#">
                   Expoter
                 </Link>
               </div>

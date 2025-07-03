@@ -41,7 +41,7 @@ const Footer = () => {
 
   return (
     <div className="w-full flex flex-col items-center md:px-20 md:justify-center">
-      <div className="w-full md:w-[70vw] px-2 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
+      <div className="w-full px-2 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
         <span className="text-blue-600 text-xl md:text-3xl font-medium">
           We Are Here To Help You
         </span>
@@ -74,12 +74,12 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-full md:w-[70vw] px-2 py-2 flex flex-col lg:flex-row gap-2">
+      <div className="w-full px-2 py-2 flex flex-col lg:flex-row gap-2">
         <ul className="list-none py-1">
           {footerLinks1.map((i, id) => (
             <li
               key={id}
-              className="text-lg font-medium text-gray-500 hover:text-primary"
+              className="text-[14px] font-medium text-gray-500 hover:text-primary"
             >
               <Link to="#">{i}</Link>
             </li>
@@ -89,7 +89,7 @@ const Footer = () => {
           {footerLinks2.map((i, id) => (
             <li
               key={id}
-              className="text-lg font-medium text-gray-500 hover:text-primary"
+              className="text-[14px] font-medium text-gray-500 hover:text-primary"
             >
               <Link to="#">{i}</Link>
             </li>
@@ -100,7 +100,7 @@ const Footer = () => {
             {suppliersToolKit.map((i, id) => (
               <li
                 key={id}
-                className="text-lg font-medium text-gray-500 hover:text-primary first:text-black"
+                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
               >
                 <Link to="#">{i}</Link>
               </li>
@@ -112,7 +112,7 @@ const Footer = () => {
             {buyersToolKit.map((i, id) => (
               <li
                 key={id}
-                className="text-lg font-medium text-gray-500 hover:text-primary first:text-black"
+                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
               >
                 <Link to="#">{i}</Link>
               </li>
@@ -124,7 +124,7 @@ const Footer = () => {
             {accountingSolutions.map((i, id) => (
               <li
                 key={id}
-                className="text-lg font-medium text-gray-500 hover:text-primary first:text-black"
+                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
               >
                 <Link to="#">{i}</Link>
               </li>
@@ -133,10 +133,10 @@ const Footer = () => {
         </div>
       </div>
       <div className="w-full md:w-[70vw] px-2 py-2 flex flex-col lg:flex-row md:justify-between">
-        <span className="text-base lg:text-lg font-medium text-gray-500">
+        <span className="text-base lg:text-[14px] font-medium text-gray-500">
           Copyright © 1996-2025 SurgiSelect InterMESH Ltd. All rights reserved.
         </span>
-        <span className="text-lg font-medium text-gray-500">
+        <span className="text-[14px] font-medium text-gray-500">
           <Link to='#' className="hover:text-primary hover:underline">Terms of use</Link>
           -<Link to='#' className="hover:text-primary hover:underline">Private Policy</Link>
           -<Link to='#' className="hover:text-primary hover:underline">Link to Us</Link>
