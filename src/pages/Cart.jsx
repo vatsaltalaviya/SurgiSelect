@@ -10,7 +10,7 @@ import { ClipLoader } from "react-spinners";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cart, cartloading , Updateloading,Deleteloading ,error} = useSelector((state) => state.cart);
+  const { cart, cartloading } = useSelector((state) => state.cart);
   const userId = localStorage.getItem("user");
 
   const [updatingItemId, setUpdatingItemId] = useState(null);
