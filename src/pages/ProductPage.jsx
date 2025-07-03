@@ -1,17 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProductImage from "../components/ProductImage";
 import { Link, useParams } from "react-router-dom";
 import TabSwitcher from "../components/TabPart";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItemsById } from "../slices/items.slice";
-import { ClipLoader } from "react-spinners";
+import { BeatLoader, ClipLoader } from "react-spinners";
+import { AddtoCart } from "../slices/Cart.slice";
+import { toast } from "react-toastify";
 
 const ProductPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [qty, setqty] = useState(1)
+  
 
   const { items, loading } = useSelector((state) => state.items);
+  const { cartloading } = useSelector((state) => state.cart);
   const { company } = useSelector((state) => state.companies);
+   const userid = localStorage.getItem("user");
   useEffect(() => {
     dispatch(fetchItemsById(id));
   }, []);
@@ -35,6 +41,20 @@ const ProductPage = () => {
     });
 
 
+    const handlesubmit = (e) =>{
+      e.preventDefault();
+      const cartdata = {
+        userId:userid,
+        itemId:id,
+        qty,
+        price:updatedProduct?.price,
+      }
+      
+      dispatch(AddtoCart(cartdata)).then(()=>toast.success("Add to cart"))
+      
+    }
+
+
   return (
     <div className="w-full px-2 py-1">
       {loading ?<div className="w-full h-screen flex items-center justify-center"><ClipLoader size={50} /></div>:<>
@@ -47,26 +67,33 @@ const ProductPage = () => {
               {updatedProduct?.name}
             </h1>
             <div className="w-full mt-4">
-              <form className=" space-y-3">
-                <div className="w-full flex flex-col justify-center items-center md:flex-row gap-2">
-                  <input
-                    type="number"
-                    className="border rounded w-full lg:w-sm px-2 py-2"
-                    placeholder="Enter Quantity"
-                  />
-                  <select
-                    className="border rounded w-full lg:w-52 px-2 py-2"
-                    name=""
-                    id=""
-                  >
-                    <option value="">Piece</option>
-                  </select>
-                </div>
-                <div className="w-full flex items-center justify-center">
-                  <button className="px-3 py-2 rounded bg-[#2e3192] text-white font-medium md:text-2xl">
-                    Submit Requirement
+              <form onSubmit={handlesubmit} className=" space-y-3">
+                <div className="w-full flex items-center space-x-3 py-2">
+                  <div className="flex items-center border px-2 py-1 rounded gap-2">
+                    <button type="button"
+                      onClick={() => setqty((p) => p - 1)}
+                      className="text-2xl font-semibold text-gray-600 hover:text-black"
+                    >
+                      -
+                    </button>
+                    <span className="text-lg font-medium w-8 text-center">
+                      {qty}
+                    </span>
+                    <button type="button"
+                      onClick={() => setqty((p) => p + 1)}
+                      className="text-2xl font-semibold text-gray-600 hover:text-black"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <div className="w-full flex items-center justify-center">
+                  <button className="px-3 w-full py-2 rounded bg-[#2e3192] text-white font-medium md:text-2xl">
+                    {cartloading ? <BeatLoader color="white" size={5} />:"Add to cart"}
+                    
                   </button>
                 </div>
+                </div>
+                
               </form>
             </div>
             <div className="w-full py-4">
