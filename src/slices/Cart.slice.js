@@ -145,8 +145,6 @@ export const updateCartQuantity = createAsyncThunk(
         try {
 
             const cartRes = await axios.put(`${import.meta.env.VITE_BASE_URL}/cart/update-cart`, QtyData);
-            console.log(cartRes);
-
             const cartData = cartRes.data;
             if (cartData.success) {
                 return cartData.data
