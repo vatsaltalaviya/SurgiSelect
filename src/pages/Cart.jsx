@@ -7,6 +7,7 @@ import {
   updateFetchCart,
 } from "../slices/Cart.slice";
 import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const Cart = () => {
       dispatch(fetchCartWithItemDetails(userId));
     }
   }, [dispatch, userId]);
+
+  const navigate = useNavigate();
 
 
 const handleQtyChange = (itemId, action, currentQty ,  price) => {
@@ -151,7 +154,7 @@ const handleDelete = (itemId)=>{
                 {cart?.finalTotal}
               </h1>
               <div className="w-full block xl:hidden">
-                <button className="w-fit px-10 py-2 text-xl font-medium bg-orange-400 text-white rounded">
+                <button onClick={()=>navigate('/order')} className="w-fit px-10 py-2 text-xl font-medium bg-orange-400 text-white rounded">
                   Place Order
                 </button>
               </div>
@@ -170,7 +173,7 @@ const handleDelete = (itemId)=>{
             </h1>
           </div>
           <div className="w-full">
-            <button className="w-full px-3 py-2 text-xl font-medium bg-orange-400 text-white rounded">
+            <button onClick={()=>navigate('/order')} className="w-full px-3 py-2 text-xl font-medium bg-orange-400 text-white rounded">
               Place Order
             </button>
           </div>
