@@ -42,7 +42,7 @@ export const sendOTP = createAsyncThunk("sendOTP", async (email,thunkAPI) => {
     }
 });
 export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, otp },thunkAPI) => {
-    console.log(email, otp);
+
     
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verifyOtp`, { email, otp })
@@ -54,11 +54,37 @@ export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, otp },thu
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 });
+export const AddAddress = createAsyncThunk("AddAddress", async (addressData,thunkAPI) => {
+
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/address/createAddress`, addressData)
+      
+        const data = res.data;
+        if(data.success) {
+            return data.data;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+});
+export const getUserAddress = createAsyncThunk("getUserAddress", async (userId,thunkAPI) => {
+
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/address/getByUserId/${userId}`)
+        const data = res.data;
+        if(data.success) {
+            return data.data;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+});
 
 const userslices = createSlice({
     name: 'users',
     initialState: {
         user: null,
+        address :[],
         loading: false,
         error: null,
     },
@@ -113,7 +139,33 @@ const userslices = createSlice({
         .addCase(verifyOTP.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
-        });
+        })
+        .addCase(AddAddress.pending, (state, action) =>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(AddAddress.fulfilled, (state, action) => {
+            state.loading = false;
+            state.address = action.payload
+            state.error = null;
+        })
+        .addCase(AddAddress.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(getUserAddress.pending, (state, action) =>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getUserAddress.fulfilled, (state, action) => {
+            state.loading = false;
+            state.address = action.payload
+            state.error = null;
+        })
+        .addCase(getUserAddress.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
     }
 
 })

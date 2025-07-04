@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../slices/user.slice";
-import axios from "axios";
 import { BeatLoader } from "react-spinners";
 
 const Login = () => {

@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Orderpage from "./pages/Orderpage";
 import { ToastContainer } from "react-toastify";
 import ScrollToTop from "./components/ScrollToTop";
+import Address from "./pages/address";
 
 const App = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/sercheditem/:name" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Orderpage />} />
+        <Route path="/address" element={<Address />} />
         <Route path="/signup" element={<Login />} />
         <Route path="/signin" element={<Register />} />
       </Routes>
