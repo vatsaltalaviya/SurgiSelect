@@ -3,9 +3,13 @@ import React, { useEffect, useState } from "react";
 import { state, city } from "../assets/city";
 import SearchableDropdown from "../components/SearchableDropdown";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AddAddress } from "../slices/user.slice";
+import {
+  AddAddress,
+  getUserAddress,
+  setSelectedAddress,
+} from "../slices/user.slice";
 import { BeatLoader } from "react-spinners";
 
 const states = state.map((state) => ({
@@ -16,15 +20,17 @@ const states = state.map((state) => ({
 const Address = () => {
   const [statecode, setstatecode] = useState("");
   const [cityarr, setcityarr] = useState("");
-  const [address, setaddress] = useState("");
+  const [Address, setaddress] = useState("");
   const [addtype, setaddtype] = useState("Home");
   const [City, setCity] = useState("");
   const [landmark, setlandmark] = useState("");
   const [pincode, setpincode] = useState("");
   const userId = localStorage.getItem("user");
-  const navigate = useNavigate()
-  const dispatch  = useDispatch()
-  const {loading} = useSelector((state)=>state.user)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, address, selectedAddress } = useSelector(
+    (state) => state.user
+  );
 
   function getCitiesByStateName(statecode, city) {
     if (!statecode || !Array.isArray(city)) return [];
@@ -35,6 +41,9 @@ const Address = () => {
         name: c.name,
       }));
   }
+  useEffect(() => {
+    dispatch(getUserAddress(userId));
+  }, [userId]);
   useEffect(() => {
     if (statecode) setcityarr(getCitiesByStateName(statecode, city));
   }, [statecode]);
@@ -58,18 +67,48 @@ const Address = () => {
 
     const addressData = {
       userId,
-      state:statecode,
+      state: statecode,
       city: City,
       landmark,
-      address,
+      address: Address,
       addressType: addtype,
       pincode,
     };
-      dispatch(AddAddress(addressData)).then(()=>navigate('/order'))
+    dispatch(AddAddress(addressData)).then(() => navigate("/order"));
   };
-
   return (
-    <div className=" w-full flex py-2 justify-center ">
+    <div className=" w-full flex flex-col lg:flex-row py-2 justify-center gap-4 ">
+      {address&&<div className="lg:w-1/2 px-2 space-y-2 py-2">
+
+        {address &&
+        loading?
+        <div  className="p-3 border rounded mb-2">
+          <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded mb-2"></div>
+        </div>
+      :
+          address?.map((add, i) => (
+            <div
+              key={i}
+              className=" flex gap-2 border items-center h-fit rounded px-2 py-1"
+            >
+              <input
+                type="radio"
+                name="address"
+                checked={selectedAddress === i}
+                onChange={() => {
+                  dispatch(setSelectedAddress(i));
+                }}
+              />
+              <h3 className="text-lg font-medium">
+                {add.landmark} {add.address} {add.state} {add.pincode}, India
+                <span className="border px-2 mx-2 rounded-full">
+                  {add.addressType}
+                </span>
+              </h3>
+            </div>
+          ))}
+           <button className="px-2 py-1 rounded-xl bg-primary text-white font-medium my-2" onClick={() => navigate("/order")}>Select</button>
+      </div>}
       <div className="bg-white px-5 relative border rounded py-2">
         <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
           Add your new Address
@@ -82,7 +121,7 @@ const Address = () => {
             <input
               type="text"
               placeholder="Enter Address"
-              value={address}
+              value={Address}
               onChange={(e) => setaddress(e.target.value)}
               className="border border-gray-300 rounded px-3 py-1 outline-none focus:ring-1 focus:ring-blue-400 w-full"
             />
@@ -162,7 +201,7 @@ const Address = () => {
 
           <div className="flex gap-4">
             <button className="px-2 py-1 text-lg rounded borde bg-yellow-400">
-              {loading ?<BeatLoader size={5} color="white"/>:"Continue"}
+              {loading ? <BeatLoader size={5} color="white" /> : "Continue"}
             </button>
             <button type="button" className="px-2 py-1 text-lg rounded border">
               Cancel

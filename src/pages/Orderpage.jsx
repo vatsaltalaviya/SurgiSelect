@@ -50,7 +50,7 @@ const Orderpage = () => {
   const userName = localStorage.getItem('username')
   const navigate = useNavigate()
   const dispatch  = useDispatch()
-  const {address ,loading} = useSelector((state)=>state.user)
+  const {address ,loading , selectedAddress} = useSelector((state)=>state.user)
   const bgref = useRef(null);
   const closePopUp = (e) => {
     if (bgref.current === e.target) {
@@ -63,10 +63,7 @@ const Orderpage = () => {
 
   useEffect(() => {
     dispatch(getUserAddress(userId))
-  }, [userId])
-
-  console.log(address);
-  
+  }, [userId])  
   
   return (
     <>
@@ -79,7 +76,7 @@ const Orderpage = () => {
                 Delivering to {userName}
               </h1>
               <h3 className="text-lg font-medium">
-                {address[0]?.landmark} {address[0]?.address} {address[0]?.state} {address[0]?.pincode}, India
+                {address[selectedAddress]?.landmark} {address[selectedAddress]?.address} {address[selectedAddress]?.state} {address[selectedAddress]?.pincode}, India
               </h3>
                <Link type="button" to="/address" className="text-primary hover:underline">
               Change address
