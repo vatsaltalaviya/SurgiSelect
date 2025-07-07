@@ -12,7 +12,7 @@ const HomeCrousel = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
   };
   return (
     <div className=" flex-res px-4 md:px-10 mb-15 ">
@@ -67,23 +67,7 @@ const HomeCrousel = () => {
             className="w-full h-full relative bg-cover bg-center"
           >
             <img className="w-full object-cover" src='https://hm.imimg.com/imhome_gifs/home-banner-4.jpg' alt="" />
-            <div className="absolute hidden xl:block top-18  xl:right-18 bg-opacity-50 p-6 rounded text-white max-w-sm">
-              <form className="space-y-2">
-                <input
-                  type="text"
-                  placeholder="Enter product/service name"
-                  className="w-full px-3 py-2 rounded border text-black"
-                />
-                <input
-                  type="number"
-                  placeholder="Enter mobile number"
-                  className="w-full px-3 py-2 rounded border text-black"
-                />
-                <button className="w-full text-xl bg-emerald-600 text-white py-2 rounded">
-                  Submit Requirements
-                </button>
-              </form>
-            </div>
+           
           </div>
         </Slider>
       </div>
