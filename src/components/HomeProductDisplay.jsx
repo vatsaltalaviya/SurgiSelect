@@ -70,9 +70,7 @@ const HomeProductDisplay = () => {
                       </h1>
                     </Link>
 
-                    <button className="mt-3 w-28 px-4 py-3 bg-emerald-600 text-white text-lg rounded font-medium hover:bg-emerald-700 transition">
-                      View All
-                    </button>
+                   
                   </div>
                 </div>
 
@@ -139,7 +137,6 @@ export function Loading(){
       <div className="hidden 2xl:flex w-[300px] h-[55vh] bg-gray-300 rounded relative overflow-hidden">
         <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
           <div className="h-6 w-3/4 bg-gray-200 rounded" />
-          <div className="h-10 w-28 bg-emerald-600 rounded" />
         </div>
       </div>
 
