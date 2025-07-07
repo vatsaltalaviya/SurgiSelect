@@ -56,10 +56,10 @@ const HomeCrousel = () => {
       </div>
       <div className="lg:w-2/3">
         <Slider {...settings}>
-          <div className="w-full h-full">
+          <div className="w-full h-90">
             <img
-              className="w-full object-fill"
-              src="https://hm.imimg.com/imhome_gifs/ss_money.jpg"
+              className="w-full h-full object-fill"
+              src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751885547/20250707_1620_Healthcare_Simplified_remix_01jzj820a9ercvcs3nh7b6ry6s_qy8qvs.png"
               alt=""
             />
           </div>

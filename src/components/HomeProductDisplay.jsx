@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 
 const HomeProductDisplay = () => {
   const dispatch = useDispatch();
-  const { categories, landingpageCategories, loading } = useSelector(
+  const { categories, landingpageCategories, loading , error } = useSelector(
     (state) => state.category
   );
 
@@ -30,7 +30,6 @@ const HomeProductDisplay = () => {
     });
   }, [categories, landingpageCategories]);
 
-  
   
 
   useEffect(() => {

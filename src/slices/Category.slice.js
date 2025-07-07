@@ -26,6 +26,8 @@ export const fetchSubCategoriesbyCategoryId = createAsyncThunk("fetchSubCategori
     }
 })
 export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCategories", async (_, thunkAPI) => {
+
+    
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/subCategory/landingCategories`);
         const data = res.data;
