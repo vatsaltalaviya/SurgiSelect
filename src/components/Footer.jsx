@@ -47,30 +47,30 @@ const Footer = () => {
         </span>
         <div className="flex flex-col lg:flex-row gap-2 lg:items-center">
           <div className="flex items-center gap-2">
-            <span className="text-black text-sm md:text-xl font-medium">GO Mobile:</span>
+            <span className="text-black text-sm  font-medium">GO Mobile:</span>
             <img
-              className="w-4 md:w-8"
+              className="w-4"
               src="https://cdn-icons-png.freepik.com/256/546/546060.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
               alt=""
             />
             <img
-              className="w-4 md:w-8"
+              className="w-4"
               src="https://cdn-icons-png.freepik.com/256/1240/1240939.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
               alt=""
             />
             <img
-              className="w-4 md:w-8"
+              className="w-4"
               src="https://cdn-icons-png.freepik.com/256/16010/16010515.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
               alt=""
             />
           </div>
           <div className="flex  items-center gap-2">
-            <span className="text-black text-sm md:text-xl font-medium">
+            <span className="text-black text-sm font-medium">
               Follow As On:
             </span>
-            <i className="text-xl md:text-3xl ri-instagram-fill"></i>
-            <i className="text-xl md:text-3xl ri-facebook-box-fill"></i>
-            <i className="text-xl md:text-3xl ri-linkedin-box-fill"></i>
+            <i className="text-xl ri-instagram-fill"></i>
+            <i className="text-xl ri-facebook-box-fill"></i>
+            <i className="text-xl ri-linkedin-box-fill"></i>
           </div>
         </div>
       </div>
