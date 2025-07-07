@@ -49,18 +49,18 @@ const HomeProductDisplay = () => {
               key={i}
               className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5"
             >
-              <Link to="/categorydetail">
+              <Link to={`/industry/${cat.categoryId}`}>
                 <h1 className="text-xl md:text-2xl inline hover:underline hover:text-blue-900 font-semibold">
                   {cat?.categoryName}
                 </h1>
               </Link>
-              <div className="flex-res  justify-center mt-5">
+              <div className="flex-res mt-5">
                 {/* ========== left side ================ */}
-                <div className="hidden shrink-0 2xl:flex w-[280px] h-[55vh] relative">
+                <div className="hidden shrink-0 2xl:flex w-[300px] h-[55vh] relative">
                   <img
                     className="w-full h-full object-cover"
                     src={cat?.categoryImage}
-                    alt="Construction tools"
+                    alt={cat?.categoryName}
                   />
 
                   <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
@@ -77,9 +77,9 @@ const HomeProductDisplay = () => {
                 </div>
 
                 {/* ================= right side =============== */}
-                <div className=" w-full relative lg:px-4">
+                <div className=" w-full relative lg:px-2">
                   {/* <div className="w-full grid [grid-template-columns:repeat(auto-fill,minmax(400px,1fr))] gap-4"> */}
-                  <div className="flex flex-row lg:flex-wrap flex-nowrap gap-1 xl:overflow-hidden overflow-x-scroll">
+                  <div className="flex flex-row lg:flex-wrap flex-nowrap gap-4 xl:overflow-hidden overflow-x-scroll">
                     {cat.subCategories.map((subcat, i) => (
                       <Link
                         to={`/allproducts/${subcat._id}`}
@@ -88,7 +88,7 @@ const HomeProductDisplay = () => {
                       >
                         <div
                           key={i}
-                          className="shrink-0 md:w-[22em] h-[8em] w-full rounded flex flex-row gap-4 items-center border border-gray-500 p-1.5 md:p-2 py-5"
+                          className="shrink-0 md:w-[22em] h-[8em] w-full rounded flex flex-row gap-4 items-center border border-gray-500/30 p-1.5 md:p-2 py-5"
                         >
                           <div className="w-26 h-full md:w-1/3">
                             <img

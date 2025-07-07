@@ -227,8 +227,8 @@ const Navbar = () => {
                 </Link>
                 <Link to="/cart">
                   <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i className="ri-shopping-cart-fill text-xl" />
-                    <span className="text-lg">Cart</span>
+                    <i className="ri-shopping-cart-fill text-lg" />
+                    <span className="text-sm">Cart</span>
                   </p>
                 </Link>
               </div>

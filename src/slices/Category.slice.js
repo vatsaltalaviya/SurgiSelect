@@ -13,9 +13,21 @@ export const fetchCategories = createAsyncThunk("fetchCategories", async (__, th
 
     }
 })
-export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCategories", async (__, thunkAPI) => {
+export const fetchSubCategoriesbyCategoryId = createAsyncThunk("fetchSubCategoriesbyCategoryId", async (__, thunkAPI) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/subCategory/landingCategories`);
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/category/getAll`);
+        const data = res.data;
+        if (res.data.success) {
+            return data.data;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+
+    }
+})
+export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCategories", async (id, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}subCategory/${id}`);
         const data = res.data;
         if (res.data.success) {
             return data.data;
@@ -50,6 +62,19 @@ const categorySlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchSubCategoriesbyCategoryId.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchSubCategoriesbyCategoryId.fulfilled, (state, action) => {
+                state.loading = false;
+                state.subCategories = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchSubCategoriesbyCategoryId.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
