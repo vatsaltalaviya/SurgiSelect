@@ -60,7 +60,7 @@ const Orderpage = () => {
   const navigate = useNavigate()
   const dispatch  = useDispatch()
   const {address ,loading , selectedAddress} = useSelector((state)=>state.user)
-  const {orders,orderloading ,error} = useSelector((state)=>state.order)
+  const {orderloading} = useSelector((state)=>state.order)
   const bgref = useRef(null);
   const closePopUp = (e) => {
     if (bgref.current === e.target) {

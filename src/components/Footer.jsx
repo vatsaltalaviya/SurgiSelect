@@ -40,7 +40,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col items-center md:px-20 md:justify-center">
+    <footer className="w-full flex flex-col items-center md:px-20  md:justify-center">
       <div className="w-full px-2 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
         <span className="text-blue-600 text-xl md:text-3xl font-medium">
           We Are Here To Help You
@@ -142,7 +142,7 @@ const Footer = () => {
           -<Link to='#' className="hover:text-primary hover:underline">Link to Us</Link>
         </span>
       </div>
-    </div>
+    </footer>
   );
 };
 

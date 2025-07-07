@@ -37,6 +37,55 @@ export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thun
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+export const fetchMultipleItemsById = createAsyncThunk(
+  "fetchMultipleItemsById",
+  async (cartItems, thunkAPI) => {
+    try {
+      const enrichedItems = await Promise.all(
+        cartItems.map(async (item) => {
+          try {
+            const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${item.itemId}`);
+            const itemDetails = res.data?.data;
+
+            if (!itemDetails) return null;
+
+            // Fetch company name
+            let companyName = "Unknown";
+            if (itemDetails.companyId) {
+              try {
+                const companyRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${itemDetails.companyId}`);
+                companyName = companyRes.data?.data?.name || "Unknown";
+              } catch (companyErr) {
+                console.warn("Company fetch failed:", companyErr);
+              }
+            }
+
+            return {
+              itemId: item.itemId,
+              name: itemDetails.name,
+              companyId: itemDetails.companyId,
+              companyName,
+              qty: item.qty,
+              price: item.price,
+              image: itemDetails.logoImage,
+              discount: itemDetails.discount || 0,
+              total: item.qty * item.price,
+            };
+          } catch (err) {
+            console.warn("Item fetch failed:", err);
+            return null;
+          }
+        })
+      );
+
+      return enrichedItems.filter(Boolean); // remove nulls
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Failed to fetch multiple items with company names");
+    }
+  }
+);
+
+
 export const fetchItemsBySearch = createAsyncThunk("fetchItemsBySearch", async ({ name, page }, thunkAPI) => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/searchAll/${name}?page=${page}`);
@@ -90,6 +139,19 @@ const itemSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchItems.rejected, (state, action) => {
+                state.subcategoryLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchMultipleItemsById.pending, (state) => {
+                state.subcategoryLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchMultipleItemsById.fulfilled, (state, action) => {
+                state.subcategoryLoading = false;
+                state.items = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchMultipleItemsById.rejected, (state, action) => {
                 state.subcategoryLoading = false;
                 state.error = action.payload;
             })

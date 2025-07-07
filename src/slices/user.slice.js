@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const registerUser = createAsyncThunk("Adduser", async (userData, thunkAPI) => {
+    console.log(userData);
+    
   try {
     const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, userData);
     const data = res.data;
@@ -30,6 +32,8 @@ export const loginUser = createAsyncThunk("loginUser", async (userData, thunkAPI
         if (res.status === 200) {
             localStorage.setItem("user", data.data.userId);
             localStorage.setItem("username", data.data.name);
+            localStorage.setItem("useremail", data.data.email);
+            localStorage.setItem("usernumber", data.data.number);
             return data.data;
         }
        

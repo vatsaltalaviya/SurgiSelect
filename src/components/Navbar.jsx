@@ -3,21 +3,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
-import { fetchItemsBySearch, fetchSuggestions } from "../slices/items.slice";
+import { fetchSuggestions } from "../slices/items.slice";
 
-const data = [
-  { id: 1, label: "Door" },
-  { id: 2, label: "mouse" },
-  { id: 3, label: "Laptop" },
-  { id: 4, label: "Phone Cover" },
-  { id: 5, label: "Door mat" },
-];
 const Navbar = () => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
   const input = useDebounce(query, 1000);
   const dispatch = useDispatch();
   const { suggestions } = useSelector((state) => state.items);
+  const cartItemCount = useSelector((state) => state.cart.cartItemCount);
+
 
   const username = localStorage.getItem("username");
   const userid = localStorage.getItem("user");
@@ -133,7 +128,6 @@ const Navbar = () => {
                       placeholder="Enter Product/Service to search"
                       className="border outline-none w-[380px] p-0 font-medium h-full border-gray-500"
                       sx={{
-                        
                         "& .MuiOutlinedInput-root": {
                           "& fieldset": {
                             border: "none",
@@ -171,10 +165,15 @@ const Navbar = () => {
           </div>
         </div>
         <div className="h-full hidden xl:flex gap-4 items-center">
-          <div className="flex flex-col items-center">
-            <i className="ri-shopping-bag-3-line text-lg font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Shopping</span>
-          </div>
+          <Link to="/cart">
+            <div className="flex flex-col items-center relative px-2">
+              <i className="ri-shopping-bag-3-line text-lg font-medium text-white"></i>
+              <span className="text-white text-[12px] font-light">Cart</span>
+              <span className="absolute -top-1 -right-1 bg-white text-black font-semibold text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                {cartItemCount}
+              </span>
+            </div>
+          </Link>
           <div className="flex flex-col items-center">
             <i className="ri-store-line text-lg font-medium text-white"></i>
             <span className="text-white text-[12px] font-light">Sell</span>
@@ -201,12 +200,12 @@ const Navbar = () => {
             <span className="text-white text-[12px] font-light">
               {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
             </span>
-            <div className="absolute top-2 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-              <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
+            <div className="absolute top-2 right-0 pt-12 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
+              <div className="w-72 rounded bg-stone-200 flex flex-col gap-0.5 p-4">
                 {!userid ? (
                   <Link
                     to="/signup"
-                    className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
+                    className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
                   >
                     Sign UP
                   </Link>
@@ -214,21 +213,21 @@ const Navbar = () => {
                   <Link
                     to="/"
                     onClick={() => localStorage.clear()}
-                    className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
+                    className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
                   >
                     Log Out
                   </Link>
                 )}
                 <Link to="/">
                   <p className="cursor-pointer text-lg space-x-3 hover:text-black">
-                    <i className="ri-home-9-fill text-xl" />
-                    <span className="text-lg">Home</span>
+                    <i className="ri-home-9-fill text-sm" />
+                    <span className="text-sm">Home</span>
                   </p>
                 </Link>
-                <Link to="/cart">
+                <Link to="/profile">
                   <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i className="ri-shopping-cart-fill text-lg" />
-                    <span className="text-sm">Cart</span>
+                    <i className="ri-shopping-cart-fill text-sm" />
+                    <span className="text-sm">Profile</span>
                   </p>
                 </Link>
               </div>
@@ -253,27 +252,33 @@ const Navbar = () => {
         }`}
       >
         <div className="h-screen w-90 flex flex-col gap-4 justify-start px-2 py-0.5 ">
-          <div className="flex gap-4 items-center">
-            <i className="ri-shopping-bag-3-line hover:ri-shopping-bag-3-fill  text-xl font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Shopping</span>
-          </div>
+          <Link to="/cart"  onClick={() => {
+                   
+                        setshowMenu(false);
+                      }} >
+            <div className="flex gap-4 items-center">
+              <i className="ri-store-line text-xl font-medium text-white"></i>
+              <span className="text-white text-[16px] font-light">Cart</span>
+             
+            </div>
+          </Link>
           <div className="flex gap-4 items-center">
             <i className="ri-store-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Sell</span>
+            <span className="text-white text-[16px] font-light">Sell</span>
           </div>
           <div className="flex gap-4 items-center">
             <i className="ri-question-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Help</span>
+            <span className="text-white text-[16px] font-light">Help</span>
           </div>
           <div className="flex gap-4 items-center">
             <i className="ri-message-2-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Message</span>
+            <span className="text-white text-[16px] font-light">Message</span>
           </div>
           <div className="flex w-full gap-4 items-center">
             <details className="appearance-none w-52 list-none cursor-pointer font-medium text-lg">
               <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
-                <span className="text-white text-[12px] font-light flex items-center gap-1">
+                <span className="text-white text-[16px] font-light flex items-center gap-1">
                   {username || "sign in"}
                   <i className="ri-arrow-down-s-line"></i>
                 </span>
@@ -284,7 +289,7 @@ const Navbar = () => {
                   {!userid ? (
                     <Link
                       to="/signup"
-                      className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
+                      className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
                     >
                       Sign UP
                     </Link>
@@ -295,7 +300,7 @@ const Navbar = () => {
                         localStorage.clear();
                         setshowMenu(false);
                       }}
-                      className="px-3 py-0.5 text-white bg-primary text-xl text-center rounded-xl"
+                      className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
                     >
                       Log Out
                     </Link>
@@ -303,19 +308,19 @@ const Navbar = () => {
                   <Link to="/">
                     <p
                       onClick={() => setshowMenu(false)}
-                      className="cursor-pointer text-lg space-x-3 hover:text-black"
+                      className="cursor-pointer  space-x-3 hover:text-black"
                     >
-                      <i className="ri-home-9-fill text-lg" />
+                      <i className="ri-home-9-fill text-sm" />
                       <span className="text-sm">Home</span>
                     </p>
                   </Link>
-                  <Link to="/cart">
+                  <Link to="/">
                     <p
                       onClick={() => setshowMenu(false)}
                       className="cursor-pointer space-x-3 hover:text-black"
                     >
-                      <i className="ri-shopping-cart-fill text-lg" />
-                      <span className="text-sm">Cart</span>
+                      <i className="ri-shopping-cart-fill text-sm" />
+                      <span className="text-sm">Profile</span>
                     </p>
                   </Link>
                 </div>

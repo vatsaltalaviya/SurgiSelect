@@ -181,6 +181,7 @@ const cartSlice = createSlice({
         cartloading: false,
         Updateloading: false,
         Deleteloading: false,
+        cartItemCount:0,
         error: null
     },
     reducers: {
@@ -195,6 +196,7 @@ const cartSlice = createSlice({
             .addCase(AddtoCart.fulfilled, (state, action) => {
                 state.cartloading = false;
                 state.cart = action.payload;
+                state.cartItemCount = action.payload?.items?.length || 0;
                 state.error = null;
             })
             .addCase(AddtoCart.rejected, (state, action) => {
@@ -208,6 +210,7 @@ const cartSlice = createSlice({
             .addCase(fetchAllCartItem.fulfilled, (state, action) => {
                 state.cartloading = false;
                 state.cart = action.payload;
+                state.cartItemCount = action.payload?.items?.length || 0;
                 state.error = null;
             })
             .addCase(fetchAllCartItem.rejected, (state, action) => {
@@ -221,6 +224,7 @@ const cartSlice = createSlice({
             .addCase(fetchCartWithItemDetails.fulfilled, (state, action) => {
                 state.cartloading = false;
                 state.cart = action.payload;
+                 state.cartItemCount = action.payload?.items?.length || 0; 
                 state.error = null;
             })
             .addCase(fetchCartWithItemDetails.rejected, (state, action) => {
@@ -232,6 +236,7 @@ const cartSlice = createSlice({
             })
             .addCase(updateFetchCart.fulfilled, (state, action) => {
                 state.cart = action.payload;
+                 state.cartItemCount = action.payload?.items?.length || 0; 
                 state.error = null;
             })
             .addCase(updateFetchCart.rejected, (state, action) => {
@@ -267,6 +272,7 @@ const cartSlice = createSlice({
             })
             .addCase(deleteItemFormCart.fulfilled, (state, action) => {
                 state.Deleteloading = false;
+                state.cartItemCount = action.payload?.items?.length || 0; 
             })
             .addCase(deleteItemFormCart.rejected, (state, action) => {
                 state.Deleteloading = false;

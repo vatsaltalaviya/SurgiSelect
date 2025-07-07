@@ -1,9 +1,7 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const addOrder = createAsyncThunk("addOrder",async(orderData,thunkAPI)=>{
-    console.log(orderData);
-    
+export const addOrder = createAsyncThunk("addOrder",async(orderData,thunkAPI)=>{    
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/orders`,orderData)
         const data= res.data;
