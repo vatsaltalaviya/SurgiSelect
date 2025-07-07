@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserAddress } from "../slices/user.slice";
-import { ClipLoader } from "react-spinners";
+import { BeatLoader, ClipLoader } from "react-spinners";
 import { fetchCartWithItemDetails } from "../slices/Cart.slice";
 import { addOrder } from "../slices/order.slice";
 import axios from "axios";
@@ -60,7 +60,7 @@ const Orderpage = () => {
   const navigate = useNavigate()
   const dispatch  = useDispatch()
   const {address ,loading , selectedAddress} = useSelector((state)=>state.user)
-  const {orders ,error} = useSelector((state)=>state.order)
+  const {orders,orderloading ,error} = useSelector((state)=>state.order)
   const bgref = useRef(null);
   const closePopUp = (e) => {
     if (bgref.current === e.target) {
@@ -112,35 +112,17 @@ const handlesubmit = async(e)=>{
 
   console.log(orderData);
 
-  const orderres =  await dispatch(addOrder(orderData))
+  const orderres = await dispatch(addOrder(orderData))
   if(orderres){
-    toast.success("ored")
+    toast.success("Your order Palce Successfully")
+    navigate('/')
   }
-  // try {
-  //       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/orders`,orderData)
-  //       console.log(res);
-        
-  //       const data= res.data;
-  //       if(data.success){
-  //           return data.data;
-  //       }
-  //       else{
-  //           console.log(data.message);
-  //       }
-  //   } catch (error) {
-  //       console.error(error.message);
-  //   }
-  
 }
-
-// console.log(error);
-  
-  
   return (
     <>
       <div className="p-2 md:p-12   bg-gray-100">
          <form onSubmit={handlesubmit} className="w-full flex-res space-x-1  border-gray-300 rounded px-2 py-1">
-        {loading ? <div className="w-full h-screen flex items-center justify-center"><ClipLoader /></div>:<><div className="w-full space-y-1">
+        {loading ? <div className="w-full h-screen"><Loading /></div>:<><div className="w-full space-y-1">
           <div className="w-full p-4 bg-white shadow-2xl">
 
             {address && address.length != 0 ?<div className="space-y-2">
@@ -148,7 +130,7 @@ const handlesubmit = async(e)=>{
                 Delivering to {userName}
               </h1>
               <h3 className="text-lg font-medium">
-                {address[selectedAddress]?.landmark} {address[selectedAddress]?.address} {address[selectedAddress]?.state} {address[selectedAddress]?.pincode}, India
+                {address[selectedAddress]?.landmark} {address[selectedAddress]?.address} {address[selectedAddress]?.pincode} {address[selectedAddress]?.state} , India
               </h3>
                <Link type="button" to="/address" className="text-primary hover:underline">
               Change address
@@ -348,19 +330,16 @@ const handlesubmit = async(e)=>{
             <tbody>
               <tr className="py-2">
                 <td className="w-full text-sm font-semibold">Items (2):</td>
-                <td className="w-full text-sm font-medium text-right">73520</td>
+                <td className="w-full text-sm font-medium text-right">{cart.finalTotal}</td>
               </tr>
               <tr className="py-2">
                 <td className="w-full text-sm font-semibold">Delivary:</td>
                 <td className="w-full text-sm font-medium text-right">40</td>
               </tr>
-              <tr className="py-2">
-                <td className="w-full text-sm font-semibold">Market Fee:</td>
-                <td className="w-full text-sm font-medium text-right">5</td>
-              </tr>
+             
               <tr className="py-2">
                 <td className="w-full text-sm font-semibold">Total:</td>
-                <td className="w-full text-sm font-medium text-right">73520</td>
+                <td className="w-full text-sm font-medium text-right">{cart.finalTotal}</td>
               </tr>
               <tr className="py-2">
                 <td className="w-full text-sm font-semibold">
@@ -373,7 +352,7 @@ const handlesubmit = async(e)=>{
           </div>
           <div className="w-full">
             <button type="submit" className="w-full px-3 py-2 text-lg font-medium bg-orange-400 text-white rounded">
-              Place Order
+             {orderloading ? <BeatLoader size={10} color="white"/>:" Place Order"}
             </button>
           </div>
         </div></>}
@@ -467,3 +446,60 @@ const handlesubmit = async(e)=>{
 };
 
 export default Orderpage;
+
+function Loading(){
+  return   <div className="w-full flex-res space-x-1 border-gray-300 rounded px-2 py-1 animate-pulse">
+    {/* Left Section Skeleton */}
+    <div className="w-full space-y-3">
+      {/* Address Card */}
+      <div className="p-4 bg-white shadow-2xl space-y-3 rounded">
+        <div className="h-4 w-1/3 bg-gray-300 rounded" />
+        <div className="h-4 w-2/3 bg-gray-300 rounded" />
+        <div className="h-4 w-1/4 bg-gray-300 rounded" />
+      </div>
+
+      {/* Payment Method Card */}
+      <div className="p-4 bg-white shadow-2xl space-y-4 rounded">
+        <div className="h-5 w-1/3 bg-gray-300 rounded" />
+        {/* Promo code input */}
+        <div className="flex flex-col lg:flex-row gap-2">
+          <div className="h-10 w-full lg:w-1/2 bg-gray-300 rounded" />
+          <div className="h-10 w-24 bg-gray-300 rounded" />
+        </div>
+        {/* Payment Options */}
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="space-y-2 pt-4 border-t border-gray-300">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 bg-gray-300 rounded-full" />
+              <div className="h-4 w-1/2 bg-gray-300 rounded" />
+            </div>
+            <div className="h-6 w-32 bg-gray-300 rounded" />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Right Section Summary */}
+    <div className="bg-white h-fit w-full md:w-xl mt-2 lg:mt-0 sticky top-0 p-2 rounded shadow-xl space-y-3">
+      <div className="space-y-3">
+        <div className="flex justify-between">
+          <div className="h-4 w-1/2 bg-gray-300 rounded" />
+          <div className="h-4 w-1/4 bg-gray-300 rounded" />
+        </div>
+        <div className="flex justify-between">
+          <div className="h-4 w-1/2 bg-gray-300 rounded" />
+          <div className="h-4 w-1/4 bg-gray-300 rounded" />
+        </div>
+        <div className="flex justify-between">
+          <div className="h-4 w-1/2 bg-gray-300 rounded" />
+          <div className="h-4 w-1/4 bg-gray-300 rounded" />
+        </div>
+        <div className="flex justify-between">
+          <div className="h-4 w-1/2 bg-gray-300 rounded" />
+          <div className="h-4 w-1/4 bg-gray-300 rounded" />
+        </div>
+      </div>
+      <div className="h-10 w-full bg-gray-300 rounded mt-4" />
+    </div>
+  </div>
+}

@@ -266,8 +266,8 @@ const AllProducts = () => {
 
         <div className="flex flex-col space-y-3 w-full">
           {subcategoryid && subcategoryLoading ? (
-            <div className="w-full h-screen flex items-center justify-center">
-              <ClipLoader size={50} />
+            <div className="w-full h-screen flex flex-col items-center justify-center">
+              <Loading />
             </div>
           ) : (
             <InfiniteScroll
@@ -276,8 +276,8 @@ const AllProducts = () => {
               hasMore={hasMore}
               loader={
                 loading ? (
-                  <div className="w-full h-24 flex items-center justify-center">
-                    <ClipLoader size={50} />
+                  <div className="w-full flex flex-col items-center justify-center">
+                    <Loading />
                   </div>
                 ) : null
               }
@@ -584,3 +584,122 @@ const AllProducts = () => {
 };
 
 export default AllProducts;
+
+function Loading(){
+  return<>
+  {Array.from({ length: 3 }).map((_, i) => (
+  <section
+    key={i}
+    className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
+  >
+    {/* === Main Product Block === */}
+    <div className="flex flex-col md:flex-row w-full">
+      {/* Left - Image Skeleton */}
+      <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
+        <div className="w-full h-full bg-gray-300 rounded object-contain" />
+      </div>
+
+      {/* Right - Product Info Skeleton */}
+      <div className="flex flex-col py-2 justify-between w-full px-2">
+        <div className="space-y-2">
+          <div className="h-5 w-3/4 bg-gray-300 rounded" />
+          <div className="h-6 w-1/2 bg-gray-300 rounded" />
+
+          <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
+
+          <table className="text-sm mt-2 w-full">
+            <tbody className="space-y-2">
+              {["Colour", "Size", "Type"].map((label, idx) => (
+                <tr key={idx}>
+                  <td className="pr-2 py-1 w-32 font-medium text-black">
+                    <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                  </td>
+                  <td>
+                    <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {/* === Company Detail Skeleton === */}
+    <div className="shrink-0 h-full xl:w-xs text-lg">
+      <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
+        <div className="h-4 w-3/4 bg-gray-300 rounded" />
+        <div className="h-4 w-2/3 bg-gray-300 rounded" />
+        <div className="h-4 w-full bg-gray-300 rounded" />
+        <div className="h-4 w-[80%] bg-gray-300 rounded" />
+        <div className="h-4 w-[60%] bg-gray-300 rounded" />
+      </div>
+      <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
+        <div className="h-10 w-40 bg-gray-300 rounded" />
+        <div className="h-10 w-40 bg-gray-300 rounded" />
+      </div>
+    </div>
+  </section>
+))}
+
+  </>
+}
+function ItemLoading(){
+  return<>
+  {Array.from({ length: 1 }).map((_, i) => (
+  <section
+    key={i}
+    className="w-full bg-white rounded shadow flex-col lg:flex-row flex gap-2 animate-pulse"
+  >
+    {/* === Main Product Block === */}
+    <div className="flex flex-col md:flex-row w-full">
+      {/* Left - Image Skeleton */}
+      <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
+        <div className="w-full h-full bg-gray-300 rounded object-contain" />
+      </div>
+
+      {/* Right - Product Info Skeleton */}
+      <div className="flex flex-col py-2 justify-between w-full px-2">
+        <div className="space-y-2">
+          <div className="h-5 w-3/4 bg-gray-300 rounded" />
+          <div className="h-6 w-1/2 bg-gray-300 rounded" />
+
+          <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
+
+          <table className="text-sm mt-2 w-full">
+            <tbody className="space-y-2">
+              {["Colour", "Size", "Type"].map((label, idx) => (
+                <tr key={idx}>
+                  <td className="pr-2 py-1 w-32 font-medium text-black">
+                    <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                  </td>
+                  <td>
+                    <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {/* === Company Detail Skeleton === */}
+    <div className="shrink-0 h-full xl:w-xs text-lg">
+      <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
+        <div className="h-4 w-3/4 bg-gray-300 rounded" />
+        <div className="h-4 w-2/3 bg-gray-300 rounded" />
+        <div className="h-4 w-full bg-gray-300 rounded" />
+        <div className="h-4 w-[80%] bg-gray-300 rounded" />
+        <div className="h-4 w-[60%] bg-gray-300 rounded" />
+      </div>
+      <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
+        <div className="h-10 w-40 bg-gray-300 rounded" />
+        <div className="h-10 w-40 bg-gray-300 rounded" />
+      </div>
+    </div>
+  </section>
+))}
+
+  </>
+}

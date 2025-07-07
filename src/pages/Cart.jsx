@@ -68,9 +68,8 @@ const handleDelete = (itemId)=>{
 
         {/* cart part */}
         {cartloading ? (
-          <div className="w-full h-screen flex items-center justify-center">
-            {" "}
-            <ClipLoader size={50} />
+          <div className="w-full h-screen">
+            <Loading />
           </div>
         ) : (
           <>
@@ -184,3 +183,48 @@ const handleDelete = (itemId)=>{
 };
 
 export default Cart;
+
+function Loading(){
+  return (<>{Array.from({ length: 2 }).map((_, index) => (
+  <div
+    key={index}
+    className="w-full flex flex-row lg:space-y-5 px-2 py-4 border-y-2 border-gray-500/35 animate-pulse"
+  >
+    {/* === Image Skeleton === */}
+    <div className="w-20 md:w-36 shrink-0">
+      <div className="w-full h-full aspect-square bg-gray-300 rounded" />
+    </div>
+
+    {/* === Main Content Skeleton === */}
+    <div className="w-full flex flex-col lg:flex-row items-start justify-between space-y-4 lg:space-y-0 lg:space-x-4">
+      <div className="w-full flex flex-col justify-between px-4">
+        {/* Product Name */}
+        <div className="h-4 w-4/5 bg-gray-300 rounded mb-2" />
+        <div className="h-4 w-3/4 bg-gray-300 rounded mb-4" />
+
+        {/* Sold By */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="h-4 w-16 bg-gray-300 rounded" />
+          <div className="h-4 w-24 bg-gray-300 rounded" />
+        </div>
+
+        {/* Quantity Controls */}
+        <div className="flex items-center space-x-3">
+          <div className="flex items-center border px-2 py-1 rounded gap-2">
+            <div className="w-6 h-6 bg-gray-300 rounded" />
+            <div className="w-6 h-6 bg-gray-300 rounded" />
+            <div className="w-6 h-6 bg-gray-300 rounded" />
+          </div>
+          <div className="w-20 h-6 bg-gray-300 rounded" />
+        </div>
+      </div>
+
+      {/* Price Skeleton */}
+      <div className="w-60 py-2 px-4">
+        <div className="h-6 w-24 ml-auto bg-gray-300 rounded" />
+      </div>
+    </div>
+  </div>
+))}
+</>)
+}

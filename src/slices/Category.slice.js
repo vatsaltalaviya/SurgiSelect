@@ -13,9 +13,9 @@ export const fetchCategories = createAsyncThunk("fetchCategories", async (__, th
 
     }
 })
-export const fetchSubCategoriesbyCategoryId = createAsyncThunk("fetchSubCategoriesbyCategoryId", async (__, thunkAPI) => {
+export const fetchSubCategoriesbyCategoryId = createAsyncThunk("fetchSubCategoriesbyCategoryId", async (id, thunkAPI) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/category/getAll`);
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/subCategory/${id}`);
         const data = res.data;
         if (res.data.success) {
             return data.data;
@@ -25,9 +25,9 @@ export const fetchSubCategoriesbyCategoryId = createAsyncThunk("fetchSubCategori
 
     }
 })
-export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCategories", async (id, thunkAPI) => {
+export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCategories", async (_, thunkAPI) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}subCategory/${id}`);
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/subCategory/landingCategories`);
         const data = res.data;
         if (res.data.success) {
             return data.data;

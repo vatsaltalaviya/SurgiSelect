@@ -57,7 +57,7 @@ const ProductPage = () => {
 
   return (
     <div className="w-full px-2 pt-5 py-1">
-      {loading ?<div className="w-full h-screen flex items-center justify-center"><ClipLoader size={50} /></div>:<>
+      {loading ?<div className="w-full h-screen"><ProductLoading /></div>:<>
       <div className="flex-res gap-2">
         <ProductImage images={updatedProduct?.images} />
         <div className="flex flex-col w-full">
@@ -187,3 +187,67 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
+
+function ProductLoading(){
+  return(
+    <div className="flex-res gap-2 w-full items-start animate-pulse">
+  {/* === Product Image Skeleton === */}
+  <div className="w-full max-w-[400px] aspect-square bg-gray-300 rounded" />
+
+  {/* === Product Info Skeleton === */}
+  <div className="flex flex-col w-full">
+    <div className="space-y-3">
+      <div className="h-5 w-3/4 bg-gray-300 rounded" />
+      <div className="h-5 w-1/2 bg-gray-300 rounded" />
+
+      {/* Qty & Add to Cart Buttons */}
+      <div className="flex items-center gap-4 mt-4">
+        <div className="flex items-center gap-3 border px-3 py-2 rounded w-fit">
+          <div className="h-5 w-5 bg-gray-300 rounded" />
+          <div className="h-5 w-5 bg-gray-300 rounded" />
+          <div className="h-5 w-5 bg-gray-300 rounded" />
+        </div>
+        <div className="w-52 h-10 bg-gray-400 rounded" />
+      </div>
+
+      {/* Product Details */}
+      <div className="grid grid-cols-2 gap-3 mt-5">
+        {["Colour", "Type", "Size"].map((label, idx) => (
+          <React.Fragment key={idx}>
+            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* About + Features */}
+      <div className="mt-6 space-y-2">
+        <div className="h-4 w-full bg-gray-300 rounded" />
+        <div className="h-4 w-1/3 bg-gray-300 rounded" />
+        <ul className="list-disc mt-2 space-y-1 pl-5">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <li key={idx} className="h-3 w-3/4 bg-gray-300 rounded" />
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {/* === Company Info Skeleton === */}
+  <div className="w-full text-sm lg:w-4xl py-1">
+    <div className="bg-zinc-200 py-2 px-2 pb-3 rounded space-y-3">
+      <div className="h-4 w-1/2 bg-gray-300 rounded" />
+      <div className="h-4 w-1/3 bg-gray-300 rounded" />
+      <div className="h-4 w-full bg-gray-300 rounded" />
+      <div className="h-4 w-3/4 bg-gray-300 rounded" />
+      <div className="h-4 w-1/4 bg-gray-300 rounded" />
+    </div>
+    <div className="w-full px-2 py-4 flex flex-col items-center gap-2">
+      <div className="w-40 h-10 bg-gray-300 rounded" />
+      <div className="w-40 h-10 bg-gray-300 rounded" />
+    </div>
+  </div>
+</div>
+
+  )
+} 

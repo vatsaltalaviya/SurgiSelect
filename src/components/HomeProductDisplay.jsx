@@ -41,13 +41,13 @@ const HomeProductDisplay = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center  ">
       {loading ? (
-        <ClipLoader size={50} />
+        <Loading />
       ) : (
         <>
           {CategoryObj?.map((cat, i) => (
             <div
               key={i}
-              className="w-[95vw] border-blue-600 border-t-4 border-x-0 py-4 px-5"
+              className="w-[95vw] border-blue-600 border-t-2 border-x-0 py-4 px-5"
             >
               <Link to={`/industry/${cat.categoryId}`}>
                 <h1 className="text-xl md:text-2xl inline hover:underline hover:text-blue-900 font-semibold">
@@ -84,7 +84,7 @@ const HomeProductDisplay = () => {
                       <Link
                         to={`/allproducts/${subcat._id}`}
                         key={i}
-                        className=""
+                        className="shrink-0"
                       >
                         <div
                           key={i}
@@ -102,7 +102,7 @@ const HomeProductDisplay = () => {
                               <h1
                                 className={`font-medium ${
                                   i == 0 ? "font-bold" : ""
-                                } sm:bg-gray-100 py-0.5 lg:bg-white md:leading-9 text-[14px] md:text-[16px] hover:underline`}
+                                } py-0.5 bg-white md:leading-9 text-[14px] md:text-[16px] hover:underline`}
                               >
                                 {subcat.name}
                               </h1>
@@ -124,3 +124,44 @@ const HomeProductDisplay = () => {
 };
 
 export default HomeProductDisplay;
+export function Loading(){
+  return(
+    
+  <div
+     
+    className="w-[95vw] border-blue-600 border-t-2 border-x-0 py-4 px-5 animate-pulse"
+  >
+    {/* Category Title Skeleton */}
+    <div className="h-6 w-1/3 bg-gray-300 rounded mb-4" />
+
+    <div className="flex flex-col 2xl:flex-row gap-4 mt-5">
+      {/* Left Image Block */}
+      <div className="hidden 2xl:flex w-[300px] h-[55vh] bg-gray-300 rounded relative overflow-hidden">
+        <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
+          <div className="h-6 w-3/4 bg-gray-200 rounded" />
+          <div className="h-10 w-28 bg-emerald-600 rounded" />
+        </div>
+      </div>
+
+      {/* Right Side Subcategories */}
+      <div className="w-full relative lg:px-2">
+        <div className="flex flex-row lg:flex-wrap flex-nowrap gap-4 xl:overflow-hidden overflow-x-scroll">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="shrink-0 md:w-[22em] w-[18em] h-[8em] rounded flex gap-4 items-center border border-gray-400/30 p-2"
+            >
+              <div className="w-24 h-full bg-gray-300 rounded" />
+              <div className="flex-1 space-y-3">
+                <div className="h-4 w-3/4 bg-gray-300 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  )
+}
