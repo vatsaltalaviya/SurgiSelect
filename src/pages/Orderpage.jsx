@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserAddress } from "../slices/user.slice";
 import { ClipLoader } from "react-spinners";
+import { fetchCartWithItemDetails } from "../slices/Cart.slice";
+import { addOrder } from "../slices/order.slice";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 
 const banks = [
@@ -45,33 +50,100 @@ const banks = [
 
 const Orderpage = () => {
   const [showAddCard, setshowAddCard] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(""); // ✅ Correct spelling
+
 
   const userId = localStorage.getItem('user')
   const userName = localStorage.getItem('username')
+  const userNumber = localStorage.getItem('usernumber')
+  const userEmail = localStorage.getItem('useremail')
   const navigate = useNavigate()
   const dispatch  = useDispatch()
   const {address ,loading , selectedAddress} = useSelector((state)=>state.user)
+  const {orders ,error} = useSelector((state)=>state.order)
   const bgref = useRef(null);
   const closePopUp = (e) => {
     if (bgref.current === e.target) {
       setshowAddCard(false);
-  
     }
   };
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 16 }, (_, i) => currentYear + i);
 
+  const { cart} = useSelector((state) => state.cart);
+
   useEffect(() => {
-    dispatch(getUserAddress(userId))
+    if (userId) {
+          dispatch(fetchCartWithItemDetails(userId));
+          dispatch(getUserAddress(userId))
+        }
   }, [userId])  
+  
+const items = useMemo(() => {
+  return cart?.items?.map((item) => ({
+    item: item.itemId,
+    quantity: item.qty,
+  })) || [];
+}, [cart?.items]);
+
+
+
+const handlesubmit = async(e)=>{
+  e.preventDefault()
+  const orderData = {
+    userId,
+    userNumber,
+    userEmail,
+    userName,
+    items,
+    status: "Confirmed",
+  orderId: 1,
+  deliveryStatus: "Dispatched",
+  isOrderCancelled: false,
+  totalAmount:cart.finalTotal,
+  paymentMethod,
+  city:address[selectedAddress]?.city,
+  Landmark:address[selectedAddress]?.landmark,
+  orderAddress:address[selectedAddress]?.address,
+  State:address[selectedAddress]?.state,
+  Locality:address[selectedAddress]?.city,
+  pincode:address[selectedAddress]?.pincode
+  }
+
+  console.log(orderData);
+
+  const orderres =  await dispatch(addOrder(orderData))
+  if(orderres){
+    toast.success("ored")
+  }
+  // try {
+  //       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/orders`,orderData)
+  //       console.log(res);
+        
+  //       const data= res.data;
+  //       if(data.success){
+  //           return data.data;
+  //       }
+  //       else{
+  //           console.log(data.message);
+  //       }
+  //   } catch (error) {
+  //       console.error(error.message);
+  //   }
+  
+}
+
+// console.log(error);
+  
   
   return (
     <>
-      <div className="p-2 md:p-12 flex-res space-x-1  bg-gray-100">
+      <div className="p-2 md:p-12   bg-gray-100">
+         <form onSubmit={handlesubmit} className="w-full flex-res space-x-1  border-gray-300 rounded px-2 py-1">
         {loading ? <div className="w-full h-screen flex items-center justify-center"><ClipLoader /></div>:<><div className="w-full space-y-1">
           <div className="w-full p-4 bg-white shadow-2xl">
 
-            {address ?<div className="space-y-2">
+            {address && address.length != 0 ?<div className="space-y-2">
               <h1 className="text-lg md:text-lg font-semibold">
                 Delivering to {userName}
               </h1>
@@ -89,16 +161,12 @@ const Orderpage = () => {
             <Link to="/address" className="text-primary hover:underline">
               Add address
             </Link>
-            </div>}
-
-            
-
-           
+            </div>}           
 
           </div>
           <div className="w-full p-4 bg-white space-y-2 shadow-2xl">
             <h1 className="text-lg md:text-lg font-semibold">Payment method</h1>
-            <form className="w-full border-2 border-gray-300 rounded px-2 py-1">
+           
               <div className="py-2">
                 <h1 className="text-lg font-semibold">
                   Your available balance
@@ -127,27 +195,6 @@ const Orderpage = () => {
               </div>
 
               <div className="py-2 border-t-2 border-gray-300">
-                <h1 className="text-lg md:text-lg font-semibold">UPI</h1>
-
-                <div className=" px-6 py-3">
-                  <div className="w-full flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name="payment"
-                      className="items-start w-5 h-5"
-                    />
-                    <h2 className="text-lg font-medium">Amazon Pay</h2>
-                    <img
-                      className="w-10 h-9"
-                      name="payment"
-                      src="https://cdn.iconscout.com/icon/free/png-512/free-upi-logo-icon-download-in-svg-png-gif-file-formats--unified-payments-interface-payment-money-transfer-logos-icons-1747946.png?f=webp&w=512"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="py-2 border-t-2 border-gray-300">
                 <h1 className="text-lg  font-semibold">
                   Another payment method
                 </h1>
@@ -158,6 +205,8 @@ const Orderpage = () => {
                       type="radio"
                       name="payment"
                       value="creditCard"
+                      checked={paymentMethod == "creditCard"}
+                      onChange={(e)=>setPaymentMethod(e.target.value)}
                       className="items-start w-5 h-5"
                     />
                     <h2 className="text-lg font-medium">
@@ -188,6 +237,8 @@ const Orderpage = () => {
                       name="payment"
                       className="items-start w-5 h-5"
                       value="netBanking"
+                      checked={paymentMethod == "netBanking"}
+                      onChange={(e)=>setPaymentMethod(e.target.value)}
                     />
                     <h2 className="text-lg font-medium">Net banking</h2>
                   </div>
@@ -215,6 +266,9 @@ const Orderpage = () => {
                     <input
                       type="radio"
                       name="payment"
+                       value="UPI"
+                        checked={paymentMethod == "UPI"}
+                        onChange={(e)=>setPaymentMethod(e.target.value)}
                       className="items-start w-5 h-5"
                     />
                     <h2 className="text-lg font-medium">Other UPI Apps</h2>
@@ -225,7 +279,7 @@ const Orderpage = () => {
                       <input
                         type="text"
                         placeholder="Enter UPI ID"
-                        value="UPI"
+                       
                         className="border border-gray-300 rounded px-3 py-1 outline-none focus:ring-1 focus:ring-blue-400"
                       />
                       <button
@@ -246,6 +300,9 @@ const Orderpage = () => {
                     <input
                       type="radio"
                       name="payment"
+                      value="EMI"
+                      checked={paymentMethod == "EMI"}
+                      onChange={(e)=>setPaymentMethod(e.target.value)}
                       className="items-start w-5 h-5"
                     />
                     <h2 className="text-lg font-medium">EMI</h2>
@@ -272,18 +329,20 @@ const Orderpage = () => {
                     <input
                       type="radio"
                       name="payment"
-                      value="cashOnDelivary"
+                      value="COD"
+                      checked={paymentMethod == "COD"}
+                      onChange={(e)=>setPaymentMethod(e.target.value)}
                       className="items-start w-5 h-5"
                     />
                     <h2 className="text-lg font-medium">Cash On Delivary</h2>
                   </div>
                 </div>
               </div>
-            </form>
+            
           </div>
         </div>
 
-        <div className="bg-white h-fit w-full md:w-xl  sticky top-0 p-2">
+        <div className="bg-white h-fit w-full md:w-xl mt-2 lg:mt-0  sticky top-0 p-2">
           <div className=" justify-end px-2">
             <table>
             <tbody>
@@ -313,11 +372,12 @@ const Orderpage = () => {
             </table>
           </div>
           <div className="w-full">
-            <button className="w-full px-3 py-2 text-lg font-medium bg-orange-400 text-white rounded">
+            <button type="submit" className="w-full px-3 py-2 text-lg font-medium bg-orange-400 text-white rounded">
               Place Order
             </button>
           </div>
         </div></>}
+        </form>
       </div>
 
       {showAddCard && (

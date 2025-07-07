@@ -2,18 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const registerUser = createAsyncThunk("Adduser", async (userData, thunkAPI) => {
-    try {
-        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, userData)
-        const data = res.data;
-        if (res.status === 201) {
-            localStorage.setItem("user", data.user._id);
-            localStorage.setItem("username", data.user.name);
-            return data.user;
-        }
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, userData);
+    const data = res.data;
+
+    if (res.status === 201) {
+      localStorage.setItem("user", data.user._id);
+      localStorage.setItem("username", data.user.name);
+      localStorage.setItem("usernumber", data.user.number);
+      localStorage.setItem("useremail", data.user.email);
+      return data.user;
+    } else {
+      return thunkAPI.rejectWithValue(data?.msg || "Registration failed");
     }
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error?.response?.data?.msg || error.message || "Something went wrong"
+    );
+  }
 });
+
 export const loginUser = createAsyncThunk("loginUser", async (userData, thunkAPI) => {
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/login`, userData)
@@ -22,29 +30,38 @@ export const loginUser = createAsyncThunk("loginUser", async (userData, thunkAPI
         if (res.status === 200) {
             localStorage.setItem("user", data.data.userId);
             localStorage.setItem("username", data.data.name);
-            localStorage.setItem("usernumber", data.data.number);
-            localStorage.setItem("useremail", data.data.email);
             return data.data;
         }
+       
     } catch (error) {
+        if (error.response?.status === 401 ) {
+      return thunkAPI.rejectWithValue("Invalid username or password");
+    }
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 });
-export const sendOTP = createAsyncThunk("sendOTP", async (email, thunkAPI) => {
-    try {
-        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/sendOtp`, { email })
-        const data = res.data;
-        // console.log(res.data);
+export const sendOTP = createAsyncThunk("sendOTP", async ({ email }, thunkAPI) => {
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/sendOtp`, { email });
 
-        if (res.status === 200) {
-            return data.msg
-        }
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    // Ensure we return actual success message
+    const data = res.data;
+
+    if (res.status === 200 && data.msg) {
+      return data.msg;
+    } else {
+      return thunkAPI.rejectWithValue("Failed to send OTP");
     }
+  } catch (error) {
+    // Extract backend message properly
+    const errMsg = error.response?.data?.msg || "Something went wrong";
+    return thunkAPI.rejectWithValue(errMsg);
+  }
 });
+
 export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, otp }, thunkAPI) => {
 
+console.log(email, otp);
 
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verifyOtp`, { email, otp })

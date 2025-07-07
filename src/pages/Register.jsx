@@ -5,48 +5,66 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { registerUser, sendOTP, verifyOTP } from "../slices/user.slice";
 
-
-
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showVerifyOTP, setshowVerifyOTP] = useState(false);
   const navigate = useNavigate();
 
-  const [name, setname] = useState('')
-  const [email, setemail] = useState('')
-  const [pass, setpass] = useState('')
-  const [number, setnumber] = useState('')
-  const [otp, setotp] = useState('')
-
- 
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [pass, setpass] = useState("");
+  const [number, setnumber] = useState("");
+  const [otp, setotp] = useState("");
 
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
 
-  const handleSendOTP = async(e) => {
+  const handleSendOTP = async (e) => {
     e.preventDefault();
+
     if (!name || !email || !pass || !number) {
       toast.warn("Please fill all fields");
+      return;
     }
-    
-    dispatch(sendOTP(email)).then(()=>setshowVerifyOTP(true))
- 
-    
-  }
+
+    try {
+      const result = await dispatch(sendOTP({ email })).unwrap(); // ✅ object!
+      toast.success(result); // Show actual success message
+      setshowVerifyOTP(true);
+    } catch (err) {
+      toast.error(err); // Show backend error like "User already exists" or "Invalid email"
+    }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-     if (!otp) {
-      toast.warn("Please fill otp");
-    }
-    const userData = {
-      name,
-      email,
-      password:pass,
-      number
-    }
-    dispatch(verifyOTP({ email, otp })).then(()=>dispatch(registerUser(userData))).then(()=> navigate('/'))
+  e.preventDefault();
+
+  if (!otp) {
+    toast.warn("Please fill OTP");
+    return;
   }
+
+  const userData = {
+    name,
+    email,
+    password: pass,
+    number,
+  };
+
+  try {
+    const result = await dispatch(verifyOTP({ email, otp })).unwrap();
+    if(result){
+          const user = await dispatch(registerUser(userData)).unwrap();
+          if(user){
+            navigate("/");
+          }
+    }
+  } catch (err) {
+    console.log("Error:", err);
+    toast.error(err || "Enter valid OTP");
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center h-screen w-full text-black bg-gray-100">
@@ -81,7 +99,6 @@ const Register = () => {
                 autoComplete="off"
                 className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
-            
             </div>
 
             {/* Submit Button */}
@@ -90,8 +107,7 @@ const Register = () => {
                 type="submit"
                 className="w-full text-primary border hover:text-white hover:bg-primary transition-all duration-300 rounded-lg px-3 py-3 font-medium text-lg md:text-2xl"
               >
-                {loading ? <BeatLoader size={5} />
-               :"Verify OTP"}
+                {loading ? <BeatLoader size={5} /> : "Verify OTP"}
               </button>
             </div>
 
@@ -129,7 +145,6 @@ const Register = () => {
                 onChange={(e) => setname(e.target.value)}
                 className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
-             
             </div>
             {/* Email Field */}
             <div className="w-full py-2">
@@ -141,7 +156,6 @@ const Register = () => {
                 onChange={(e) => setnumber(e.target.value)}
                 className="w-full phone appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
-              
             </div>
             {/* Email Field */}
             <div className="w-full py-2">
@@ -152,7 +166,6 @@ const Register = () => {
                 onChange={(e) => setemail(e.target.value)}
                 className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
-             
             </div>
 
             {/* Password Field */}
@@ -171,7 +184,6 @@ const Register = () => {
                   showPassword ? "ri-eye-off-fill" : "ri-eye-fill"
                 } text-xl absolute right-2 top-1/2 transform -translate-y-1/2`}
               />
-              
             </div>
 
             {/* Forgot Password */}
@@ -190,8 +202,7 @@ const Register = () => {
                 type="submit"
                 className="w-full text-primary border hover:text-white hover:bg-primary transition-all duration-300 rounded-lg px-3 py-3 font-medium text-lg md:text-2xl"
               >
-                {loading ?<BeatLoader size={7} />
-                :"Send OTP"}
+                {loading ? <BeatLoader size={7} /> : "Send OTP"}
               </button>
             </div>
 

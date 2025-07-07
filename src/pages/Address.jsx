@@ -28,7 +28,7 @@ const Address = () => {
   const userId = localStorage.getItem("user");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, address, selectedAddress } = useSelector(
+  const { loading, address=[], selectedAddress } = useSelector(
     (state) => state.user
   );
 
@@ -47,6 +47,8 @@ const Address = () => {
   useEffect(() => {
     if (statecode) setcityarr(getCitiesByStateName(statecode, city));
   }, [statecode]);
+
+  console.log(address);
 
   const handlesubmit = async (e) => {
     e.preventDefault();
@@ -74,41 +76,52 @@ const Address = () => {
       addressType: addtype,
       pincode,
     };
-    dispatch(AddAddress(addressData)).then(() => navigate("/order"));
+    const addaddress = await dispatch(AddAddress(addressData));
+    if(addaddress){
+      navigate("/order");
+    }
   };
   return (
     <div className=" w-full flex flex-col lg:flex-row py-2 justify-center gap-4 ">
-      {address&&<div className="lg:w-1/2 px-2 space-y-2 py-2">
-
-        {address &&
-        loading?
-        <div  className="p-3 border rounded mb-2">
-          <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded mb-2"></div>
-        </div>
-      :
-          address?.map((add, i) => (
-            <div
-              key={i}
-              className=" flex gap-2 border items-center h-fit rounded px-2 py-1"
-            >
-              <input
-                type="radio"
-                name="address"
-                checked={selectedAddress === i}
-                onChange={() => {
-                  dispatch(setSelectedAddress(i));
-                }}
-              />
-              <h3 className="text-lg font-medium">
-                {add.landmark} {add.address} {add.state} {add.pincode}, India
-                <span className="border px-2 mx-2 rounded-full">
-                  {add.addressType}
-                </span>
-              </h3>
+      {address.length != 0 && (
+        <div className="lg:w-1/2 px-2 space-y-2 py-2">
+          {address.length != 0 && loading ? (
+            <div className="p-3 border rounded mb-2">
+              <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded mb-2"></div>
             </div>
-          ))}
-           <button className="px-2 py-1 rounded-xl bg-primary text-white font-medium my-2" onClick={() => navigate("/order")}>Select</button>
-      </div>}
+          ) : ( address.length!= 0 && Array.isArray(address) &&
+            address?.map((add, i) => (
+              <div
+                key={i}
+                className=" flex gap-2 border items-center h-fit rounded px-2 py-1"
+              >
+                <input
+                  type="radio"
+                  name="address"
+                  checked={selectedAddress === i}
+                  onChange={() => {
+                    dispatch(setSelectedAddress(i));
+                  }}
+                />
+                <h3 className="text-lg font-medium">
+                  {add.landmark} {add.address} {add.state} {add.pincode}, India
+                  <span className="border px-2 mx-2 rounded-full">
+                    {add.addressType}
+                  </span>
+                </h3>
+              </div>
+            ))
+          )}
+          {address.length != 0 && (
+            <button
+              className="px-2 py-1 rounded-xl bg-primary text-white font-medium my-2"
+              onClick={() => navigate("/order")}
+            >
+              Select
+            </button>
+          )}
+        </div>
+      )}
       <div className="bg-white px-5 relative border rounded py-2">
         <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
           Add your new Address

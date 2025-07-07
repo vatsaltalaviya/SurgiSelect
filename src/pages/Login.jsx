@@ -10,22 +10,29 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
-  const { loading } = useSelector((state) => state.user);
+  const { loading , error } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !pass) {
-      toast.warn("Please fill all fields");
-      return;
-    }
-    const userData = {
-      email,
-      password: pass,
-    };
-    dispatch(loginUser(userData)).then(() => navigate("/"));
-  };
+  e.preventDefault();
+
+  if (!email || !pass) {
+    toast.warn("Please fill all fields");
+    return;
+  }
+
+  const userData = { email, password: pass };
+
+  try {
+   await dispatch(loginUser(userData)).unwrap();
+    navigate("/"); // ✅ Only navigate on success
+  } catch (err) {
+    toast.error("Invalid Email or Password");
+  }
+};
+
 
   return (
     <div className="flex justify-center items-center h-screen w-full text-black bg-gray-100">
