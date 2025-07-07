@@ -97,13 +97,13 @@ const handlesubmit = async(e)=>{
     userName,
     items,
     status: "Confirmed",
-  orderId: 1,
+  orderId: "NA",
   deliveryStatus: "Dispatched",
   isOrderCancelled: false,
   totalAmount:cart.finalTotal,
   paymentMethod,
   city:address[selectedAddress]?.city,
-  Landmark:address[selectedAddress]?.landmark,
+  LandMark:address[selectedAddress]?.landmark,
   orderAddress:address[selectedAddress]?.address,
   State:address[selectedAddress]?.state,
   Locality:address[selectedAddress]?.city,
@@ -111,6 +111,7 @@ const handlesubmit = async(e)=>{
   }
 
   console.log(orderData);
+
 
   const orderres = await dispatch(addOrder(orderData))
   if(orderres){

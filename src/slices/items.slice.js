@@ -143,16 +143,16 @@ const itemSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(fetchMultipleItemsById.pending, (state) => {
-                state.subcategoryLoading = true;
+                state.loading = true;
                 state.error = null;
             })
             .addCase(fetchMultipleItemsById.fulfilled, (state, action) => {
-                state.subcategoryLoading = false;
+                state.loading = false;
                 state.items = action.payload;
                 state.error = null;
             })
             .addCase(fetchMultipleItemsById.rejected, (state, action) => {
-                state.subcategoryLoading = false;
+                state.loading = false;
                 state.error = action.payload;
             })
             .addCase(fetchItemsBySubCategory.pending, (state) => {

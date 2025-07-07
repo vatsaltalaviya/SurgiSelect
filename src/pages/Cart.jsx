@@ -19,7 +19,15 @@ const Cart = () => {
   // Properly check for valid user
   const isLoggedIn = !!userId && userId !== "null" && userId !== "undefined";
 
-  const localCart = JSON.parse(localStorage.getItem("cart-data"));
+const localCart = JSON.parse(localStorage.getItem("cart-data"));
+
+const finalTotal =
+  Array.isArray(localCart) && localCart.length > 0
+    ? localCart.reduce((sum, item) => sum + item.price, 0)
+    : 0;
+
+
+  
 
   const [updatingItemId, setUpdatingItemId] = useState(null);
   const [DeleteItemId, setDeleteItemId] = useState(null);
@@ -34,7 +42,10 @@ const Cart = () => {
 
   const navigate = useNavigate();
 
-  const cartData = isLoggedIn  ? cart : { items };
+  const cartData = isLoggedIn
+  ? { ...(cart || {}), items: Array.isArray(cart?.items) ? cart.items : [] }
+  : { items: Array.isArray(items) ? items : [] };
+
 
   const handleQtyChange = (itemId, action, currentQty, price) => {
     const newQty =
@@ -69,8 +80,6 @@ const Cart = () => {
       });
   };
 
-  // console.log(cart);
-
   const itemslength = cartData?.items?.length;
 
   return (
@@ -88,7 +97,7 @@ const Cart = () => {
             {cartData?.items?.map((item, index) => (
               <div
                 key={index}
-                className="w-full flex flex-row lg:space-y-5 px-2 py-4 border-y-2 border-gray-500/35"
+                className="w-full flex flex-row lg:space-y-5 px-2 py-4 border-t-2 border-gray-500/35"
               >
                 <div className="w-20 md:w-36 shrink-0">
                   <img
@@ -185,7 +194,7 @@ const Cart = () => {
               <h1 className="text-xl font-medium">
                 Subtotal (<span>{itemslength}</span> items) :
                 <span className="font-bold text-2xl px-2">₹</span>
-                {cart?.finalTotal}
+                {cart?.finalTotal || finalTotal}
               </h1>
               <div className="w-full block xl:hidden">
                 <button
@@ -206,7 +215,7 @@ const Cart = () => {
             <h1 className="text-xl font-medium">
               Subtotal (<span>{itemslength}</span> items) :
               <span className="font-bold text-2xl px-2">₹</span>
-              {cart?.finalTotal}
+              {cart?.finalTotal || finalTotal}
             </h1>
           </div>
           <div className="w-full">

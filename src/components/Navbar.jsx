@@ -256,8 +256,8 @@ const Navbar = () => {
                    
                         setshowMenu(false);
                       }} >
-            <div className="flex gap-4 items-center">
-              <i className="ri-store-line text-xl font-medium text-white"></i>
+            <div className="flex gap-4 relative items-center">
+              <i className="ri-shopping-bag-3-line text-xl font-medium text-white"></i>
               <span className="text-white text-[16px] font-light">Cart</span>
              
             </div>
