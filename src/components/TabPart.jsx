@@ -44,7 +44,7 @@ const TabSwitcher = ({images}) => {
         {activeTab === "gallery" && (
           <div>
             <h2 className="text-base sm:text-lg font-bold mb-2">
-              Product Video
+              Product Photo
             </h2>
             <PhotoProvider>
               <div className="flex flex-col items-center gap-4 py-4">

@@ -7,7 +7,7 @@ const ProductImage = ({images}) => {
   const hasManyImages = images.length > 5; // You can tweak this threshold
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 w-6xl mx-auto px-2">
+    <div className="flex flex-col md:flex-row gap-4 lg:w-6xl mx-auto px-2">
       {/* Thumbnails */}
       <div
         className={`flex ${
@@ -30,7 +30,7 @@ const ProductImage = ({images}) => {
       </div>
 
       {/* Main Image */}
-      <div className="flex-1 border overflow-hidden border-gray-300 rounded flex items-center justify-center max-w-[350px] max-h-[350px] min-h-[200px]">
+      <div className="flex-1 border overflow-hidden border-gray-300 rounded flex items-center justify-center max-w-[350px] max-h-[50px] min-h-[350px]">
         <PhotoProvider>
           {images.map((item, i) => (
             <PhotoView key={i} src={item}>
@@ -38,7 +38,7 @@ const ProductImage = ({images}) => {
                 <img
                   src={item}
                   alt={`Image-${i}`}
-                  className="max-w-full max-h-[350px] object-contain cursor-zoom-in"
+                  className="max-w-full max-h-[450px] object-contain cursor-zoom-in"
                 />
               )}
             </PhotoView>
