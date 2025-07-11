@@ -14,6 +14,8 @@ import Orderpage from "./pages/Orderpage";
 import { ToastContainer } from "react-toastify";
 import ScrollToTop from "./components/ScrollToTop";
 import Address from "./pages/address";
+import UserProfile from "./pages/UserProfile";
+import CompanyPage from "./pages/CompanyPage";
 
 const App = () => {
   const location = useLocation();
@@ -39,6 +41,8 @@ const App = () => {
         <Route path="/address" element={<Address />} />
         <Route path="/signup" element={<Login />} />
         <Route path="/signin" element={<Register />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/companyprofile" element={<CompanyPage />} />
       </Routes>
 
       {!shouldHideHeaderFooter && <Footer />}

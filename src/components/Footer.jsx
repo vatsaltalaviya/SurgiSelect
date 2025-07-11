@@ -40,8 +40,8 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full flex flex-col items-center md:px-20  md:justify-center">
-      <div className="w-full px-2 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
+    <footer className="w-full flex flex-col items-center  md:justify-center">
+      <div className="w-full px-3 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
         <span className="text-blue-600 text-xl md:text-3xl font-medium">
           We Are Here To Help You
         </span>
@@ -74,7 +74,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-full px-2 py-2 flex flex-col lg:flex-row gap-2">
+      <div className="w-full px-4 py-2 flex flex-col lg:flex-row gap-2">
         <ul className="list-none py-1">
           {footerLinks1.map((i, id) => (
             <li

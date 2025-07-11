@@ -1,27 +1,5 @@
 import React, { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-const productImages = [
-  {
-    type: "image",
-    url: "https://img.freepik.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg",
-  },
-  {
-    type: "image",
-    url: "https://img.freepik.com/premium-photo/close-up-flowers_81048-21360.jpg",
-  },
-  {
-    type: "image",
-    url: "https://img.freepik.com/free-photo/landscape-morning-fog-mountains-with-hot-air-balloons-sunrise_335224-794.jpg",
-  },
-  {
-    type: "image",
-    url: "https://img.freepik.com/free-photo/group-elephants-big-green-tree-wilderness_181624-16897.jpg",
-  },
-  {
-    type: "image",
-    url: "https://img.freepik.com/premium-vector/deer-forest-river_1139419-4.jpg",
-  },
-];
 
 const companyInfo = [
   { label: "GST Registration Date", value: "01-07-2017" },
