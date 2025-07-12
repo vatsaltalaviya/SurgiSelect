@@ -39,6 +39,53 @@ export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCate
 
     }
 })
+export const fetchlandingPageCategoriesforCompany = createAsyncThunk(
+  "fetchlandingPageCategoriesforCompany",
+  async (id, thunkAPI) => {
+    console.log(id);
+    
+     try {
+      // Step 1: Get subcategories for the company
+      const subCatRes = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/subCategory/company/${id}`
+      );
+      const subCategories = subCatRes.data?.data;
+
+      if (!subCatRes.data.success || !Array.isArray(subCategories)) {
+        throw new Error("Failed to fetch subcategories");
+      }
+
+      // Step 2: Fetch items for each subcategory
+      const enrichedSubCategories = await Promise.all(
+        subCategories.map(async (subcat) => {
+          try {
+            const itemsRes = await axios.get(
+              `${import.meta.env.VITE_BASE_URL}/items/item-List/${subcat._id}`
+            );
+            const items = itemsRes.data?.data || [];
+
+            return {
+              ...subcat,
+              items,
+            };
+          } catch {
+            return {
+              ...subcat,
+              items: [],
+            };
+          }
+        })
+      );
+
+      return enrichedSubCategories;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response?.data?.msg || error.message || "Something went wrong"
+      );
+    }
+  }
+);
+
 
 const categorySlice = createSlice({
     name: 'category',
@@ -80,6 +127,20 @@ const categorySlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(fetchlandingPageCategoriesforCompany.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchlandingPageCategoriesforCompany.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchlandingPageCategoriesforCompany.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
             .addCase(fetchlandingPageCategories.pending, (state, action) => {
                 state.loading = true;
                 state.error = null;

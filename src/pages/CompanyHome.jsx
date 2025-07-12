@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Slider from "react-slick";
 import balance from "../assets/balance.png";
 import building from "../assets/building.png";
@@ -7,34 +7,20 @@ import report from "../assets/report.png";
 import savemoney from "../assets/save-money.png";
 import save from "../assets/save.png";
 import transport from "../assets/transport.png";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItemByCompanyForHomePage } from "../slices/items.slice";
 
-const CompanyHome = () => {
-  const sliderData = [
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2024/4/410067946/OL/RS/JH/199582225/trocar-laparoscopic-trocar-monik-trocar-500x500.png",
-      title: "Monic trocar Laparoscopic",
-    },
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2023/10/349654925/MF/FR/XA/199582225/lotus-pro-visc-3d-composite-dual-sided-mesh-jpg-webp-500x500.webp",
-      title: "White Card 3d mesh",
-    },
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2023/11/358375716/VA/GE/VG/199582225/covidien-parietex-mesh-umbilical-hernia-500x500.jpg",
-      title: "covidien parietex mesh umbilical hernia",
-    },
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2023/10/349734502/EE/TR/YH/199582225/meril-mirus-miph-hemorrhoid-stapler-rectal-prolapse-stapler-500x500.jpeg",
-      title: "meril hemorrhoid stapler rectal prolapse stapler",
-    },
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2023/10/349691321/ZS/ZB/JC/199582225/disposable-circumcare-stapler-jpg-500x500.jpeg",
-      title: "White Bard 3d max Mesh",
-    },
-    {
-      img: "https://5.imimg.com/data5/SELLER/Default/2024/5/417209798/HC/FW/OZ/199582225/facial-gun-massager-500x500.jpg",
-      title: "Facial Gun Massager",
-    },
-  ];
+const CompanyHome = ({id,categoryData,categoryloading}) => {
+  const dispatch = useDispatch()
+  const { Companyitems, loading } = useSelector((state) => state.items);
+  const sliderData = useMemo(()=>{
+    return Companyitems?.map((data)=>({
+      image:data.logoImage,
+      title:data.name,
+      id:data._id
+    }))
+  },[Companyitems])
+
   const companyInfo = [
     {
       img: savemoney,
@@ -147,6 +133,8 @@ const CompanyHome = () => {
   // Add more products here...
 ];
   const sliderRef = useRef();
+
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -181,6 +169,13 @@ const CompanyHome = () => {
     ],
   };
   useEffect(() => {
+   dispatch(fetchItemByCompanyForHomePage(id))
+  }, []);
+
+  console.log("from home",categoryData);
+  
+
+  useEffect(() => {
     // Initial inert application
     const slides = document.querySelectorAll(".slick-slide");
     slides.forEach((slide) => {
@@ -192,7 +187,7 @@ const CompanyHome = () => {
 
   return (
     <div className="w-full md:px-2 py-2">
-      <div className="min-w-[350px] lg:px-2 py-2">
+      {loading ?<SliderLoading />:<div className="min-w-[350px] lg:px-2 py-2">
         <Slider ref={sliderRef} {...settings}>
           {sliderData.map((data, i) => (
             <div
@@ -201,21 +196,21 @@ const CompanyHome = () => {
             >
               <img
                 className="w-full h-full object-contain"
-                src={data.img}
+                src={data.image}
                 alt={data.title}
               />
               <div className="w-full h-36 absolute tansform translate-y-26 bottom-10 lg:bottom-3 hover:bottom-20 transition-all duration-300 bg-black/55 px-2 py-1 text-white">
-                <h1 className="text-sm lg:text-lg font-medium text-center py-3 hover:underline cursor-pointer">
+                <h1 className="text-sm lg:text-lg font-medium text-center hover:underline cursor-pointer line-clamp-1">
                   {data.title}
                 </h1>
-                <button className="mx-auto hidden px-4 lg:block w-fit bg-white rounded text-emerald-800 font-medium text-lg mt-5 lg:mt-0">
+                <button className="mx-auto hidden px-4 lg:block w-fit bg-white rounded text-emerald-800 font-medium text-lg my-8 lg:mt-8">
                   Get Best Quote
                 </button>
               </div>
             </div>
           ))}
         </Slider>
-      </div>
+      </div>}
 
       <div className="w-full md:px-2 py-2">
         <h1 className="text-2xl font-medium text-center py-2">About Us</h1>
@@ -245,22 +240,22 @@ const CompanyHome = () => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product, index) => (
+        {categoryData && categoryData?.map((product, index) => (
           <div
             key={index}
             className="border border-gray-200 p-4 rounded-md text-center bg-white hover:shadow-lg transition"
           >
             <img
               src={product.image}
-              alt={product.title}
+              alt={product.name}
               className="w-full h-36 object-contain mb-4"
             />
             <h3 className="text-blue-900 text-lg font-bold mb-2">
-              {product.title}
+              {product.name}
             </h3>
             <ul className="text-sm text-gray-700 mb-3 space-y-1">
-              {product.details.map((line, i) => (
-                <li key={i} className="hover:font-medium ">{line}</li>
+              {product.items.slice(0,4).map((line, i) => (
+                <li key={i} className="hover:font-medium cursor-pointer line-clamp-1">{line.name}</li>
               ))}
             </ul>
             <a
@@ -287,3 +282,23 @@ const CompanyHome = () => {
 };
 
 export default CompanyHome;
+
+function SliderLoading(){
+  return <div className="min-w-[350px] lg:px-2 py-2 animate-pulse">
+  <div className="flex overflow-x-auto gap-4 px-4">
+    {Array.from({ length: 3 }).map((_, i) => (
+      <div
+        key={i}
+        className="w-full max-w-[400px] sm:max-w-[450px] mx-auto h-[250px] sm:h-[280px] md:h-[300px] relative overflow-hidden rounded bg-gray-200"
+      >
+        <div className="w-full h-full bg-gray-300"></div>
+        <div className="absolute bottom-10 lg:bottom-3 w-full px-2 py-1">
+          <div className="h-5 bg-gray-400 w-3/4 mx-auto rounded mb-3"></div>
+          <div className="h-10 bg-gray-300 w-1/2 mx-auto rounded hidden lg:block"></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+}

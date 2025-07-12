@@ -27,29 +27,32 @@ export const fetchItems = createAsyncThunk("fetchItems", async (_, thunkAPI) => 
     }
 })
 export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thunkAPI) => {
-    try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${id}`);
-        const data = res.data;
-        // if (data.success) {
-        //     return data.data;
-        // }
-        const companyid = data.data.companyId 
+   try {
+  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${id}`);
+  const data = res.data;
+  const companyId = data.data.companyId;
 
-        let companyData = "Unknown";
-        if(companyid)
-        {
-            try {
-                const companyRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${companyid}`);
-                companyData = companyRes.data?.data|| "Unknown";
-              } catch (companyErr) {
-                console.warn("Company fetch failed:", companyErr);
-              }
-        }
-        return {...data.data, companyData};
-        
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+  let companyData = "Unknown";
+
+  if (companyId) {
+    try {
+      const companyRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${companyId}`);
+      companyData = companyRes.data?.data || "Unknown";
+    } catch (companyErr) {
+      console.warn("Company fetch failed:", companyErr);
     }
+  }
+
+  return {
+    ...data.data,     // item details
+    companyData       // full company object or "Unknown"
+  };
+
+} catch (error) {
+  return thunkAPI.rejectWithValue(
+    error?.response?.data?.msg || error.message || "Something went wrong"
+  );
+}
 })
 export const fetchMultipleItemsById = createAsyncThunk(
   "fetchMultipleItemsById",
@@ -124,11 +127,23 @@ export const fetchSuggestions = createAsyncThunk("fetchSuggestions", async (inpu
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+export const fetchItemByCompanyForHomePage = createAsyncThunk("fetchItemByCompanyForHomePage", async (id, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/${id}`);
+        const data = res.data;
+        if (data.success) {
+            return data.data
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+})  
 
 const itemSlice = createSlice({
     name: 'items',
     initialState: {
         items: [],
+        Companyitems: [],
         suggestions: [],
         loading: false,
         subcategoryLoading: false,
@@ -192,6 +207,19 @@ const itemSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchItemsById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchItemByCompanyForHomePage.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchItemByCompanyForHomePage.fulfilled, (state, action) => {
+                state.loading = false;
+                state.Companyitems = action.payload.splice(0,8);
+                state.error = null;
+            })
+            .addCase(fetchItemByCompanyForHomePage.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

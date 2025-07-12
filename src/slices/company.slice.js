@@ -15,6 +15,7 @@ export const fetchAllCompanies = createAsyncThunk("fetchAllCompanies", async (_,
 export const fetchCompanyById = createAsyncThunk("fetchCompanyById", async (id, thunkAPI) => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${id}`);
+        
         const data = res.data
         if (res.status === 200) {
             return data.data;
@@ -43,6 +44,19 @@ const companySlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchAllCompanies.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchCompanyById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchCompanyById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.company = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchCompanyById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

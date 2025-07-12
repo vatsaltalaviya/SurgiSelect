@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import CompanyHome from "./CompanyHome";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import CompanyProduct from "./CompanyProduct";
 import CompanyAbout from "./CompanyAbout";
 import CompanyConatct from "./CompanyConatct";
+import { fetchCompanyById } from "../slices/company.slice";
+import { fetchlandingPageCategoriesforCompany } from "../slices/Category.slice";
 
 const CompanyPage = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const { id } = useParams();
   const tabs = [
     { label: "Home", value: "home" },
     { label: "Products & Services ", value: "product" },
     { label: "About ", value: "about" },
     { label: "Contact ", value: "contact" },
   ];
+  const dispatch = useDispatch()
+  const { company , loading } = useSelector((state) => state.companies);
+  const { categories } = useSelector(
+      (state) => state.category
+    );
+
+
+  useEffect(() => {
+  dispatch(fetchCompanyById(id))
+  dispatch(fetchlandingPageCategoriesforCompany(id))
+  }, [])
+  
+  console.log(categories);
   return (
     <div className="w-full ">
       <div className="w-full flex flex-col lg:flex-row">
         <div className="w-full px-4 py-2 ">
-          <h1 className="text-sm flex flex-col lg:text-3xl font-medium">
-            Fuerte Healthcare Private Limited
+          {loading?<CompanyLoading />:<><h1 className="text-lg flex flex-col lg:text-3xl font-medium">
+            {company?.name}
           </h1>
           <div className="flex flex-col lg:flex-row gap-x-4 lg:items-center w-full">
             <div className="py-1 flex shrink-0 items-center gap-2">
@@ -27,7 +44,7 @@ const CompanyPage = () => {
             </div>
             <div className="py-1 flex shrink-0 items-center gap-2">
               <i className="ri-verified-badge-fill"></i>
-              <h1 className="text-xs md:text-sm font-medium">GST - 24AAFCF5296B1ZS</h1>
+              <h1 className="text-xs md:text-sm font-medium">GST - {company?.gstNumber}</h1>
             </div>
             <div className="py-1 flex shrink-0 items-center gap-2">
               <div className="space-y-1">
@@ -48,7 +65,9 @@ const CompanyPage = () => {
               <i className="ri-phone-fill"></i>
               <h1 className="text-xs md:text-sm font-medium">59% Response Rate</h1>
             </div>
-          </div>
+          </div></>}
+
+          {/* ======================= tab buttons ======================= */}
           <div className="w-full flex flex-wrap">
             {tabs.map((tab, i) => (
               <div
@@ -69,18 +88,22 @@ const CompanyPage = () => {
                 {/* Hover content */}
                 {i === 1 && (
                   <div className="absolute min-w-6xl top-10 flex-wrap gap-3 left-0 text-base font-medium text-gray-600 z-20 hidden group-hover:flex bg-white p-2 rounded shadow">
-                   {[...Array(6)].map((_,i)=> <div key={i} className="px-2 space-y-1 shrink-0">
-                      <Link to="#"><h1 className="text-lg font-medium text-primary">Surgical Mesh</h1></Link>
-                      {[...Array(6)].map((_ , i)=><Link key={i} to="#"><h1 className="text-sm mt-2 font-medium text-zinc-800">Lotus 3d Provisc Ipom Hernia Mesh</h1></Link>)}
+                   {categories?.slice(0,10)?.map((data,i)=> <div key={i} className="px-2 space-y-1 shrink-0">
+                      <Link to="#"><h1 className="text-lg font-medium text-primary">{data.name}</h1></Link>
+                      {data?.items?.map((d , i)=><Link key={i} to="#"><h1 className="text-sm w-52 line-clamp-2 mt-2 font-medium text-zinc-800">{d.name}</h1></Link>)}
 
                     </div>)}
-                    
+                    <button className="underline px-4">View More</button>
                   </div>
                 )}
               </div>
             ))}
           </div>
         </div>
+
+
+
+        {/* =========================== View phone number =========================== */}
         <div className="shrink-0 px-2 py-4 flex flex-col items-center">
           <button className=" px-4 py-2 rounded text-sm font-medium border text-emerald-700 flex items-center">
             <i className="ri-phone-fill text-xl mr-2" />
@@ -97,7 +120,7 @@ const CompanyPage = () => {
         {activeTab === "home" && (
           <div className="md:px-6 px-2">
             <h2 className="text-base sm:text-lg font-bold mb-2">Home</h2>
-            <CompanyHome />
+            <CompanyHome id={id} categoryData={categories} categoryloading={loading}/>
           </div>
         )}
         {activeTab === "product" && (
@@ -105,7 +128,7 @@ const CompanyPage = () => {
             <h2 className="text-base sm:text-lg font-bold mb-2">
               Product and services
             </h2>
-            <CompanyProduct />
+            <CompanyProduct categoryData={categories} categoryloading={loading} />
           </div>
         )}
         {activeTab === "about" && (
@@ -127,3 +150,45 @@ const CompanyPage = () => {
 };
 
 export default CompanyPage;
+
+function CompanyLoading (){
+return <div className="animate-pulse w-full">
+  {/* Company name */}
+  <h1 className="text-lg flex flex-col lg:text-3xl font-medium">
+    <div className="h-6 lg:h-8 bg-gray-300 rounded w-3/4"></div>
+  </h1>
+
+  {/* Info row */}
+  <div className="flex flex-col lg:flex-row gap-x-4 lg:items-center w-full mt-2">
+    
+    {/* Location */}
+    <div className="py-1 flex shrink-0 items-center gap-2">
+      <i className="ri-map-pin-fill text-gray-400"></i>
+      <div className="h-4 bg-gray-300 rounded w-40"></div>
+    </div>
+
+    {/* GST */}
+    <div className="py-1 flex shrink-0 items-center gap-2">
+      <i className="ri-verified-badge-fill text-gray-400"></i>
+      <div className="h-4 bg-gray-300 rounded w-44"></div>
+    </div>
+
+    {/* Ratings */}
+    <div className="py-1 flex shrink-0 items-center gap-2">
+      <div className="flex gap-1 text-gray-300">
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <i key={idx} className="ri-star-fill"></i>
+        ))}
+      </div>
+      <div className="h-4 bg-gray-300 rounded w-16"></div>
+    </div>
+
+    {/* Response Rate */}
+    <div className="py-1 flex shrink-0 items-center gap-1">
+      <i className="ri-phone-fill text-gray-400"></i>
+      <div className="h-4 bg-gray-300 rounded w-32"></div>
+    </div>
+  </div>
+</div>
+
+}

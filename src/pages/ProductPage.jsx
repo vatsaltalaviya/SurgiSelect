@@ -16,15 +16,12 @@ const ProductPage = () => {
 
   const { items, loading } = useSelector((state) => state.items);
   const { cartloading } = useSelector((state) => state.cart);
-  const { company } = useSelector((state) => state.companies);
   const userid = localStorage.getItem("user");
+
   useEffect(() => {
     dispatch(fetchItemsById(id));
     dispatch(fetchAllCompanies());
   }, []);
-
-  console.log(items);
-  
 
   const updatedProduct = {
     ...items,
@@ -68,10 +65,6 @@ const ProductPage = () => {
       dispatch(AddtoCart(cartdata)).then(() => toast.success("Add to cart"));
     }
   };
-
-  console.log(updatedProduct);
-  
-
   return (
     <div className="w-full px-2 pt-5 py-1">
       {loading ? (
@@ -169,11 +162,16 @@ const ProductPage = () => {
             </div>
             <div className="w-full text-sm lg:w-4xl py-1">
               <div className="bg-zinc-200 py-2 px-2 pb-3 rounded ">
-                <Link to={`/companyprofile/${updatedProduct?.companyData._id}`}>
-                  <h1 className="text-sm font-medium underline">
-                    {updatedProduct?.companyData.name}
-                  </h1>
-                </Link>
+                {updatedProduct?.companyData &&
+                  typeof updatedProduct.companyData === "object" && (
+                    <Link
+                      to={`/companyprofile/${updatedProduct?.companyData._id}`}
+                    >
+                      <h1 className="text-sm font-medium underline">
+                        {updatedProduct?.companyData.name}
+                      </h1>
+                    </Link>
+                  )}
                 <h3>
                   <i className="ri-map-pin-fill text-xl mr-2"></i>Chandni Chowk,
                   New Delhi
