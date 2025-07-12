@@ -30,9 +30,23 @@ export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thun
     try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${id}`);
         const data = res.data;
-        if (data.success) {
-            return data.data;
+        // if (data.success) {
+        //     return data.data;
+        // }
+        const companyid = data.data.companyId 
+
+        let companyData = "Unknown";
+        if(companyid)
+        {
+            try {
+                const companyRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${companyid}`);
+                companyData = companyRes.data?.data|| "Unknown";
+              } catch (companyErr) {
+                console.warn("Company fetch failed:", companyErr);
+              }
         }
+        return {...data.data, companyData};
+        
     } catch (error) {
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }

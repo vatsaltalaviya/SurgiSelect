@@ -12,6 +12,17 @@ export const fetchAllCompanies = createAsyncThunk("fetchAllCompanies", async (_,
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+export const fetchCompanyById = createAsyncThunk("fetchCompanyById", async (id, thunkAPI) => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/company/${id}`);
+        const data = res.data
+        if (res.status === 200) {
+            return data.data;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+})
 
 const companySlice = createSlice({
     name: "company",

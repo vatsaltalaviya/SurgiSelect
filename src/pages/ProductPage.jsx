@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ProductImage from "../components/ProductImage";
 import { Link, useParams } from "react-router-dom";
 import TabSwitcher from "../components/TabPart";
@@ -7,6 +7,7 @@ import { fetchItemsById } from "../slices/items.slice";
 import { BeatLoader, ClipLoader } from "react-spinners";
 import { AddtoCart } from "../slices/Cart.slice";
 import { toast } from "react-toastify";
+import { fetchAllCompanies } from "../slices/company.slice";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -19,7 +20,11 @@ const ProductPage = () => {
   const userid = localStorage.getItem("user");
   useEffect(() => {
     dispatch(fetchItemsById(id));
+    dispatch(fetchAllCompanies());
   }, []);
+
+  console.log(items);
+  
 
   const updatedProduct = {
     ...items,
@@ -27,6 +32,7 @@ const ProductPage = () => {
       ...(items?.images || []).filter((img) => img !== items?.logoImage),
     ],
   };
+  // console.log(updatedProduct);
   const parsedFeatures = updatedProduct?.feature
     ?.split(";") // Split by ;
     .map((str) => str.trim()) // Trim each piece
@@ -62,6 +68,9 @@ const ProductPage = () => {
       dispatch(AddtoCart(cartdata)).then(() => toast.success("Add to cart"));
     }
   };
+
+  console.log(updatedProduct);
+  
 
   return (
     <div className="w-full px-2 pt-5 py-1">
@@ -160,9 +169,9 @@ const ProductPage = () => {
             </div>
             <div className="w-full text-sm lg:w-4xl py-1">
               <div className="bg-zinc-200 py-2 px-2 pb-3 rounded ">
-                <Link to="#">
+                <Link to={`/companyprofile/${updatedProduct?.companyData._id}`}>
                   <h1 className="text-sm font-medium underline">
-                    Cine Audo Viso Equipments
+                    {updatedProduct?.companyData.name}
                   </h1>
                 </Link>
                 <h3>

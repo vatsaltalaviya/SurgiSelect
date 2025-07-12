@@ -49,46 +49,44 @@ const sidebardata = [
 ];
 
 const AllProducts = () => {
-  const { subcategoryid } = useParams();
-  const { name } = useParams();
+   const { subcategoryid, name } = useParams();
 
-  // console.log(name);
-
-  const [showFilterforTab, setshowFilterforTab] = useState(false);
-  const [subcatname, setsubcatname] = useState("");
-
-  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
   const cityScrollRef = useRef(null);
 
+  const [subcatname, setSubcatname] = useState("");
+  const [showFilterforTab, setShowFilterforTab] = useState(false);
+
+  const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
 
+  const { items, loading, subcategoryLoading, hasMore } = useSelector((state) => state.items);
+  const { subCategories } = useSelector((state) => state.category);
+  const { company } = useSelector((state) => state.companies);
+
+  // Toggle drawer state
   const toggleDrawer = () => setIsOpen((prev) => !prev);
   const openDrawerWith = (type) => {
     setDrawerContent(type);
     setIsOpen(true);
   };
 
-  const dispatch = useDispatch();
-  const { items, loading, subcategoryLoading, hasMore } = useSelector(
-    (state) => state.items
-  );
-  const { subCategories } = useSelector((state) => state.category);
-  const { company } = useSelector((state) => state.companies);
-
-  function handlesubcategoryname() {
+  // Set subcategory name from ID
+  const handleSubcategoryName = () => {
     const subcat = subCategories?.find(
-      (subcat) => String(subcat?._id) == String(subcategoryid)
+      (subcat) => String(subcat?._id) === String(subcategoryid)
     );
 
     if (subcat) {
-      setsubcatname(subcat.name);
+      setSubcatname(subcat.name);
     } else {
       console.warn("Subcategory not found for:", subcategoryid);
-      setsubcatname("Unknown Subcategory");
+      setSubcatname("Unknown Subcategory");
     }
-  }
+  };
 
+  // Initial data fetch based on subcategory
   useEffect(() => {
     if (subcategoryid) {
       dispatch(fetchItemsBySubCategory(subcategoryid));
@@ -97,23 +95,27 @@ const AllProducts = () => {
     }
   }, [subcategoryid]);
 
+  // Set subcategory name when available
   useEffect(() => {
     if (subcategoryid && subCategories?.length > 0) {
-      handlesubcategoryname();
+      handleSubcategoryName();
     }
   }, [subcategoryid, subCategories]);
 
+  // Reset items when `name` changes
   useEffect(() => {
     if (name) {
       dispatch(resetItems());
-      setPage(1); // move page reset here
+      setPage(1); // reset page
     }
   }, [name, dispatch]);
 
+  // Scroll to top when `name` or `subcategoryid` changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [name, subcategoryid]);
 
+  // Search items when `name` and `page` change
   useEffect(() => {
     if (name && page > 0) {
       dispatch(fetchItemsBySearch({ name, page }));
@@ -121,35 +123,32 @@ const AllProducts = () => {
     }
   }, [name, page, dispatch]);
 
-  const loadMore = useMemo(
-    () =>
-      debounce(() => {
-        setPage((prev) => prev + 1);
-      }, 300),
-    []
-  ); // runs at most every 300ms
+  // Debounced load more handler
+  const loadMore = useMemo(() => debounce(() => {
+    setPage((prev) => prev + 1);
+  }, 300), []);
 
   useEffect(() => {
     return () => {
-      loadMore.cancel();
+      loadMore.cancel(); // cleanup
     };
   }, []);
 
+  // Map item and company data
   const itemsObj = useMemo(() => {
     if (!items?.length || !company?.length) return [];
 
-    return items?.map((item) => {
-      const matchedCompany = company?.find((cat) => cat._id === item.companyId);
-
+    return items.map((item) => {
+      const matchedCompany = company.find((cat) => cat._id === item.companyId);
       return {
         itemId: item._id,
         companyName: matchedCompany?.name || "Unknown",
         item: item,
-        // subCategories: item.subCategories?.slice(0, 9),
       };
     });
   }, [items, company]);
 
+  // Scroll cities horizontally
   const scroll = (dir) => {
     if (cityScrollRef.current) {
       cityScrollRef.current.scrollBy({
@@ -158,7 +157,7 @@ const AllProducts = () => {
       });
     }
   };
-
+  
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
       {/* Title */}
@@ -355,7 +354,7 @@ const AllProducts = () => {
                   {/* ================================== company detail ====================================== */}
                     <div className="shrink-0 h-full xl:w-xs text-lg">
                       <div className="bg-[#f1f1f1] shrink-0 py-2 px-2">
-                        <Link to="#">
+                        <Link to={`/companyprofile/${product.item.companyId}`}>
                           <h1 className="text-sm  font-medium underline">
                             {product.companyName}
                           </h1>

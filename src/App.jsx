@@ -42,7 +42,7 @@ const App = () => {
         <Route path="/signup" element={<Login />} />
         <Route path="/signin" element={<Register />} />
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/companyprofile" element={<CompanyPage />} />
+        <Route path="/companyprofile/:id" element={<CompanyPage />} />
       </Routes>
 
       {!shouldHideHeaderFooter && <Footer />}

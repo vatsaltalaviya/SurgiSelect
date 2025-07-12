@@ -7,7 +7,7 @@ import {
   updateFetchCart,
 } from "../slices/Cart.slice";
 import { ClipLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchMultipleItemsById } from "../slices/items.slice";
 
 const Cart = () => {
@@ -120,9 +120,11 @@ const finalTotal =
                         <span className="text-sm font-semibold px-2">
                           Sold by:
                         </span>
+                       <Link to={`/companyprofile/${item.companyId}`}>
                         <span className="text-sm text-primary cursor-pointer font-medium">
                           {item.companyName}
                         </span>
+                       </Link>
                       </div>
                     </div>
                     <div className="w-full flex items-center space-x-3 py-2">

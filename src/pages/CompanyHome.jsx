@@ -260,7 +260,7 @@ const CompanyHome = () => {
             </h3>
             <ul className="text-sm text-gray-700 mb-3 space-y-1">
               {product.details.map((line, i) => (
-                <li key={i}>{line}</li>
+                <li key={i} className="hover:font-medium ">{line}</li>
               ))}
             </ul>
             <a
