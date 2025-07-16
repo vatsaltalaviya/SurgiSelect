@@ -21,6 +21,7 @@ const ProductPage = () => {
   useEffect(() => {
     dispatch(fetchItemsById(id));
     dispatch(fetchAllCompanies());
+    window.scrollTo(0,0)
   }, []);
 
   const updatedProduct = {
@@ -65,6 +66,7 @@ const ProductPage = () => {
       dispatch(AddtoCart(cartdata)).then(() => toast.success("Add to cart"));
     }
   };
+ 
   return (
     <div className="w-full px-2 pt-5 py-1">
       {loading ? (
@@ -85,14 +87,16 @@ const ProductPage = () => {
                   <span className="font-semibold">Price : ₹ </span>{" "}
                   {updatedProduct?.price}
                 </h1>
+                {updatedProduct?.quantity == 0 ?<span className="px-4 shrink-0 py-2 text-sm font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">Out Of Stock</span>:''}
                 <div className="w-full mt-4">
                   <form onSubmit={handlesubmit} className=" space-y-1">
                     <div className="w-full flex  items-center space-x-1 py-2">
                       <div className="flex items-center justify-center  border px-2 py-1 rounded gap-2">
                         <button
+                        disabled={updatedProduct?.quantity == 0}
                           type="button"
                           onClick={() => setqty((p) => Math.max(p - 1, 1))}
-                          className="text-2xl font-semibold text-gray-600 hover:text-black"
+                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}
                         >
                           -
                         </button>
@@ -100,15 +104,18 @@ const ProductPage = () => {
                           {qty}
                         </span>
                         <button
+                        disabled={updatedProduct?.quantity == 0}
                           type="button"
                           onClick={() => setqty((p) => p + 1)}
-                          className="text-2xl font-semibold text-gray-600 hover:text-black"
+                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}
                         >
                           +
                         </button>
                       </div>
                       <div className="w-full flex items-center ">
-                        <button className="px-3 w-52 py-2 rounded bg-[#2e3192] text-white font-medium ">
+                        <button
+                        disabled={updatedProduct?.quantity == 0}
+                        className={`px-3 w-52 py-2 rounded bg-[#2e3192] text-white font-medium ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}>
                           {cartloading ? (
                             <BeatLoader color="white" size={5} />
                           ) : (
@@ -116,10 +123,13 @@ const ProductPage = () => {
                           )}
                         </button>
                       </div>
+                      
+                          
                     </div>
                   </form>
                 </div>
                 <div className="w-full py-4">
+                  
                   <div className="grid grid-cols-2 w-full odd:bg-gray-100">
                     <span className="text-sm font-medium">Colour</span>
                     <span className="text-sm font-medium">

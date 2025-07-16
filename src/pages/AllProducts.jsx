@@ -344,9 +344,12 @@ const AllProducts = () => {
                                 </td>
                                 <td>{product.item.type}</td>
                               </tr>
+                             
                             </tbody>
                           </table>
                         </div>
+                        {product.item.quantity == 0 ?<span className="px-4 py-2 font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">Out Of Stock</span>:''}
+                          
                       </div>
                     
                   </div>

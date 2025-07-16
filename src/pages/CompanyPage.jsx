@@ -10,6 +10,8 @@ import { fetchlandingPageCategoriesforCompany } from "../slices/Category.slice";
 
 const CompanyPage = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [productID, setproductID] = useState(null)
+  const [productDisplay, setproductDisplay] = useState(false)
   const { id } = useParams();
   const tabs = [
     { label: "Home", value: "home" },
@@ -29,9 +31,10 @@ const CompanyPage = () => {
   dispatch(fetchlandingPageCategoriesforCompany(id))
   }, [])
   
-  console.log(categories);
+
+
   return (
-    <div className="w-full ">
+    <div className="w-full  ">
       <div className="w-full flex flex-col lg:flex-row">
         <div className="w-full px-4 py-2 ">
           {loading?<CompanyLoading />:<><h1 className="text-lg flex flex-col lg:text-3xl font-medium">
@@ -89,8 +92,16 @@ const CompanyPage = () => {
                 {i === 1 && (
                   <div className="absolute min-w-6xl top-10 flex-wrap gap-3 left-0 text-base font-medium text-gray-600 z-20 hidden group-hover:flex bg-white p-2 rounded shadow">
                    {categories?.slice(0,10)?.map((data,i)=> <div key={i} className="px-2 space-y-1 shrink-0">
-                      <Link to="#"><h1 className="text-lg font-medium text-primary">{data.name}</h1></Link>
-                      {data?.items?.map((d , i)=><Link key={i} to="#"><h1 className="text-sm w-52 line-clamp-2 mt-2 font-medium text-zinc-800">{d.name}</h1></Link>)}
+                      <Link onClick={()=>{
+                        setproductDisplay(true)
+                        setproductID(data._id)
+                        setActiveTab('product')
+                      }} to="#"><h1 className="text-lg font-medium text-primary">{data.name}</h1></Link>
+                      {data?.items?.map((d , i)=><Link  key={i} to="#"><h1 onClick={()=>{
+                        setproductDisplay(true)
+                        setproductID(d.subCategory)
+                        setActiveTab('product')
+                      }} className="text-sm w-52 line-clamp-2 mt-2 font-medium text-zinc-800">{d.name}</h1></Link>)}
 
                     </div>)}
                     <button className="underline px-4">View More</button>
@@ -120,7 +131,7 @@ const CompanyPage = () => {
         {activeTab === "home" && (
           <div className="md:px-6 px-2">
             <h2 className="text-base sm:text-lg font-bold mb-2">Home</h2>
-            <CompanyHome id={id} categoryData={categories} categoryloading={loading}/>
+            <CompanyHome id={id} setId={(e)=>{setproductID(e)}} setTab={()=>setActiveTab('product')} showproducts={(e)=>setproductDisplay(e)} categoryData={categories} categoryloading={loading}/>
           </div>
         )}
         {activeTab === "product" && (
@@ -128,13 +139,13 @@ const CompanyPage = () => {
             <h2 className="text-base sm:text-lg font-bold mb-2">
               Product and services
             </h2>
-            <CompanyProduct categoryData={categories} categoryloading={loading} />
+            <CompanyProduct getId={productID} getProductDisplay={productDisplay} setTab={()=>setActiveTab('product')} setId={(e)=>{setproductID(e)}} showproducts={(e)=>setproductDisplay(e)} categoryData={categories} categoryloading={loading} />
           </div>
         )}
         {activeTab === "about" && (
           <div className="md:px-6 px-2">
             <h2 className="text-base sm:text-lg font-bold mb-2">About</h2>
-            <CompanyAbout/>
+            <CompanyAbout company={company} companyloading={loading} />
             
           </div>
         )}

@@ -42,47 +42,63 @@ export const fetchlandingPageCategories = createAsyncThunk("fetchlandingpageCate
 export const fetchlandingPageCategoriesforCompany = createAsyncThunk(
   "fetchlandingPageCategoriesforCompany",
   async (id, thunkAPI) => {
-    console.log(id);
-    
-     try {
-      // Step 1: Get subcategories for the company
-      const subCatRes = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/subCategory/company/${id}`
-      );
-      const subCategories = subCatRes.data?.data;
+   
+  try {
+  // Step 1: Get all subcategories for the company
+  const subCatRes = await axios.get(
+    `${import.meta.env.VITE_BASE_URL}/subCategory/company/${id}`
+  );
+  const subCategories = subCatRes.data?.data;
 
-      if (!subCatRes.data.success || !Array.isArray(subCategories)) {
-        throw new Error("Failed to fetch subcategories");
+  if (!subCatRes.data.success || !Array.isArray(subCategories)) {
+    throw new Error("Failed to fetch subcategories");
+  }
+
+  // Step 2: Fetch ALL brands (for lookup)
+  const brandRes = await axios.get(`${import.meta.env.VITE_BASE_URL}/brands`);
+  const brands = brandRes.data?.brands || [];
+
+  // Create a brand lookup map: { brandId: brandData }
+  const brandMap = {};
+  brands.forEach((brand) => {
+    brandMap[brand._id] = brand;
+  });
+
+  // Step 3: Fetch items per subcategory and enrich with brand info
+  const enrichedSubCategories = await Promise.all(
+    subCategories.map(async (subcat) => {
+      try {
+        const itemsRes = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/items/item-List/${subcat._id}`
+        );
+        const items = itemsRes.data?.data || [];
+
+        // Enrich each item with its brand info
+        const enrichedItems = items.map((item) => ({
+          ...item,
+          brandInfo: brandMap[item.brand] || null,
+        }));
+
+        return {
+          ...subcat,
+          items: enrichedItems,
+        };
+      } catch {
+        return {
+          ...subcat,
+          items: [],
+        };
       }
+    })
+  );
 
-      // Step 2: Fetch items for each subcategory
-      const enrichedSubCategories = await Promise.all(
-        subCategories.map(async (subcat) => {
-          try {
-            const itemsRes = await axios.get(
-              `${import.meta.env.VITE_BASE_URL}/items/item-List/${subcat._id}`
-            );
-            const items = itemsRes.data?.data || [];
+  return enrichedSubCategories;
+} catch (error) {
+  return thunkAPI.rejectWithValue(
+    error?.response?.data?.msg || error.message || "Something went wrong"
+  );
+}
 
-            return {
-              ...subcat,
-              items,
-            };
-          } catch {
-            return {
-              ...subcat,
-              items: [],
-            };
-          }
-        })
-      );
-
-      return enrichedSubCategories;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error?.response?.data?.msg || error.message || "Something went wrong"
-      );
-    }
   }
 );
 

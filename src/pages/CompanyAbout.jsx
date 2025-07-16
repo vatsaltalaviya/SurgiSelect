@@ -2,7 +2,7 @@ import React from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import Slider from "react-slick";
 
-const CompanyAbout = () => {
+const CompanyAbout = ({company}) => {
   const image = [
     "https://5.imimg.com/data5/SELLER/Default/2024/4/410227417/DP/JJ/AN/199582225/untitled-1000x1000.png",
     "https://5.imimg.com/data5/SELLER/Default/2024/4/410227994/SL/HI/II/199582225/untitled-1000x1000.png",
@@ -46,7 +46,7 @@ const CompanyAbout = () => {
   };
   return (
     <div className="w-full px-2 py-1">
-      <div className="w-full 2xl:max-w-5xl relative sm:px-1 px-2 mx-auto my-2">
+      {/* <div className="w-full 2xl:max-w-5xl relative sm:px-1 px-2 mx-auto my-2">
         <Slider {...settings}>
           {[...Array(10)].map((_, i) => (
             <div
@@ -68,16 +68,16 @@ const CompanyAbout = () => {
             </div>
           ))}
         </Slider>
-      </div>
+      </div> */}
 
       <div className="w-full px-2 mt-8">
         <h1 className="text-xl font-semibold">
-          Fuerte Healthcare Private Limited
+          {company?.name}
         </h1>
         <p className="text-lg font-medium">Company Album</p>
 
         <PhotoProvider>
-          <div className="flex flex-col lg:flex-row items-center gap-4 py-4">
+          <div className="flex flex-col xl:flex-row items-center gap-4 py-4">
             {image.map((img, i) => (
               <PhotoView key={i} src={img}>
                 <img
@@ -141,8 +141,8 @@ const CompanyAbout = () => {
       <tbody>
         {[
           ["Import Export Code (IEC)", "AAFCF5296B"],
-          ["GST No.", "24AAFCF5296B1ZS"],
-          ["CIN No.", "U86909GJ2023PTC142490"],
+          ["GST No.", company?.gstNumber],
+          ["CIN No.", company?.cinNumber],
         ].map(([label, value], index) => (
           <tr key={index} className="align-top">
             <th className="py-2 pr-4 text-gray-600 font-medium w-64 ">
