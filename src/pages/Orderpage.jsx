@@ -121,7 +121,7 @@ const Orderpage = () => {
 
   return (
     <>
-      <div className="p-2 md:p-12   bg-gray-100">
+      <div className="p-2 md:p-12 bg-gray-100">
         <form
           onSubmit={handlesubmit}
           className="w-full flex-res space-x-1  border-gray-300 rounded px-2 py-1"
