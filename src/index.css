@@ -17,10 +17,10 @@ body {
     -webkit-appearance: none;
     margin: 0;
   }
-  .phone {
+  /* .phone {
     -moz-appearance: textfield;
     appearance: textfield;
-  }
+  } */
 
 @utility flex-res {
   @apply flex flex-col lg:flex-row;
