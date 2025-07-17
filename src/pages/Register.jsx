@@ -69,7 +69,7 @@ const Register = () => {
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black lg:bg-gray-100">
       <div className="bg-white flex justify-center lg:shadow-lg lg:rounded-4xl p-2 xl:p-10  gap-3">
-        <div className="w-xs xl:w-sm h-full lg:block  hidden shrink-0">
+        <div className="w-xs xl:w-sm h-full xl:block  hidden shrink-0">
           <img
             className="w-full object-cover shadow-2xl rounded-3xl"
             src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751262397/log3_crvus2.png"
