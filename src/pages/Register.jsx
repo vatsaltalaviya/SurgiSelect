@@ -79,7 +79,7 @@ const Register = () => {
         {showVerifyOTP ? (
           <form
             onSubmit={handleSubmit}
-            className="xl:px-5 xl:w-xl w-full shrink-0 py-1 mt-2"
+            className="xl:px-5 xl:w-xl w-full shrink-0 px-2 py-1 mt-2"
           >
             <div className="flex flex-col items-center gap-2 mb-4">
               <img
@@ -127,7 +127,7 @@ const Register = () => {
         ) : (
           <form
             onSubmit={handleSendOTP}
-            className="xl:px-5 w-full xl:w-xl shrink-0 py-1 mt-2"
+            className="xl:px-5 w-full xl:w-xl shrink-0 py-1 px-2 mt-2"
           >
             <div className="flex flex-col items-center gap-2 mb-4">
               <img
