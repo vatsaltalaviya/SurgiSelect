@@ -83,7 +83,7 @@ const CompanyAbout = ({company}) => {
                 <img
                   src={img}
                   alt={`product-${i}`}
-                  className="w-full max-w-md object-cover rounded cursor-zoom-in shadow"
+                  className="w-full lg:w-1/3 max-w-md object-cover rounded cursor-zoom-in shadow"
                 />
               </PhotoView>
             ))}
