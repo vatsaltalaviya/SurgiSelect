@@ -9,47 +9,58 @@ const CompanyProductCategory = ({
 }) => {
   return (
     <>
-      {categoryloading ? <CategorySectionSkeleton />:categoryData?.map((data, i) => (
-        <section key={i} className="bg-white mt-5 p-6 shadow rounded-md">
-          <Link
-            to="#"
-            onClick={() => {
-              setId(data._id);
-              showproducts(true);
-            }}
-            className="text-xl font-bold text-primary mb-2"
-          >
-            {data.name}
-          </Link>
+      {categoryloading ? (
+        <CategorySectionSkeleton />
+      ) : (
+        categoryData?.map((data, i) => (
+          <section key={i} className="bg-white mt-5 p-6 shadow rounded-md">
+            <Link
+              to="#"
+              onClick={() => {
+                setId(data._id);
+                showproducts(true);
+              }}
+              className="text-xl font-bold text-primary mb-2"
+            >
+              {data.name}
+            </Link>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 my-4">
-            {data?.items?.slice(0, 4).map((product, i) => (
-              <div key={i} className="border border-black/20 p-2 bg-white">
-                <img
-                  src={product.logoImage}
-                  alt={product.name}
-                  className="w-full h-40 object-contain mb-2"
-                />
-                <p
-                  onClick={() => {
-                    setId(product.subCategory);
-                    showproducts(true);
-                  }}
-                  className="text-sm hover:font-semibold cursor-pointer line-clamp-2"
-                >
-                  {product.name}
-                </p>
-              </div>
-            ))}
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 my-4">
+              {data?.items?.slice(0, 4).map((product, i) => (
+                <div key={i} className="border border-black/20 p-2 bg-white">
+                  <img
+                    src={product.logoImage}
+                    alt={product.name}
+                    className="w-full h-40 object-contain mb-2"
+                  />
+                  <p
+                    onClick={() => {
+                      setId(product.subCategory);
+                      showproducts(true);
+                    }}
+                    className="text-sm hover:font-semibold cursor-pointer line-clamp-2"
+                  >
+                    {product.name}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-          <div className="text-right">
-            <button className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-2 rounded text-sm font-medium transition">
-              View more details
-            </button>
-          </div>
-        </section>
-      ))}
+            <div className="text-right">
+              <button
+                onClick={() => {
+                  setproductDisplay(true);
+                  setId(data._id);
+                  setActiveTab("product");
+                }}
+                className="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-4 py-2 rounded text-sm font-medium transition"
+              >
+                View more details
+              </button>
+            </div>
+          </section>
+        ))
+      )}
     </>
   );
 };
@@ -79,4 +90,3 @@ const CategorySectionSkeleton = () => {
     </section>
   );
 };
-

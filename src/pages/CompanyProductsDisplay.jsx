@@ -67,8 +67,8 @@ const CompanyProductsDisplay = ({
 
 
   return (
-    <div className="w-full flex flex-col 2xl:flex-row relative overflow-hidden min-h-screen">
-      <aside className="hidden 2xl:block sticky top-0 max-w-62 ">
+    <div className="w-full flex flex-col xl:flex-row relative overflow-hidden min-h-screen">
+      <aside className="hidden xl:block sticky top-0 max-w-62 ">
         <div className="bg-zinc-100 p-1 w-full">
           <h1 className="px-1  font-stretch-semi-condensed py-1 text-sm font-semibold text-center">
             Product & Services
@@ -107,7 +107,7 @@ const CompanyProductsDisplay = ({
 
       {/* ================================= For Mobile View ======================================== */}
 
-      <details className="block 2xl:hidden text-lg font-medium p-1 border rounded w-full text-center ">
+      <details className="block xl:hidden text-lg font-medium p-1 border rounded w-full text-center ">
         <summary className="bg-zinc-100 p-1 w-full list-none">
           <h1 className="px-1  font-stretch-semi-condensed py-1 text-sm font-semibold text-center">
             Product & Services

@@ -104,7 +104,9 @@ const CompanyPage = () => {
                       }} className="text-sm w-52 line-clamp-2 mt-2 font-medium text-zinc-800">{d.name}</h1></Link>)}
 
                     </div>)}
-                    <button className="underline px-4">View More</button>
+                    <button onClick={()=>{
+                        setproductDisplay(true)
+                        setActiveTab('product')}} className="underline px-4">View More</button>
                   </div>
                 )}
               </div>
