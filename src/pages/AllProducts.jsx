@@ -166,7 +166,7 @@ const AllProducts = () => {
           {name || subcatname}
         </h1>
         <h3 className="text-sm sm:text-xl font-medium">
-          (1000+ products available)
+          ({items?.length>1000?"1000":items?.length}{items?.length>1000 && '+'} products available)
         </h3>
       </div>
 
