@@ -2,6 +2,8 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import art1 from '../assets/art12.png'
+import art2 from '../assets/art13.png'
 
 const HomeCrousel = () => {
   const settings = {
@@ -56,17 +58,17 @@ const HomeCrousel = () => {
       </div>
       <div className="lg:w-2/3">
         <Slider {...settings}>
-          <div className="w-full h-90">
+          <div className="w-full ">
             <img
-              className="w-full h-full object-fill"
-              src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751885547/20250707_1620_Healthcare_Simplified_remix_01jzj820a9ercvcs3nh7b6ry6s_qy8qvs.png"
+              className="w-full h-full object-center"
+              src={art1}
               alt=""
             />
           </div>
           <div
             className="w-full h-full relative bg-cover bg-center"
           >
-            <img className="w-full object-cover" src='https://hm.imimg.com/imhome_gifs/home-banner-4.jpg' alt="" />
+            <img className="w-full h-full object-center" src={art2} alt="" />
            
           </div>
         </Slider>
