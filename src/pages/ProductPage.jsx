@@ -48,7 +48,7 @@ const ProductPage = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     const cartdata = {
-      userId: userid,
+      userId: userid ?? 1,
       itemId: id,
       qty,
       price: updatedProduct?.price,

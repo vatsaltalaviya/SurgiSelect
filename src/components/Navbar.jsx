@@ -143,7 +143,7 @@ const Navbar = () => {
                     />
                   )}
                 />
-                {/* <input type="text" className="w-full h-full " /> */}
+               
               </div>
               <div>
                 <button
@@ -206,7 +206,7 @@ const Navbar = () => {
                 </Link>
                 <Link to="/profile">
                   <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i className="ri-shopping-cart-fill text-sm" />
+                    <i className="ri-user-fill text-sm" />
                     <span className="text-sm">Profile</span>
                   </p>
                 </Link>
@@ -288,7 +288,7 @@ const Navbar = () => {
                       onClick={() => setshowMenu(false)}
                       className="cursor-pointer space-x-3 hover:text-black"
                     >
-                      <i className="ri-shopping-cart-fill text-sm" />
+                      <i className="ri-user-fill text-sm" />
                       <span className="text-sm">Profile</span>
                     </p>
                   </Link>

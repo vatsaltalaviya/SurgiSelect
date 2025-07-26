@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItemFormCart,
@@ -10,30 +10,87 @@ import { ClipLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMultipleItemsById } from "../slices/items.slice";
 
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case "SET_CART":
+      return {
+        items: action.payload,
+        finalTotal: action.payload.reduce(
+          (sum, item) => sum + item.price * item.qty,
+          0
+        ),
+      };
+
+    case "INCREMENT":
+    case "DECREMENT":
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.itemId === action.payload.itemId
+            ? {
+                ...item,
+                qty:
+                  action.type === "INCREMENT"
+                    ? item.qty + 1
+                    : Math.max(item.qty - 1, 1),
+              }
+            : item
+        ),
+        finalTotal: state.items.reduce((sum, item) => {
+          const updatedQty =
+            item.itemId === action.payload.itemId
+              ? action.type === "INCREMENT"
+                ? item.qty + 1
+                : Math.max(item.qty - 1, 1)
+              : item.qty;
+          return sum + item.price * updatedQty;
+        }, 0),
+      };
+
+    case "DELETE":
+      const filtered = state.items.filter(
+        (item) => item.itemId !== action.payload
+      );
+      return {
+        items: filtered,
+        finalTotal: filtered.reduce(
+          (sum, item) => sum + item.price * item.qty,
+          0
+        ),
+      };
+
+    default:
+      return state;
+  }
+};
+
 const Cart = () => {
   const dispatch = useDispatch();
   const { cart, cartloading } = useSelector((state) => state.cart);
   const { items, loading } = useSelector((state) => state.items);
   const userId = localStorage.getItem("user");
 
+  const debounceTimers = useRef({});
+
   // Properly check for valid user
   const isLoggedIn = !!userId && userId !== "null" && userId !== "undefined";
 
-const localCart = JSON.parse(localStorage.getItem("cart-data"));
+  const localCart = useMemo(() => {
+  const raw = localStorage.getItem("cart-data");
+  try {
+    return JSON.parse(raw) || [];
+  } catch {
+    return [];
+  }
+}, []);
 
-const finalTotal =
-  Array.isArray(localCart) && localCart.length > 0
-    ? localCart.reduce((sum, item) => sum + item.price, 0)
-    : 0;
-
-
-  
-
-  const [updatingItemId, setUpdatingItemId] = useState(null);
-  const [DeleteItemId, setDeleteItemId] = useState(null);
+  const finalTotal =
+    Array.isArray(localCart) && localCart.length > 0
+      ? localCart.reduce((sum, item) => sum + item.price, 0)
+      : 0;
 
   useEffect(() => {
-    if (userId) {
+    if (userId & isLoggedIn) {
       dispatch(fetchCartWithItemDetails(userId));
     } else {
       dispatch(fetchMultipleItemsById(localCart));
@@ -42,50 +99,69 @@ const finalTotal =
 
   const navigate = useNavigate();
 
-  const cartData = isLoggedIn
-  ? { ...(cart || {}), items: Array.isArray(cart?.items) ? cart.items : [] }
-  : { items: Array.isArray(items) ? items : [] };
+  const handleQtyChange = (itemId, actionType) => {
+    const item = localCartState.items.find((i) => i.itemId === itemId);
+    if (!item) return;
 
-
-  const handleQtyChange = (itemId, action, currentQty, price) => {
     const newQty =
-      action === "inc" ? currentQty + 1 : Math.max(currentQty - 1, 0);
-    if (newQty === currentQty) return;
-    setUpdatingItemId(itemId); // start loading for this item only
+      actionType === "INCREMENT" ? item.qty + 1 : Math.max(item.qty - 1, 1);
 
-    const QtyData = {
-      userId,
-      itemId,
-      qty: newQty,
-      price,
-    };
+    // Update local UI immediately
+    dispatchCartAction({ type: actionType, payload: { itemId } });
 
-    dispatch(updateCartQuantity(QtyData))
-      .then(() => {
-        dispatch(updateFetchCart(userId)); // refresh cart
-      })
-      .finally(() => {
-        setUpdatingItemId(null); // stop loading after update
-      });
+    // Clear previous debounce timer
+    if (debounceTimers.current[itemId]) {
+      clearTimeout(debounceTimers.current[itemId]);
+    }
+
+    // Set new debounce timer
+    debounceTimers.current[itemId] = setTimeout(() => {
+      dispatch(
+        updateCartQuantity({
+          userId,
+          itemId,
+          qty: newQty,
+          price: item.price,
+        })
+      );
+    }, 1500); 
   };
+
 
   const handleDelete = (itemId) => {
-    setDeleteItemId(itemId);
-    dispatch(deleteItemFormCart(itemId))
-      .then(() => {
-        dispatch(updateFetchCart(userId)); // refresh cart
-      })
-      .finally(() => {
-        setDeleteItemId(null); // stop loading after update
-      });
+    dispatchCartAction({ type: "DELETE", payload: itemId });
+
+    dispatch(deleteItemFormCart(itemId)).then(() =>
+      dispatch(updateFetchCart(userId))
+    );
   };
 
+  const [localCartState, dispatchCartAction] = useReducer(cartReducer, {
+    items: [],
+    finalTotal: 0,
+  });
+
+  useEffect(() => {
+    if (isLoggedIn && cart?.items?.length > 0) {
+      dispatchCartAction({ type: "SET_CART", payload: cart.items });
+    } else if (!isLoggedIn && localCart?.length > 0) {
+      dispatchCartAction({ type: "SET_CART", payload: localCart });
+    }
+  }, [cart, localCart, isLoggedIn]);
+
+  //  const cartData = isLoggedIn
+  //   ? { ...(localCartState || {}), items: Array.isArray(localCartState?.items) ? localCartState.items : [] }
+  //   : { items: Array.isArray(items) ? items : [] };
+  const cartData = localCartState;
   const itemslength = cartData?.items?.length;
 
   return (
-    <div className="p-2 md:p-4 flex-res space-x-1 bg-gray-100">
-      <div className="w-full p-4 bg-white space-y-2 shadow-2xl">
-        <h1 className="text-xl font-medium">My Cart</h1>
+    <div className="p-2 md:p-4 flex-res min-h-screen space-x-1 bg-gray-100">
+      <div className="w-full p-4 bg-white min-h-32 h-fit space-y-2 shadow-2xl">
+        <div className="flex justify-between px-2 py-1">
+          <h1 className="text-xl font-medium">Shoping Cart</h1>
+          <h1 className="text-xl font-medium">{cart?.items?.length} Item</h1>
+        </div>
 
         {/* cart part */}
         {cartloading || loading ? (
@@ -120,43 +196,29 @@ const finalTotal =
                         <span className="text-sm font-semibold px-2">
                           Sold by:
                         </span>
-                       <Link to={`/companyprofile/${item.companyId}`}>
-                        <span className="text-sm text-primary cursor-pointer font-medium">
-                          {item.companyName}
-                        </span>
-                       </Link>
+                        <Link to={`/companyprofile/${item.companyId}`}>
+                          <span className="text-sm text-primary cursor-pointer font-medium">
+                            {item.companyName}
+                          </span>
+                        </Link>
                       </div>
                     </div>
                     <div className="w-full flex items-center space-x-3 py-2">
                       <div className="flex items-center border px-2 py-1 rounded gap-2">
                         <button
                           onClick={() =>
-                            handleQtyChange(
-                              item.itemId,
-                              "dec",
-                              item.qty ?? 1,
-                              item.price
-                            )
+                            handleQtyChange(item.itemId, "DECREMENT")
                           }
                           className="text-2xl font-semibold text-gray-600 hover:text-black"
                         >
                           -
                         </button>
                         <span className="text-lg flex items-center justify-center font-medium w-8 text-center">
-                          {updatingItemId === item.itemId ? (
-                            <ClipLoader size={20} />
-                          ) : (
-                            item.qty ?? 1
-                          )}
+                          {item.qty ?? 1}
                         </span>
                         <button
                           onClick={() =>
-                            handleQtyChange(
-                              item.itemId,
-                              "inc",
-                              item.qty ?? 1,
-                              item.price
-                            )
+                            handleQtyChange(item.itemId, "INCREMENT")
                           }
                           className="text-2xl font-semibold text-gray-600 hover:text-black"
                         >
@@ -168,21 +230,14 @@ const finalTotal =
                           onClick={() => handleDelete(item.itemId)}
                           className="text-lg cursor-pointer font-semibold text-primary px-2"
                         >
-                          {DeleteItemId == item.itemId ? (
-                            <ClipLoader size={20} />
-                          ) : (
-                            "Delete"
-                          )}
+                          Delete
                         </button>
                       </div>
                     </div>
                   </div>
 
                   {/* price */}
-                  <div className="w-60 py-2 px-4">
-                    {/* <h3 className="px-2 py-1 bg-red-500 text-white w-fit rounded">
-                      <span>20</span>% off
-                    </h3> */}
+                  <div className="lg:w-60 py-2 px-4">
                     <h1 className="text-xl text-right font-medium">
                       <span className="font-bold text-2xl px-2">₹</span>
                       {item.price}
@@ -192,19 +247,19 @@ const finalTotal =
               </div>
             ))}
 
-            <div className="flex flex-col gap-2 px-2">
+            <div className="flex flex-col xl:hidden gap-2 px-2">
               <h1 className="text-xl font-medium">
                 Subtotal (<span>{itemslength}</span> items) :
                 <span className="font-bold text-2xl px-2">₹</span>
-                {cart?.finalTotal || finalTotal}
+                {localCartState?.finalTotal || finalTotal}
               </h1>
               <div className="w-full block xl:hidden">
                 <button
-              onClick={() => navigate(isLoggedIn ? "/order" : "/signup")}
-              className="w-full px-3 py-2 text-xl font-medium bg-orange-400 text-white rounded"
-            >
-              Place Order
-            </button>
+                  onClick={() => navigate(isLoggedIn ? "/order" : "/signup")}
+                  className="w-full px-3 py-2 text-xl font-medium bg-orange-400 text-white rounded"
+                >
+                  Place Order
+                </button>
               </div>
             </div>
           </>
@@ -212,13 +267,29 @@ const finalTotal =
       </div>
 
       {!cartloading && (
-        <div className="bg-white hidden h-fit w-sm xl:block sticky top-0 p-2">
-          <div className="flex justify-end px-2">
-            <h1 className="text-xl font-medium">
-              Subtotal (<span>{itemslength}</span> items) :
-              <span className="font-bold text-2xl px-2">₹</span>
-              {cart?.finalTotal || finalTotal}
-            </h1>
+        <div className="bg-white hidden h-fit w-xl xl:block sticky top-0 p-2">
+          <div className="px-2">
+            <h1 className="text-lg font-medium">Order Summary</h1>
+            <div className="w-full px-2">
+              <table className="w-full">
+                <tbody>
+                  <tr className="py-2">
+                    <td className="w-full text-sm font-semibold">
+                      Total Items ({cart?.items?.length}):
+                    </td>
+                    <td className="w-full text-sm font-medium text-right">
+                      {localCartState?.finalTotal}
+                    </td>
+                  </tr>
+                  <tr className="py-2">
+                    <td className="w-full text-sm font-semibold">Total:</td>
+                    <td className="w-full text-sm font-medium text-right">
+                      {localCartState?.finalTotal}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="w-full">
             <button
