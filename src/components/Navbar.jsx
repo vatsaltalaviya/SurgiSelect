@@ -50,7 +50,7 @@ const Navbar = () => {
     <nav
       className={`bg-[#2e3192] w-full ${
         showMenu ? "fixed top-0" : "relative"
-      } z-20 px-4 `}
+      } z-30 px-4 `}
     >
       <div className="flex py-1.5 md:px-2 items-center justify-between">
         <div className="flex items-center">
@@ -174,27 +174,7 @@ const Navbar = () => {
               </span>
             </div>
           </Link>
-          <div className="flex flex-col items-center">
-            <i className="ri-store-line text-lg font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Sell</span>
-          </div>
-          <div className="flex flex-col items-center relative group">
-            <i className="ri-question-line text-lg font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Help</span>
-
-            <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-              <div className="w-72 rounded bg-stone-100 flex flex-col gap-4 p-4">
-                <p className="cursor-pointer hover:text-black">Home</p>
-                <p className="cursor-pointer hover:text-black">
-                  Post Your Requirement
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <i className="ri-message-2-line text-lg font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">Message</span>
-          </div>
+        
           <div className="flex flex-col group items-center relative">
             <i className="ri-user-line text-lg font-medium text-white"></i>
             <span className="text-white text-[12px] font-light">
@@ -262,18 +242,7 @@ const Navbar = () => {
              
             </div>
           </Link>
-          <div className="flex gap-4 items-center">
-            <i className="ri-store-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[16px] font-light">Sell</span>
-          </div>
-          <div className="flex gap-4 items-center">
-            <i className="ri-question-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[16px] font-light">Help</span>
-          </div>
-          <div className="flex gap-4 items-center">
-            <i className="ri-message-2-line text-xl font-medium text-white"></i>
-            <span className="text-white text-[16px] font-light">Message</span>
-          </div>
+    
           <div className="flex w-full gap-4 items-center">
             <details className="appearance-none w-52 list-none cursor-pointer font-medium text-lg">
               <summary className="marker:content-none flex items-center gap-4">

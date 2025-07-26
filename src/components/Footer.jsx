@@ -41,106 +41,17 @@ const Footer = () => {
 
   return (
     <footer className="w-full flex flex-col items-center  md:justify-center">
-      <div className="w-full px-3 py-2 flex flex-col lg:flex-row md:justify-between bg-gray-100">
-        <span className="text-blue-600 text-xl md:text-3xl font-medium">
-          We Are Here To Help You
-        </span>
-        <div className="flex flex-col lg:flex-row gap-2 lg:items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-black text-sm  font-medium">GO Mobile:</span>
-            <img
-              className="w-4"
-              src="https://cdn-icons-png.freepik.com/256/546/546060.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
-              alt=""
-            />
-            <img
-              className="w-4"
-              src="https://cdn-icons-png.freepik.com/256/1240/1240939.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
-              alt=""
-            />
-            <img
-              className="w-4"
-              src="https://cdn-icons-png.freepik.com/256/16010/16010515.png?ga=GA1.1.1175547896.1749882111&semt=ais_hybrid"
-              alt=""
-            />
-          </div>
-          <div className="flex  items-center gap-2">
-            <span className="text-black text-sm font-medium">
-              Follow As On:
-            </span>
-            <i className="text-xl ri-instagram-fill"></i>
-            <i className="text-xl ri-facebook-box-fill"></i>
-            <i className="text-xl ri-linkedin-box-fill"></i>
-          </div>
-        </div>
-      </div>
-      <div className="w-full px-4 py-2 flex flex-col lg:flex-row gap-2">
-        <ul className="list-none py-1">
-          {footerLinks1.map((i, id) => (
-            <li
-              key={id}
-              className="text-[14px] font-medium text-gray-500 hover:text-primary"
-            >
-              <Link to="#">{i}</Link>
-            </li>
-          ))}
-        </ul>
-        <ul className="list-none py-1">
-          {footerLinks2.map((i, id) => (
-            <li
-              key={id}
-              className="text-[14px] font-medium text-gray-500 hover:text-primary"
-            >
-              <Link to="#">{i}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className="xl:ml-32">
-          <ul className="list-none py-1">
-            {suppliersToolKit.map((i, id) => (
-              <li
-                key={id}
-                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
-              >
-                <Link to="#">{i}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="xl:ml-32">
-          <ul className="list-none py-1">
-            {buyersToolKit.map((i, id) => (
-              <li
-                key={id}
-                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
-              >
-                <Link to="#">{i}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="xl:ml-32">
-          <ul className="list-none py-1">
-            {accountingSolutions.map((i, id) => (
-              <li
-                key={id}
-                className="text-[14px] font-medium text-gray-500 hover:text-primary first:text-black"
-              >
-                <Link to="#">{i}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="w-full md:w-[70vw] px-2 py-2 flex flex-col lg:flex-row md:justify-between">
+    
+     
+      <div className="w-full px-2 py-2 flex ">
         <span className="text-base lg:text-[14px] font-medium text-gray-500">
           Copyright © 1996-2025 SurgiSelect InterMESH Ltd. All rights reserved.
         </span>
-        <span className="text-[14px] font-medium text-gray-500">
+        {/* <span className="text-[14px] font-medium text-gray-500">
           <Link to='#' className="hover:text-primary hover:underline">Terms of use</Link>
           -<Link to='#' className="hover:text-primary hover:underline">Private Policy</Link>
           -<Link to='#' className="hover:text-primary hover:underline">Link to Us</Link>
-        </span>
+        </span> */}
       </div>
     </footer>
   );

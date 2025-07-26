@@ -49,19 +49,23 @@ const sidebardata = [
 ];
 
 const AllProducts = () => {
-   const { subcategoryid, name } = useParams();
+  const { subcategoryid, name } = useParams();
 
   const dispatch = useDispatch();
   const cityScrollRef = useRef(null);
 
   const [subcatname, setSubcatname] = useState("");
+  const [selectedproductId, setSelectedproductId] = useState("");
   const [showFilterforTab, setShowFilterforTab] = useState(false);
+  const [ShowContactSupplier, setShowContactSupplier] = useState(false);
 
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
 
-  const { items, loading, subcategoryLoading, hasMore } = useSelector((state) => state.items);
+  const { items, loading, subcategoryLoading, hasMore } = useSelector(
+    (state) => state.items
+  );
   const { subCategories } = useSelector((state) => state.category);
   const { company } = useSelector((state) => state.companies);
 
@@ -71,6 +75,8 @@ const AllProducts = () => {
     setDrawerContent(type);
     setIsOpen(true);
   };
+
+  
 
   // Set subcategory name from ID
   const handleSubcategoryName = () => {
@@ -124,9 +130,13 @@ const AllProducts = () => {
   }, [name, page, dispatch]);
 
   // Debounced load more handler
-  const loadMore = useMemo(() => debounce(() => {
-    setPage((prev) => prev + 1);
-  }, 300), []);
+  const loadMore = useMemo(
+    () =>
+      debounce(() => {
+        setPage((prev) => prev + 1);
+      }, 300),
+    []
+  );
 
   useEffect(() => {
     return () => {
@@ -142,7 +152,7 @@ const AllProducts = () => {
       const matchedCompany = company.find((cat) => cat._id === item.companyId);
       return {
         itemId: item._id,
-        companyName: matchedCompany?.name || "Unknown",
+        company: matchedCompany,
         item: item,
       };
     });
@@ -157,7 +167,9 @@ const AllProducts = () => {
       });
     }
   };
-  
+
+ 
+
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
       {/* Title */}
@@ -166,7 +178,8 @@ const AllProducts = () => {
           {name || subcatname}
         </h1>
         <h3 className="text-sm sm:text-xl font-medium">
-          ({items?.length>1000?"1000":items?.length}{items?.length>1000 && '+'} products available)
+          ({items?.length > 1000 ? "1000" : items?.length}
+          {items?.length > 1000 && "+"} products available)
         </h3>
       </div>
 
@@ -302,113 +315,121 @@ const AllProducts = () => {
                     </div>
 
                     {/* =========================================== Right - Info ========================= */}
-                  
-                      <div className="flex flex-col py-2 justify-between w-full">
-                        <div className="w-full ">
-                          <Link
-                            to={`/productdetail/${product.item._id}`}
-                            className="text-[16px]  font-semibold text-primary hover:text-red-500 "
-                          >
-                            <p className="text-wrap px-1.5">
-                              {product.item.name}
-                            </p>
-                          </Link>
 
-                          <div className="text-lg font-bold px-2 mt-1 text-zinc-800">
-                            ₹ {product.item.sellingPrice}
-                            <span className="text-sm  font-normal text-gray-600 ml-1">
-                              /Piece
-                            </span>
-                            <button className="bg-white border mx-2 text-primary px-2 py-1 rounded-full text-sm hover:bg-primary hover:text-white transition-all duration-150">
-                              Get Latest Price
-                            </button>
-                          </div>
+                    <div className="flex flex-col py-2 justify-between w-full">
+                      <div className="w-full ">
+                        <Link
+                          to={`/productdetail/${product.item._id}`}
+                          className="text-[16px]  font-semibold text-primary hover:text-red-500 "
+                        >
+                          <p className="text-wrap px-1.5">
+                            {product.item.name}
+                          </p>
+                        </Link>
 
-                          <table className="text-sm  mt-2 text-gray-700">
-                            <tbody>
-                              <tr>
-                                <td className="pr-2 px-2 md:w-32 font-medium text-black">
-                                  Colour:
-                                </td>
-                                <td>{product.item.color}</td>
-                              </tr>
-                              <tr>
-                                <td className="pr-2 px-2 md:w-32 font-medium text-black">
-                                  Size:
-                                </td>
-                                <td>{product.item.size}</td>
-                              </tr>
-                              <tr>
-                                <td className="pr-2 px-2 md:w-32 font-medium text-black">
-                                  Type:
-                                </td>
-                                <td>{product.item.type}</td>
-                              </tr>
-                             
-                            </tbody>
-                          </table>
+                        <div className="text-lg font-bold px-2 mt-1 text-zinc-800">
+                          ₹ {product.item.sellingPrice}
+                          <span className="text-sm  font-normal text-gray-600 ml-1">
+                            /Piece
+                          </span>
+                          <button className="bg-white border mx-2 text-primary px-2 py-1 rounded-full text-sm hover:bg-primary hover:text-white transition-all duration-150">
+                            Get Latest Price
+                          </button>
                         </div>
-                        {product.item.quantity == 0 ?<span className="px-4 py-2 font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">Out Of Stock</span>:''}
-                          
+
+                        <table className="text-sm  mt-2 text-gray-700">
+                          <tbody>
+                            <tr>
+                              <td className="pr-2 px-2 md:w-32 font-medium text-black">
+                                Colour:
+                              </td>
+                              <td>{product.item.color}</td>
+                            </tr>
+                            <tr>
+                              <td className="pr-2 px-2 md:w-32 font-medium text-black">
+                                Size:
+                              </td>
+                              <td>{product.item.size}</td>
+                            </tr>
+                            <tr>
+                              <td className="pr-2 px-2 md:w-32 font-medium text-black">
+                                Type:
+                              </td>
+                              <td>{product.item.type}</td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
-                    
+                      {product.item.quantity == 0 ? (
+                        <span className="px-4 py-2 font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">
+                          Out Of Stock
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
 
                   {/* ================================== company detail ====================================== */}
-                    <div className="shrink-0 h-full xl:w-xs text-lg">
-                      <div className="bg-[#f1f1f1] shrink-0 py-2 px-2">
-                        <Link to={`/companyprofile/${product.item.companyId}`}>
-                          <h1 className="text-sm  font-medium underline">
-                            {product.companyName}
-                          </h1>
-                        </Link>
-                        <h3>
-                          <i className="ri-map-pin-fill text-sm  mr-2"></i>
-                          <span className="text-sm ">
-                            Chandni Chowk, New Delhi
-                          </span>
-                        </h3>
-                        <h3 className="space-x-1">
-                          <i className="ri-checkbox-circle-fill text-sm  mr-2"></i>
-                          <span className="text-sm ">GST</span>
-                          <i className="ri-verified-badge-fill text-sm  ml-0.5"></i>
-                          <span className="text-amber-500 text-lg ">
-                            <span className="text-sm ">TrustSEAL Verified</span>
-                          </span>
-                          <i className="ri-user-3-line"></i>
-                          <span className="text-sm ">18 Yrs</span>
-                        </h3>
-                        <h3 className="space-x-1 text-sm">
-                          {Array.from({ length: 4 }).map((_, idx) => (
-                            <i key={idx} className="ri-star-fill"></i>
-                          ))}
-                          <i className="ri-star-half-fill"></i>
-                          <span className="ml-2 font-medium text-gray-800">
-                            3.7
-                          </span>
-                          <a
-                            href="#"
-                            className="text-sm text-blue-600 underline ml-1"
-                          >
-                            (358)
-                          </a>
-                        </h3>
-                        <h3 className="space-x-1 text-sm">
-                          <i className="ri-phone-fill  mr-2"></i>59% Response
-                          Rate
-                        </h3>
-                      </div>
-                      <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center">
-                        <button className="text-nowrap px-4 py-2 rounded text-lg font-medium text-emerald-700 flex items-center">
-                          <i className="ri-phone-fill text-lg mr-2" />
-                          View Phone Number
-                        </button>
-                        <button className="border-2 text-nowrap px-4 py-2 rounded text-lg font-medium text-emerald-700 flex items-center hover:text-white hover:bg-emerald-700">
-                          <i className="ri-telegram-2-fill text-lg mr-2 " />
-                          Contact Supplier
-                        </button>
-                      </div>
+                  <div className="shrink-0 h-full xl:w-xs text-lg">
+                    <div className="bg-[#f1f1f1] shrink-0 py-2 px-2">
+                      <Link to={`/companyprofile/${product.item.companyId}`}>
+                        <h1 className="text-sm  font-medium underline">
+                          {product.company.name}
+                        </h1>
+                      </Link>
+                      <h3>
+                        <i className="ri-map-pin-fill text-sm  mr-2"></i>
+                        <span className="text-sm ">
+                          Chandni Chowk, New Delhi
+                        </span>
+                      </h3>
+                      <h3 className="space-x-1">
+                        <i className="ri-checkbox-circle-fill text-sm  mr-2"></i>
+                        <span className="text-sm ">GST</span>
+                        <i className="ri-verified-badge-fill text-sm  ml-0.5"></i>
+                        <span className="text-amber-500 text-lg ">
+                          <span className="text-sm ">TrustSEAL Verified</span>
+                        </span>
+                        <i className="ri-user-3-line"></i>
+                        <span className="text-sm ">18 Yrs</span>
+                      </h3>
+                      <h3 className="space-x-1 text-sm">
+                        {Array.from({ length: 4 }).map((_, idx) => (
+                          <i key={idx} className="ri-star-fill"></i>
+                        ))}
+                        <i className="ri-star-half-fill"></i>
+                        <span className="ml-2 font-medium text-gray-800">
+                          3.7
+                        </span>
+                        <a
+                          href="#"
+                          className="text-sm text-blue-600 underline ml-1"
+                        >
+                          (358)
+                        </a>
+                      </h3>
+                      <h3 className="space-x-1 text-sm">
+                        <i className="ri-phone-fill  mr-2"></i>59% Response Rate
+                      </h3>
                     </div>
+                    <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center">
+                      <button
+                        onClick={() => setSelectedproductId(product.item._id)}
+                        className="text-nowrap px-4 py-2 rounded text-lg font-medium text-emerald-700 flex items-center"
+                      >
+                        <i className="ri-phone-fill text-lg mr-2" />
+                        {selectedproductId == product.item._id
+                          ? product.company.number
+                          : "View Phone Number"}
+                      </button>
+                      <button onClick={()=>setShowContactSupplier(true)} className="border-2 text-nowrap px-4 py-2 rounded text-lg font-medium text-emerald-700 flex items-center hover:text-white hover:bg-emerald-700">
+                        <i className="ri-telegram-2-fill text-lg mr-2 " />
+                        Contact Supplier
+                      </button>
+                    </div>
+                  </div>
+                  {ShowContactSupplier &&<ContactSuplier onClose={()=>setShowContactSupplier(false)} company={product.company} />}
                 </section>
               ))}
             </InfiniteScroll>
@@ -579,7 +600,8 @@ const AllProducts = () => {
         {/* right side */}
         {/* <div className="w-92 hidden 2xl:block">
           <ProductAside />
-        </div> */}
+          </div> */}
+
       </div>
     </div>
   );
@@ -587,121 +609,128 @@ const AllProducts = () => {
 
 export default AllProducts;
 
-function Loading(){
-  return<>
-  {Array.from({ length: 3 }).map((_, i) => (
-  <section
-    key={i}
-    className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
-  >
-    {/* === Main Product Block === */}
-    <div className="flex flex-col md:flex-row w-full">
-      {/* Left - Image Skeleton */}
-      <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
-        <div className="w-full h-full bg-gray-300 rounded object-contain" />
-      </div>
+function ContactSuplier({onClose , company}) {
+  const closeref = useRef()
+  const close = (e)=>{
+    if(e.target === closeref.current){
+      onClose()
+    }
+  }
 
-      {/* Right - Product Info Skeleton */}
-      <div className="flex flex-col py-2 justify-between w-full px-2">
-        <div className="space-y-2">
-          <div className="h-5 w-3/4 bg-gray-300 rounded" />
-          <div className="h-6 w-1/2 bg-gray-300 rounded" />
-
-          <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
-
-          <table className="text-sm mt-2 w-full">
-            <tbody className="space-y-2">
-              {["Colour", "Size", "Type"].map((label, idx) => (
-                <tr key={idx}>
-                  <td className="pr-2 py-1 w-32 font-medium text-black">
-                    <div className="h-4 w-3/4 bg-gray-300 rounded" />
-                  </td>
-                  <td>
-                    <div className="h-4 w-1/2 bg-gray-300 rounded" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+  
+  return (
+    <div ref={closeref} onClick={close} className="w-full h-screen bg-black/30 z-20 fixed top-0 left-0 flex lg:flex-row flex-col justify-center items-center">
+      <div className="hidden w-full xl:block rounded-none xl:w-1/5 h-1/2 mx-2 bg-white lg:rounded-2xl relative p-2">
+        <div className="w-full h-2/3 bg-amber-300 rounded-[8px] overflow-hidden">
+          <img
+            className="w-full aspect-3/2 h-full object-fill"
+            src="https://images.unsplash.com/photo-1752481445093-ee346cf62c95?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8"
+            alt=""
+          />
         </div>
+        <h1 className="font-medium text-lg">{company?.name}</h1>
+        <span className="text-sm font-medium text-gray-500 mt-2">
+          Sold By:{" "}
+          <p className="inline text-black">
+            {company?.name}
+          </p>
+        </span>
       </div>
+      <form action="" className="w-full xl:w-1/3 xl:h-1/2 pb-10 bg-white rounded-none xl:rounded-2xl relative">
+        <div className="w-full flex justify-end px-2">
+          <button onClick={()=>onClose()} type="button" className="p-2">
+            <i className="ri-close-line text-2xl"></i>
+          </button>
+        </div>
+          <div className="xl:hidden px-2">
+            <h1 className="font-medium text-lg">{company?.name}</h1>
+        <span className="text-sm font-medium text-gray-500 mt-2">
+          Sold By:{" "}
+          <p className="inline text-black">
+            {company?.name}
+          </p>
+        </span>
+          </div>
+        <div className="flex items-center mt-10 flex-col w-full h-full space-y-4">
+          <h1 className="text-lg font-medium px-2">
+            Contact Seller and get details on your mobile quickly{" "}
+          </h1>
+          <div className="w-full flex gap-x-2 justify-center">
+            <h1 className="text-xl font-medium">Mobile No</h1>
+            <input
+              type="number"
+              className="border px-2 py-1 phone"
+               pattern="^[0-9]"
+              maxLength={13}
+              placeholder="Enter your mobile no"
+            />
+          </div>
+          <button className="text-xl font-medium px-6 py-2 bg-emerald-800 text-white">
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
-
-    {/* === Company Detail Skeleton === */}
-    <div className="shrink-0 h-full xl:w-xs text-lg">
-      <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
-        <div className="h-4 w-3/4 bg-gray-300 rounded" />
-        <div className="h-4 w-2/3 bg-gray-300 rounded" />
-        <div className="h-4 w-full bg-gray-300 rounded" />
-        <div className="h-4 w-[80%] bg-gray-300 rounded" />
-        <div className="h-4 w-[60%] bg-gray-300 rounded" />
-      </div>
-      <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
-        <div className="h-10 w-40 bg-gray-300 rounded" />
-        <div className="h-10 w-40 bg-gray-300 rounded" />
-      </div>
-    </div>
-  </section>
-))}
-
-  </>
+  );
 }
-function ItemLoading(){
-  return<>
-  {Array.from({ length: 1 }).map((_, i) => (
-  <section
-    key={i}
-    className="w-full bg-white rounded shadow flex-col lg:flex-row flex gap-2 animate-pulse"
-  >
-    {/* === Main Product Block === */}
-    <div className="flex flex-col md:flex-row w-full">
-      {/* Left - Image Skeleton */}
-      <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
-        <div className="w-full h-full bg-gray-300 rounded object-contain" />
-      </div>
 
-      {/* Right - Product Info Skeleton */}
-      <div className="flex flex-col py-2 justify-between w-full px-2">
-        <div className="space-y-2">
-          <div className="h-5 w-3/4 bg-gray-300 rounded" />
-          <div className="h-6 w-1/2 bg-gray-300 rounded" />
+function Loading() {
+  return (
+    <>
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div className="bg-white w-full h-full"><section
+          key={i}
+          className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
+        >
+          {/* === Main Product Block === */}
+          <div className="flex flex-col md:flex-row w-full">
+            {/* Left - Image Skeleton */}
+            <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
+              <div className="w-full h-full bg-gray-300 rounded object-contain" />
+            </div>
 
-          <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
+            {/* Right - Product Info Skeleton */}
+            <div className="flex flex-col py-2 justify-between w-full px-2">
+              <div className="space-y-2">
+                <div className="h-5 w-3/4 bg-gray-300 rounded" />
+                <div className="h-6 w-1/2 bg-gray-300 rounded" />
 
-          <table className="text-sm mt-2 w-full">
-            <tbody className="space-y-2">
-              {["Colour", "Size", "Type"].map((label, idx) => (
-                <tr key={idx}>
-                  <td className="pr-2 py-1 w-32 font-medium text-black">
-                    <div className="h-4 w-3/4 bg-gray-300 rounded" />
-                  </td>
-                  <td>
-                    <div className="h-4 w-1/2 bg-gray-300 rounded" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+                <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
 
-    {/* === Company Detail Skeleton === */}
-    <div className="shrink-0 h-full xl:w-xs text-lg">
-      <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
-        <div className="h-4 w-3/4 bg-gray-300 rounded" />
-        <div className="h-4 w-2/3 bg-gray-300 rounded" />
-        <div className="h-4 w-full bg-gray-300 rounded" />
-        <div className="h-4 w-[80%] bg-gray-300 rounded" />
-        <div className="h-4 w-[60%] bg-gray-300 rounded" />
-      </div>
-      <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
-        <div className="h-10 w-40 bg-gray-300 rounded" />
-        <div className="h-10 w-40 bg-gray-300 rounded" />
-      </div>
-    </div>
-  </section>
-))}
+                <table className="text-sm mt-2 w-full">
+                  <tbody className="space-y-2">
+                    {["Colour", "Size", "Type"].map((label, idx) => (
+                      <tr key={idx}>
+                        <td className="pr-2 py-1 w-32 font-medium text-black">
+                          <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                        </td>
+                        <td>
+                          <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
-  </>
+          {/* === Company Detail Skeleton === */}
+          <div className="shrink-0 h-full xl:w-xs text-lg">
+            <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
+              <div className="h-4 w-3/4 bg-gray-300 rounded" />
+              <div className="h-4 w-2/3 bg-gray-300 rounded" />
+              <div className="h-4 w-full bg-gray-300 rounded" />
+              <div className="h-4 w-[80%] bg-gray-300 rounded" />
+              <div className="h-4 w-[60%] bg-gray-300 rounded" />
+            </div>
+            <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
+              <div className="h-10 w-40 bg-gray-300 rounded" />
+              <div className="h-10 w-40 bg-gray-300 rounded" />
+            </div>
+          </div>
+        </section></div>
+      ))}
+    </>
+  );
 }
