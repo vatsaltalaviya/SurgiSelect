@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, Badge, TextField } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,7 +12,6 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const { suggestions } = useSelector((state) => state.items);
   const cartItemCount = useSelector((state) => state.cart.cartItemCount);
-
 
   const username = localStorage.getItem("username");
   const userid = localStorage.getItem("user");
@@ -143,7 +142,6 @@ const Navbar = () => {
                     />
                   )}
                 />
-               
               </div>
               <div>
                 <button
@@ -167,14 +165,25 @@ const Navbar = () => {
         <div className="h-full hidden xl:flex gap-4 items-center">
           <Link to="/cart">
             <div className="flex flex-col items-center relative px-2">
-              <i className="ri-shopping-bag-3-line text-lg font-medium text-white"></i>
+              <Badge
+                badgeContent={cartItemCount}
+                color="primary"
+                anchorOrigin={{ horizontal: "right" }}
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "0.75rem", // smaller font
+                    minWidth: "10px", // smaller width
+                    height: "14px", // smaller height
+                    padding: "0 6px", // optional
+                  },
+                }}
+              >
+                <i className="ri-shopping-bag-3-line text-xl font-medium text-white"></i>
+              </Badge>
               <span className="text-white text-[12px] font-light">Cart</span>
-              <span className="absolute -top-1 -right-1 bg-white text-black font-semibold text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                {cartItemCount}
-              </span>
             </div>
           </Link>
-        
+
           <div className="flex flex-col group items-center relative">
             <i className="ri-user-line text-lg font-medium text-white"></i>
             <span className="text-white text-[12px] font-light">
@@ -232,17 +241,21 @@ const Navbar = () => {
         }`}
       >
         <div className="h-screen w-90 flex flex-col gap-4 justify-start px-2 py-0.5 ">
-          <Link to="/cart"  onClick={() => {
-                   
-                        setshowMenu(false);
-                      }} >
+          <Link
+            to="/cart"
+            onClick={() => {
+              setshowMenu(false);
+            }}
+          >
             <div className="flex gap-4 relative items-center">
-              <i className="ri-shopping-bag-3-line text-xl font-medium text-white"></i>
-              <span className="text-white text-[16px] font-light">Cart</span>
-             
+              <Badge badgeContent={cartItemCount} color="primary">
+                <i className="ri-shopping-bag-3-line text-xl font-medium text-white"></i>
+              </Badge>
+
+              <span className="text-white text-[16px] font-light">Cart </span>
             </div>
           </Link>
-    
+
           <div className="flex w-full gap-4 items-center">
             <details className="appearance-none w-52 list-none cursor-pointer font-medium text-lg">
               <summary className="marker:content-none flex items-center gap-4">

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import React, { useEffect, useMemo, useReducer, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItemFormCart,
@@ -6,7 +6,6 @@ import {
   updateCartQuantity,
   updateFetchCart,
 } from "../slices/Cart.slice";
-import { ClipLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMultipleItemsById } from "../slices/items.slice";
 
@@ -67,8 +66,9 @@ const cartReducer = (state, action) => {
 const Cart = () => {
   const dispatch = useDispatch();
   const { cart, cartloading } = useSelector((state) => state.cart);
-  const { items, loading } = useSelector((state) => state.items);
   const userId = localStorage.getItem("user");
+
+  
 
   const debounceTimers = useRef({});
 
@@ -84,13 +84,8 @@ const Cart = () => {
   }
 }, []);
 
-  const finalTotal =
-    Array.isArray(localCart) && localCart.length > 0
-      ? localCart.reduce((sum, item) => sum + item.price, 0)
-      : 0;
-
   useEffect(() => {
-    if (userId & isLoggedIn) {
+    if (userId) {
       dispatch(fetchCartWithItemDetails(userId));
     } else {
       dispatch(fetchMultipleItemsById(localCart));
@@ -149,9 +144,6 @@ const Cart = () => {
     }
   }, [cart, localCart, isLoggedIn]);
 
-  //  const cartData = isLoggedIn
-  //   ? { ...(localCartState || {}), items: Array.isArray(localCartState?.items) ? localCartState.items : [] }
-  //   : { items: Array.isArray(items) ? items : [] };
   const cartData = localCartState;
   const itemslength = cartData?.items?.length;
 
@@ -164,7 +156,7 @@ const Cart = () => {
         </div>
 
         {/* cart part */}
-        {cartloading || loading ? (
+        {cartloading  ? (
           <div className="w-full h-screen">
             <Loading />
           </div>
@@ -251,7 +243,7 @@ const Cart = () => {
               <h1 className="text-xl font-medium">
                 Subtotal (<span>{itemslength}</span> items) :
                 <span className="font-bold text-2xl px-2">₹</span>
-                {localCartState?.finalTotal || finalTotal}
+                {localCartState?.finalTotal || 0}
               </h1>
               <div className="w-full block xl:hidden">
                 <button
