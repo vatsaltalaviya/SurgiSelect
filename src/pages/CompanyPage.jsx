@@ -33,7 +33,7 @@ const CompanyPage = () => {
     }, [])
     
     
-    console.log(categories);
+    
 
   return (
     <div className="w-full  ">

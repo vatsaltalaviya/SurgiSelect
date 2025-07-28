@@ -276,7 +276,7 @@ const Cart = () => {
                 <tbody>
                   <tr className="py-2">
                     <td className="w-full text-sm font-semibold">
-                      Total Items ({cart?.items?.length}):
+                      Total Items ({itemslength}):
                     </td>
                     <td className="w-full text-sm font-medium text-right">
                       {localCartState?.finalTotal}
