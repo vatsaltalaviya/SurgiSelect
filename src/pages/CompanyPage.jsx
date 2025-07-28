@@ -25,13 +25,15 @@ const CompanyPage = () => {
       (state) => state.category
     );
 
-
-  useEffect(() => {
-  dispatch(fetchCompanyById(id))
-  dispatch(fetchlandingPageCategoriesforCompany(id))
-  }, [])
-  
-
+    
+    
+    useEffect(() => {
+      dispatch(fetchCompanyById(id))
+      dispatch(fetchlandingPageCategoriesforCompany(id))
+    }, [])
+    
+    
+    console.log(categories);
 
   return (
     <div className="w-full  ">

@@ -185,7 +185,9 @@ const cartSlice = createSlice({
         error: null
     },
     reducers: {
-
+        setCartItemCount : (state,acton)=>{
+            state.cartItemCount = acton.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -271,8 +273,7 @@ const cartSlice = createSlice({
                 state.error = null;
             })
             .addCase(deleteItemFormCart.fulfilled, (state, action) => {
-                state.Deleteloading = false;
-                state.cartItemCount = action.payload?.items?.length || 0; 
+                state.Deleteloading = false; 
             })
             .addCase(deleteItemFormCart.rejected, (state, action) => {
                 state.Deleteloading = false;
@@ -283,3 +284,4 @@ const cartSlice = createSlice({
 })
 
 export default cartSlice.reducer;
+export const { setCartItemCount } = cartSlice.actions;

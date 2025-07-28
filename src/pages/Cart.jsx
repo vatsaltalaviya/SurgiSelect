@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItemFormCart,
   fetchCartWithItemDetails,
+  setCartItemCount,
   updateCartQuantity,
   updateFetchCart,
 } from "../slices/Cart.slice";
@@ -130,12 +131,15 @@ const Cart = () => {
     dispatch(deleteItemFormCart(itemId)).then(() =>
       dispatch(updateFetchCart(userId))
     );
+    dispatch(setCartItemCount(localCartState.items.length));
   };
 
   const [localCartState, dispatchCartAction] = useReducer(cartReducer, {
     items: [],
     finalTotal: 0,
   });
+  
+
 
   useEffect(() => {
     if (isLoggedIn && cart?.items?.length > 0) {
@@ -147,6 +151,10 @@ const Cart = () => {
 
   const cartData = localCartState;
   const itemslength = cartData?.items?.length;
+
+    useEffect(()=>{
+    dispatch(setCartItemCount(itemslength))
+  },[localCartState, dispatch, itemslength])
 
   return (
     <div className="p-2 md:p-4 flex-res min-h-screen space-x-1 bg-gray-100">
