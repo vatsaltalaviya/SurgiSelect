@@ -161,7 +161,7 @@ const Cart = () => {
       <div className="w-full p-4 bg-white min-h-32 h-fit space-y-2 shadow-2xl">
         <div className="flex justify-between px-2 py-1">
           <h1 className="text-xl font-medium">Shoping Cart</h1>
-          <h1 className="text-xl font-medium">{cart?.items?.length} Item</h1>
+          <h1 className="text-xl font-medium">{itemslength} Item</h1>
         </div>
 
         {/* cart part */}

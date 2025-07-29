@@ -53,12 +53,20 @@ const ProductPage = () => {
       qty,
       price: updatedProduct?.price,
     };
+    const localcartdata = {
+      userId: userid ?? 1,
+      itemId: id,
+      name: updatedProduct?.name,
+      image: updatedProduct?.logoImage,
+      qty,
+      price: updatedProduct?.price,
+    };
     if (!userid) {
       // Get existing cart from localStorage or start with empty array
       const existingCart = JSON.parse(localStorage.getItem("cart-data")) || [];
 
       // Add new item to the cart array
-      existingCart.push(cartdata);
+      existingCart.push(localcartdata);
 
       // Save updated cart back to localStorage
       localStorage.setItem("cart-data", JSON.stringify(existingCart));

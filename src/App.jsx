@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -12,13 +12,13 @@ import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import Orderpage from "./pages/Orderpage";
 import { ToastContainer } from "react-toastify";
-import ScrollToTop from "./components/ScrollToTop";
 import Address from "./pages/address";
 import UserProfile from "./pages/UserProfile";
 import CompanyPage from "./pages/CompanyPage";
 
 const App = () => {
   const location = useLocation();
+  const [islogOut, setislogOut] = useState(false)
   const hideHeaderFooterRoutes = ["/signup","/signin"];
 
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
@@ -26,7 +26,7 @@ const App = () => {
   );
   return (
     <>
-      {!shouldHideHeaderFooter && <Navbar />}
+      {!shouldHideHeaderFooter && <Navbar logOut={()=>setislogOut(true)} />}
       <ToastContainer position="top-right" autoClose={1000} />
         {/* <ScrollToTop /> */}
       <Routes>
@@ -46,8 +46,34 @@ const App = () => {
       </Routes>
 
       {!shouldHideHeaderFooter && <Footer />}
+      {islogOut && <LogOutPopUp close={()=>setislogOut(false)} />}
+
     </>
   );
 };
-
+function LogOutPopUp({close}){
+  const closeref = useRef()
+  return<div ref={closeref} onClick={close} className="w-full  h-screen bg-black/30 z-20 fixed top-0 left-0 flex lg:flex-row flex-col justify-center items-center">
+      <div className="mx-2 bg-white w-xs md:w-sm  rounded-2xl relative p-2">
+        <i onClick={()=>close()} className="ri-close-large-line absolute top-2 right-2"></i>
+        <div className="w-full h-2/3 rounded-[8px] flex flex-col items-center overflow-hidden">
+          <img
+            className="w-20 h-10 object-center"
+            src="https://res.cloudinary.com/dbpleky0i/image/upload/v1751262395/logo3_xmt7zu.png"
+            alt=""
+          />
+          <h1 className="text-lg font-semibold">Are you sure you want to log out?</h1>
+        </div>
+        <div className="flex gap-x-2 py-2">
+          <button onClick={()=>{
+            localStorage.clear();
+            sessionStorage.clear();
+            close()
+          }} className="w-full px-2 py-1 rounded bg-emerald-800 text-white font-medium">Yes</button>
+        <button onClick={()=>close()} className="w-full px-2 py-1 rounded bg-red-800 text-white font-medium">Cancel</button>
+        </div>
+      </div>
+      
+    </div>
+}
 export default App;

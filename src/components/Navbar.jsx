@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
 import { fetchSuggestions } from "../slices/items.slice";
 
-const Navbar = () => {
+const Navbar = ({logOut}) => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
   const input = useDebounce(query, 1000);
@@ -201,7 +201,7 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to="/"
-                    onClick={() => localStorage.clear()}
+                    onClick={() => logOut()}
                     className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
                   >
                     Log Out
