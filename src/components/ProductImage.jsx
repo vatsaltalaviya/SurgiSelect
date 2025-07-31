@@ -17,7 +17,7 @@ const ProductImage = ({images}) => {
         {images.map((item, index) => (
           <img
             key={index}
-            src={item}
+            src={item || "https://res.cloudinary.com/djgziksj8/image/upload/v1753937843/ad4dkvclusuqywdtwao2.png"}
             alt={`thumb-${index}`}
             onClick={() => setActiveIndex(index)}
             className={`w-14 h-14 object-cover rounded cursor-pointer border-2 ${
@@ -36,7 +36,7 @@ const ProductImage = ({images}) => {
             <PhotoView key={i} src={item}>
               {i === activeIndex && (
                 <img
-                  src={item}
+                  src={item || "https://res.cloudinary.com/djgziksj8/image/upload/v1753937843/ad4dkvclusuqywdtwao2.png"}
                   alt={`Image-${i}`}
                   className="max-w-full max-h-[450px] object-contain cursor-zoom-in"
                 />
