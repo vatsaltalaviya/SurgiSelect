@@ -88,7 +88,7 @@ const Login = () => {
 
           {/* Forgot Password */}
           <div className="py-2">
-            <Link to="#" className="text-primary text-sm font-medium underline">
+            <Link to="/forgetpassword" className="text-primary text-sm font-medium underline">
               Forget Your Password?
             </Link>
           </div>

@@ -15,11 +15,14 @@ import { ToastContainer } from "react-toastify";
 import Address from "./pages/address";
 import UserProfile from "./pages/UserProfile";
 import CompanyPage from "./pages/CompanyPage";
+import ForgetPassword from "./pages/ForgetPassword";
+import VerifyOTP from "./pages/VerifyOTP";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const location = useLocation();
   const [islogOut, setislogOut] = useState(false)
-  const hideHeaderFooterRoutes = ["/signup","/signin"];
+  const hideHeaderFooterRoutes = ["/signup","/signin","/forgetpassword","/verifyotp","/resetpassword"];
 
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
     location.pathname
@@ -41,6 +44,9 @@ const App = () => {
         <Route path="/address" element={<Address />} />
         <Route path="/signup" element={<Login />} />
         <Route path="/signin" element={<Register />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/verifyotp" element={<VerifyOTP />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/companyprofile/:id" element={<CompanyPage />} />
       </Routes>
