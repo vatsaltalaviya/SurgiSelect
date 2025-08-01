@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,35 @@ const Register = () => {
   const [email, setemail] = useState("");
   const [pass, setpass] = useState("");
   const [number, setnumber] = useState("");
-  const [otp, setotp] = useState("");
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const inputRefs = useRef([]);
+  
+    const handleChange = (e, index) => {
+      const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 1);
+      if (!value) return;
+  
+      const newOtp = [...otp];
+      newOtp[index] = value;
+      setOtp(newOtp);
+  
+      if (index < 5) {
+        inputRefs.current[index + 1].focus();
+      }
+    };
+  
+    const handleKeyDown = (e, index) => {
+      if (e.key === "Backspace") {
+        const newOtp = [...otp];
+        newOtp[index] = "";
+        setOtp(newOtp);
+  
+        if (!e.target.value && index > 0) {
+          inputRefs.current[index - 1].focus();
+        }
+      }
+    };
+  
+    const fullOtp = otp.join("");
 
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
@@ -52,7 +80,7 @@ const Register = () => {
   };
 
   try {
-    const result = await dispatch(verifyOTP({ email, otp })).unwrap();
+    const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
     if(result){
           const user = await dispatch(registerUser(userData)).unwrap();
           if(user){
@@ -90,16 +118,19 @@ const Register = () => {
               <h1 className="font-semibold text-xl">Verify your OTP</h1>
             </div>
 
-            <div className="w-full py-2">
+            <div className="w-full py-2 flex  justify-center items-center gap-3 mt-6">
+            {[...Array(6)].map((_, index) => (
               <input
-                type="number"
-                placeholder="Enter your OTP"
-                value={otp}
-                onChange={(e) => setotp(e.target.value)}
-                autoComplete="off"
-                className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
+                key={index}
+                type="text"
+                maxLength={1}
+                className="w-12 h-12 text-xl text-center border-2 border-gray-500 rounded-xl outline-none focus:border-gray-900"
+                onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                ref={(el) => (inputRefs.current[index] = el)}
               />
-            </div>
+            ))}
+          </div>
 
             {/* Submit Button */}
             <div className="py-2">

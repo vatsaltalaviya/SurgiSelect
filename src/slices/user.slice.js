@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const registerUser = createAsyncThunk("Adduser", async (userData, thunkAPI) => {
-    console.log(userData);
-    
   try {
     const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`, userData);
     const data = res.data;
@@ -63,12 +61,10 @@ export const sendOTP = createAsyncThunk("sendOTP", async ({ email }, thunkAPI) =
   }
 });
 
-export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, otp }, thunkAPI) => {
-
-console.log(email, otp);
+export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, fullOtp }, thunkAPI) => {
 
     try {
-        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verifyOtp`, { email, otp })
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/verifyOtp`, { email, otp:fullOtp })
         const data = res.data;
         if (res.status === 200) {
             return data.msg;

@@ -59,24 +59,23 @@ const VerifyOTP = () => {
             <h1 className="font-semibold text-xl">Verify OTP</h1>
           </div>
           {/* Email Field */}
-            <label className='text-lg py-2 font-medium' htmlFor="">OTP Send to your email check your email</label>
+          <label className="text-lg py-2 font-medium" htmlFor="">
+            OTP Send to your email check your email
+          </label>
           <div className="w-full py-2 flex  justify-center items-center gap-3 mt-6">
-            
             {[...Array(6)].map((_, index) => (
-        <input
-          key={index}
-          type="text"
-          maxLength={1}
-          className="w-12 h-12 text-xl text-center border-2 border-gray-500 rounded-xl outline-none focus:border-gray-900"
-          onChange={(e) => handleChange(e, index)}
-          onKeyDown={(e) => handleKeyDown(e, index)}
-          ref={(el) => (inputRefs.current[index] = el)}
-        />
-      ))}
-            
+              <input
+                key={index}
+                type="text"
+                maxLength={1}
+                className="w-12 h-12 text-xl text-center border-2 border-gray-500 rounded-xl outline-none focus:border-gray-900"
+                onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                ref={(el) => (inputRefs.current[index] = el)}
+              />
+            ))}
           </div>
 
-        
           {/* Submit Button */}
           <div className="py-2">
             <button
@@ -87,11 +86,10 @@ const VerifyOTP = () => {
               Verify OTP
             </button>
           </div>
-          
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default VerifyOTP
