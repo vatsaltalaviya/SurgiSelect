@@ -1,13 +1,32 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { BeatLoader } from 'react-spinners'
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
+import { toast } from "react-toastify";
+// import { getemailforreset, sendforgetOTP } from "../slices/user.slice";
 
 const ForgetPassword = () => {
-    const [email, setemail] = useState('')
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle the form submission logic here
+  const [email, setemail] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.user);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Please enter your Email");
+      return;
     }
+    // try {
+    //   const result = await dispatch(sendforgetOTP(email)).unwrap();
+    //  if(result){
+    //    toast.success(result);
+    //   dispatch(getemailforreset(email));
+    //   navigate("/verifyotp");
+    //  }
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    // }
+  };
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black bg-white lg:bg-gray-100">
       <div className="bg-white flex justify-center lg:shadow-lg lg:rounded-4xl p-2 xl:p-10  gap-3 ">
@@ -32,7 +51,9 @@ const ForgetPassword = () => {
           </div>
           {/* Email Field */}
           <div className="w-full py-2">
-            <label className='text-lg py-2 font-medium' htmlFor="">Enter email to reset password</label>
+            <label className="text-lg py-2 font-medium" htmlFor="">
+              Enter email to reset password
+            </label>
             <input
               type="email"
               placeholder="Enter your email"
@@ -40,25 +61,21 @@ const ForgetPassword = () => {
               onChange={(e) => setemail(e.target.value)}
               className="w-full appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
             />
-            
           </div>
 
-        
           {/* Submit Button */}
           <div className="py-2">
             <button
               type="submit"
               className="w-full text-primary border hover:text-white hover:bg-primary transition-all duration-300 rounded-lg px-3 py-3 font-medium text-lg md:text-2xl"
             >
-              {/* {loading ? <BeatLoader size={5} /> : "Send OTP"} */}
-              Send OTP
+              {loading ? <BeatLoader size={5} /> : "Send OTP"}
             </button>
           </div>
-          
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ForgetPassword
+export default ForgetPassword;

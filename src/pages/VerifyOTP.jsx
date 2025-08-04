@@ -1,14 +1,35 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
+// import { verifyOTP } from "../slices/user.slice";
+import { toast } from "react-toastify";
 
 const VerifyOTP = () => {
-    
-    const [otp, setOtp] = useState(Array(6).fill(""));
-        const handleSubmit = (e) => {
-            e.preventDefault();
-           
-            console.log("OTP Submitted: ", fullOtp);
-        }
-        const inputRefs = useRef([]);
+  const dispatch = useDispatch();
+  const { loading ,email } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [otp, setOtp] = useState(Array(6).fill(""));
+  const fullOtp = otp.join("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!fullOtp) {
+      toast.warn("Please fill OTP");
+      return;
+    }
+    // try {
+    //     const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
+    //     if(result){
+    //       toast.success("OTP verified successfully");
+    //           navigate('/resetpassword')
+    //     }
+    //   } catch (err) {
+    //     console.log("Error:", err);
+    //     toast.error(err || "Enter valid OTP");
+    //   }
+  };
+  const inputRefs = useRef([]);
 
   const handleChange = (e, index) => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 1);
@@ -35,7 +56,7 @@ const VerifyOTP = () => {
     }
   };
 
-  const fullOtp = otp.join(""); // This is your final 6-digit OTP
+  // This is your final 6-digit OTP
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black bg-white lg:bg-gray-100">
       <div className="bg-white flex justify-center lg:shadow-lg lg:rounded-4xl p-2 xl:p-10  gap-3 ">
@@ -82,14 +103,14 @@ const VerifyOTP = () => {
               type="submit"
               className="w-full text-primary border hover:text-white hover:bg-primary transition-all duration-300 rounded-lg px-3 py-3 font-medium text-lg md:text-2xl"
             >
-              {/* {loading ? <BeatLoader size={5} /> : "Send OTP"} */}
-              Verify OTP
+              {loading ? <BeatLoader size={5} /> : "Verify OTP"}
+              
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};
 
-export default VerifyOTP
+export default VerifyOTP;
