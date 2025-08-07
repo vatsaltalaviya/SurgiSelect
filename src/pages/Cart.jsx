@@ -9,6 +9,8 @@ import {
 } from "../slices/Cart.slice";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMultipleItemsById } from "../slices/items.slice";
+import Lottie from "lottie-react";
+import NoOrder from "../assets/noOrder.json";
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -169,7 +171,10 @@ const Cart = () => {
           <div className="w-full h-screen">
             <Loading />
           </div>
-        ) : (
+        ) : (cartData?.items?.length === 0 ? <div className="w-full flex justify-center ">
+        <div className="size-62 my-10"><Lottie animationData={NoOrder} loop={true} />
+        <h1 className="text-3xl text-center">No Cart Items!</h1></div>
+      </div>:
           <>
             {cartData?.items?.map((item, index) => (
               <div

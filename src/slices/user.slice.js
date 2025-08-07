@@ -64,9 +64,11 @@ export const sendOTP = createAsyncThunk("sendOTP", async ({ email }, thunkAPI) =
 export const sendforgetOTP = createAsyncThunk("sendforgetOTP", async (email, thunkAPI) => {
 
 
+
     try {
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/sendforgotOtp`, { email });
-
+            console.log(res);
+            
 
         // Ensure we return actual success message
         const data = res.data;
@@ -198,18 +200,18 @@ const userslices = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // .addCase(sendforgetOTP.pending, (state, action) => {
-            //     state.loading = true;
-            //     state.error = null;
-            // })
-            // .addCase(sendforgetOTP.fulfilled, (state, action) => {
-            //     state.loading = false;
-            //     state.error = null;
-            // })
-            // .addCase(sendforgetOTP.rejected, (state, action) => {
-            //     state.loading = false;
-            //     state.error = action.payload;
-            // })
+            .addCase(sendforgetOTP.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(sendforgetOTP.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(sendforgetOTP.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(verifyOTP.pending, (state, action) => {
                 state.loading = true;
                 state.error = null;
@@ -222,18 +224,18 @@ const userslices = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // .addCase(resetpassword.pending, (state, action) => {
-            //     state.loading = true;
-            //     state.error = null;
-            // })
-            // .addCase(resetpassword.fulfilled, (state, action) => {
-            //     state.loading = false;
-            //     state.error = null;
-            // })
-            // .addCase(resetpassword.rejected, (state, action) => {
-            //     state.loading = false;
-            //     state.error = action.payload;
-            // })
+            .addCase(resetpassword.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(resetpassword.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(resetpassword.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
             .addCase(AddAddress.pending, (state, action) => {
                 state.loading = true;
                 state.error = null;

@@ -3,6 +3,8 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getOrderByUserId } from "../slices/order.slice";
+import Lottie from "lottie-react";
+import NoOrder from "../assets/noOrder.json"
 
 const Orders = () => {
   const userId = localStorage.getItem("user");
@@ -12,13 +14,19 @@ const Orders = () => {
     dispatch(getOrderByUserId({ id: userId }));
   }, []);
 
+
   return (
     <div className="min-h-screen w-full flex flex-col gap-y-2 items-center py-2 px-4 bg-gray-100">
       <div className="flex py-3 lg:py-8 lg:pl-10 justify-start w-full">
         <h1 className="text-2xl font-semibold">My Orders</h1>
       </div>
 
-      <div className="w-full space-y-2">
+      
+
+      {orders?.length === 0 ?<div className="size-62 my-10">
+        <Lottie animationData={NoOrder} loop={true} />
+        <h1 className="text-3xl text-center">No Orders Yet !</h1>
+      </div>:<div className="w-full xl:px-32 space-y-2">
         {orderloading
         ? <OrderCardSkeleton />
         : Array.isArray(orders) &&
@@ -55,7 +63,7 @@ const Orders = () => {
               </div>
             </Link>
           ))}
-      </div>
+      </div>}
     </div>
   );
 };
@@ -64,23 +72,30 @@ export default Orders;
 
 const OrderCardSkeleton = () => {
   return (
-    <>
-      {[1, 1, 1].map((_, index) => (
-        <div
-          key={index}
-          className="lg:w-5xl w-full flex flex-col gap-x-4 lg:flex-row px-2 py-2 border border-black/40 rounded animate-pulse mb-4"
-        >
-          
-            <div className="size-24 lg:size-40 lg:p-5 bg-gray-300 rounded" />
-          
+    <>{[...Array(3)].map((_,i)=><div key={i} className="w-full mb-2 bg-white flex flex-col lg:flex-row justify-between gap-x-4 px-2 py-2 border border-black/40 rounded animate-pulse">
+      {/* Image List Skeleton */}
+      <div className="flex xl:w-3xl noscrollbar overflow-x-auto gap-x-2">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="size-24 lg:size-40 lg:p-5 rounded bg-gray-200 border border-black/10"
+          />
+        ))}
+      </div>
 
-          <div className="px-2 max-w-xs space-y-2 mt-2 lg:mt-0">
-            <div className="h-4 bg-gray-300 rounded w-2/3"></div>
-            <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-          </div>
+      {/* Order Info Skeleton */}
+      <div className="w-xs mt-4">
+        <div className="px-2 max-w-5xl flex space-y-2">
+          <div className="h-4 w-24 bg-gray-200 rounded" />
         </div>
-      ))}
-    </>
+
+        <div className="px-2 max-w-xs space-y-1 mt-2">
+          <div className="h-3 w-40 bg-gray-200 rounded" />
+          <div className="h-3 w-44 bg-gray-200 rounded" />
+          <div className="h-3 w-32 bg-gray-200 rounded" />
+        </div>
+      </div>
+    </div>)}</>
   );
 };
 

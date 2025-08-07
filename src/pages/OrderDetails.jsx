@@ -10,10 +10,7 @@ const OrderDetails = () => {
   const { orders, orderloading } = useSelector((state) => state.order);
   useEffect(() => {
     dispatch(getOrderById(id));
-    }, [])
-
-  console.log(orders);
-  
+    }, [])  
   
   return (
     <div className="min-h-screen bg-gray-100 py-2 px-4">
@@ -89,7 +86,9 @@ const OrderDetails = () => {
               <h1 className="text-lg font-medium">Amount</h1>
               <hr />
               <div className="grid grid-cols-2">
-                <span className="text-lg font-medium">Total Amount :</span>
+                <span className="text-sm font-medium">Payment Method :</span>
+                <span className="text-right">{orders?.paymentMethod}</span>
+                <span className="text-sm font-medium">Total Amount :</span>
                 <span className="text-right">₹{orders?.totalAmount}</span>
               </div>
             </div>
@@ -108,7 +107,7 @@ const OrderModelSkeleton = () => {
       <div className="lg:w-1/2 w-full space-y-3">
         <div className="h-6 w-40 bg-gray-300 rounded" />
 
-        {[...Array(4)].map((_, i) => (
+        {[...Array(2)].map((_, i) => (
           <div
             key={i}
             className="w-full bg-white flex flex-col lg:flex-row justify-between gap-x-4 px-2 py-2 border border-black/40 rounded-lg"

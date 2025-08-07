@@ -12,7 +12,7 @@ import { fetchAllCompanies } from "../slices/company.slice";
 const ProductPage = () => {
   const [showContactNumber, setshowContactNumber] = useState(false)
   const [showContactpopup, setshowContactpopup] = useState(false)
-  const { id } = useParams();
+  const { slug } = useParams();
   const dispatch = useDispatch();
   const [qty, setqty] = useState(1);
 
@@ -21,7 +21,7 @@ const ProductPage = () => {
   const userid = localStorage.getItem("user");
 
   useEffect(() => {
-    dispatch(fetchItemsById(id));
+    dispatch(fetchItemsById(slug));
     dispatch(fetchAllCompanies());
     window.scrollTo(0,0)
   }, []);
@@ -49,13 +49,13 @@ const ProductPage = () => {
     e.preventDefault();
     const cartdata = {
       userId: userid ?? 1,
-      itemId: id,
+      itemId: updatedProduct._id,
       qty,
       price: updatedProduct?.price,
     };
     const localcartdata = {
       userId: userid ?? 1,
-      itemId: id,
+      itemId: updatedProduct._id,
       name: updatedProduct?.name,
       image: updatedProduct?.logoImage,
       qty,

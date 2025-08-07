@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
-// import { verifyOTP } from "../slices/user.slice";
+import { verifyOTP } from "../slices/user.slice";
 import { toast } from "react-toastify";
 
 const VerifyOTP = () => {

@@ -233,7 +233,7 @@ const Navbar = ({logOut}) => {
       {/* ------- for mobile version */}
 
       <div
-        className={`bg-[#2e3192] absolute w-72 transition-all block lg:hidden  z-10 duration-200 ${
+        className={`bg-[#2e3192] absolute w-72 transition-all block xl:hidden  z-10 duration-200 ${
           showMenu ? "left-0" : "-left-1000"
         }`}
       >

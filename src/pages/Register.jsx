@@ -222,15 +222,7 @@ const Register = () => {
               />
             </div>
 
-            {/* Forgot Password */}
-            <div className="py-2">
-              <Link
-                to="#"
-                className="text-primary text-sm font-medium underline"
-              >
-                Forget Your Password?
-              </Link>
-            </div>
+  
 
             {/* Submit Button */}
             <div className="py-2">

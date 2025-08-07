@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import { toast } from "react-toastify";
-// import { getemailforreset, sendforgetOTP } from "../slices/user.slice";
+import { getemailforreset, sendforgetOTP } from "../slices/user.slice";
 
 const ForgetPassword = () => {
   const [email, setemail] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
@@ -18,15 +19,19 @@ const ForgetPassword = () => {
     }
     try {
       const result = await dispatch(sendforgetOTP(email)).unwrap();
-     if(result){
-       toast.success(result);
-      dispatch(getemailforreset(email));
-      navigate("/verifyotp");
-     }
+
+      if (result) {
+        toast.success(result);
+        dispatch(getemailforreset(email));
+        navigate("/verifyotp");
+      }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong" );
     }
   };
+
+ 
+
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black bg-white lg:bg-gray-100">
       <div className="bg-white flex justify-center lg:shadow-lg lg:rounded-4xl p-2 xl:p-10  gap-3 ">

@@ -28,9 +28,9 @@ export const fetchItems = createAsyncThunk("fetchItems", async (_, thunkAPI) => 
 })
 
 //for single item
-export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thunkAPI) => {
+export const fetchItemsById = createAsyncThunk("fetchItemsById", async (slug, thunkAPI) => {
    try {
-  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/itemSlug/${id}`);
+  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/itemSlug/${slug}`);
   const data = res.data;
   const companyId = data.data.companyId;
 

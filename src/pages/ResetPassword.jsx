@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import { getemailforreset, resetpassword } from "../slices/user.slice";
+import { getemailforreset, resetpassword } from "../slices/user.slice";
 import { BeatLoader } from "react-spinners";
 
 const ResetPassword = () => {
@@ -30,7 +30,7 @@ const ResetPassword = () => {
       if (result) {
         toast.success("Password reset successfully");
         dispatch(getemailforreset(null));
-        navigate("/signup");
+        navigate("/signin");
         
       }
     } catch (err) {

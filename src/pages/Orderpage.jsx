@@ -89,6 +89,12 @@ const Orderpage = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
+
+    if(!address[selectedAddress]?.city||!address[selectedAddress]?.landmark||!address[selectedAddress]?.address||!address[selectedAddress]?.state||!address[selectedAddress]?.city||!address[selectedAddress]?.pincode){
+      toast.error("Please Add Address");
+      navigate("/address");
+      return;
+    }
     const orderData = {
       userId,
       userNumber,
@@ -119,7 +125,6 @@ const Orderpage = () => {
     }
   };
 
-  console.log(address);
   
 
   return (
