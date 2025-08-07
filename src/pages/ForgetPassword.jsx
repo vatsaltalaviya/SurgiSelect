@@ -16,16 +16,16 @@ const ForgetPassword = () => {
       toast.error("Please enter your Email");
       return;
     }
-    // try {
-    //   const result = await dispatch(sendforgetOTP(email)).unwrap();
-    //  if(result){
-    //    toast.success(result);
-    //   dispatch(getemailforreset(email));
-    //   navigate("/verifyotp");
-    //  }
-    // } catch (error) {
-    //   toast.error("Something went wrong");
-    // }
+    try {
+      const result = await dispatch(sendforgetOTP(email)).unwrap();
+     if(result){
+       toast.success(result);
+      dispatch(getemailforreset(email));
+      navigate("/verifyotp");
+     }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black bg-white lg:bg-gray-100">

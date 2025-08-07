@@ -16,33 +16,33 @@ const Register = () => {
   const [number, setnumber] = useState("");
   const [otp, setOtp] = useState(Array(6).fill(""));
   const inputRefs = useRef([]);
-  
-    const handleChange = (e, index) => {
-      const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 1);
-      if (!value) return;
-  
+
+  const handleChange = (e, index) => {
+    const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 1);
+    if (!value) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    if (index < 5) {
+      inputRefs.current[index + 1].focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace") {
       const newOtp = [...otp];
-      newOtp[index] = value;
+      newOtp[index] = "";
       setOtp(newOtp);
-  
-      if (index < 5) {
-        inputRefs.current[index + 1].focus();
+
+      if (!e.target.value && index > 0) {
+        inputRefs.current[index - 1].focus();
       }
-    };
-  
-    const handleKeyDown = (e, index) => {
-      if (e.key === "Backspace") {
-        const newOtp = [...otp];
-        newOtp[index] = "";
-        setOtp(newOtp);
-  
-        if (!e.target.value && index > 0) {
-          inputRefs.current[index - 1].focus();
-        }
-      }
-    };
-  
-    const fullOtp = otp.join("");
+    }
+  };
+
+  const fullOtp = otp.join("");
 
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.user);
@@ -65,34 +65,33 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!otp) {
-    toast.warn("Please fill OTP");
-    return;
-  }
-
-  const userData = {
-    name,
-    email,
-    password: pass,
-    number,
-  };
-
-  try {
-    const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
-    if(result){
-          const user = await dispatch(registerUser(userData)).unwrap();
-          if(user){
-            navigate("/");
-          }
+    if (!otp) {
+      toast.warn("Please fill OTP");
+      return;
     }
-  } catch (err) {
-    console.log("Error:", err);
-    toast.error(err || "Enter valid OTP");
-  }
-};
 
+    const userData = {
+      name,
+      email,
+      password: pass,
+      number,
+    };
+
+    try {
+      const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
+      if (result) {
+        const user = await dispatch(registerUser(userData)).unwrap();
+        if (user) {
+          navigate("/");
+        }
+      }
+    } catch (err) {
+      console.log("Error:", err);
+      toast.error(err || "Enter valid OTP");
+    }
+  };
 
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black lg:bg-gray-100">
@@ -119,18 +118,18 @@ const Register = () => {
             </div>
 
             <div className="w-full py-2 flex  justify-center items-center gap-3 mt-6">
-            {[...Array(6)].map((_, index) => (
-              <input
-                key={index}
-                type="text"
-                maxLength={1}
-                className="w-12 h-12 text-xl text-center border-2 border-gray-500 rounded-xl outline-none focus:border-gray-900"
-                onChange={(e) => handleChange(e, index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                ref={(el) => (inputRefs.current[index] = el)}
-              />
-            ))}
-          </div>
+              {[...Array(6)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  maxLength={1}
+                  className="w-12 h-12 text-xl text-center border-2 border-gray-500 rounded-xl outline-none focus:border-gray-900"
+                  onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  ref={(el) => (inputRefs.current[index] = el)}
+                />
+              ))}
+            </div>
 
             {/* Submit Button */}
             <div className="py-2">
@@ -180,11 +179,17 @@ const Register = () => {
             {/* Email Field */}
             <div className="w-full py-2">
               <input
-                type="number"
+                type="text"
                 placeholder="Enter your Phone no"
                 minLength={10}
                 value={number}
-                onChange={(e) => setnumber(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value
+                  const ismatched = /^[6-9]\d{0,9}$/.test(value);
+                  if (ismatched || value === ""){
+                    setnumber(value);
+                  }
+                }}
                 className="w-full phone appearance-none focus:outline-none focus:ring-2 focus:ring-black border border-gray-300 rounded-md p-2 lg:p-4 text-lg"
               />
             </div>
@@ -242,7 +247,7 @@ const Register = () => {
               <p className="text-xs md:text-lg font-medium">
                 Already have an Account?
                 <Link
-                  to="/signup"
+                  to="/signin"
                   className="text-primary  font-medium underline"
                 >
                   Login

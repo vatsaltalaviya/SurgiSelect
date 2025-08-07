@@ -119,6 +119,9 @@ const Orderpage = () => {
     }
   };
 
+  console.log(address);
+  
+
   return (
     <>
       <div className="p-2 md:p-12 bg-gray-100">
@@ -354,7 +357,7 @@ const Orderpage = () => {
                     <tbody>
                       <tr className="py-2">
                         <td className="w-full text-sm font-semibold">
-                          Items (2):
+                          Items ({cart?.items?.length}) :
                         </td>
                         <td className="w-full text-sm font-medium text-right">
                           {cart.finalTotal}

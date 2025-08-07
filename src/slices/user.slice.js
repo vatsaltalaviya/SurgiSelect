@@ -61,46 +61,46 @@ export const sendOTP = createAsyncThunk("sendOTP", async ({ email }, thunkAPI) =
     }
 });
 
-// export const sendforgetOTP = createAsyncThunk("sendforgetOTP", async (email, thunkAPI) => {
+export const sendforgetOTP = createAsyncThunk("sendforgetOTP", async (email, thunkAPI) => {
 
 
-//     try {
-//         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/sendforgotOtp`, { email });
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/sendforgotOtp`, { email });
 
 
-//         // Ensure we return actual success message
-//         const data = res.data;
+        // Ensure we return actual success message
+        const data = res.data;
 
-//         if (res.status === 200 && data.msg) {
-//             return data.msg;
-//         } else {
-//             return thunkAPI.rejectWithValue("Failed to send OTP");
-//         }
-//     } catch (error) {
-//         // Extract backend message properly
-//         const errMsg = error.response?.data?.msg || "Something went wrong";
-//         return thunkAPI.rejectWithValue(errMsg);
-//     }
-// });
+        if (res.status === 200 && data.msg) {
+            return data.msg;
+        } else {
+            return thunkAPI.rejectWithValue("Failed to send OTP");
+        }
+    } catch (error) {
+        // Extract backend message properly
+        const errMsg = error.response?.data?.msg || "Something went wrong";
+        return thunkAPI.rejectWithValue(errMsg);
+    }
+});
 
-// export const resetpassword = createAsyncThunk("resetpassword", async ({ email, newPassword }, thunkAPI) => {
-//     try {
-//         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/changePassword`, { email, newPassword });
+export const resetpassword = createAsyncThunk("resetpassword", async ({ email, newPassword }, thunkAPI) => {
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/changePassword`, { email, newPassword });
 
-//         // Ensure we return actual success message
-//         const data = res.data;
+        // Ensure we return actual success message
+        const data = res.data;
 
-//         if (res.status === 200 && data.msg) {
-//             return data.msg;
-//         } else {
-//             return thunkAPI.rejectWithValue("Failed to send OTP");
-//         }
-//     } catch (error) {
-//         // Extract backend message properly
-//         const errMsg = error.response?.data?.msg || "Something went wrong";
-//         return thunkAPI.rejectWithValue(errMsg);
-//     }
-// });
+        if (res.status === 200 && data.msg) {
+            return data.msg;
+        } else {
+            return thunkAPI.rejectWithValue("Failed to send OTP");
+        }
+    } catch (error) {
+        // Extract backend message properly
+        const errMsg = error.response?.data?.msg || "Something went wrong";
+        return thunkAPI.rejectWithValue(errMsg);
+    }
+});
 
 export const verifyOTP = createAsyncThunk("verifyOTP", async ({ email, fullOtp }, thunkAPI) => {
 

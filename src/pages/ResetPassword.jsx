@@ -24,20 +24,20 @@ const ResetPassword = () => {
       toast.error("Passwords do not match");
       return;
     }
-    // if(newPassword == confirmnewPassword){
-    //   try {
-    //   const result = await dispatch(resetpassword({ email, newPassword })).unwrap();
-    //   if (result) {
-    //     toast.success("Password reset successfully");
-    //     dispatch(getemailforreset(null));
-    //     navigate("/signup");
+    if(newPassword == confirmnewPassword){
+      try {
+      const result = await dispatch(resetpassword({ email, newPassword })).unwrap();
+      if (result) {
+        toast.success("Password reset successfully");
+        dispatch(getemailforreset(null));
+        navigate("/signup");
         
-    //   }
-    // } catch (err) {
-    //   console.log("Error:", err);
-    //   toast.error(err || "Enter valid OTP");``
-    // }
-    // }
+      }
+    } catch (err) {
+      console.log("Error:", err);
+      toast.error(err || "Enter valid OTP");``
+    }
+    }
   };
   return (
     <div className="lg:flex justify-center items-center h-screen w-full text-black bg-white lg:bg-gray-100">

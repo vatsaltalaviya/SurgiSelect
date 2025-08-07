@@ -77,6 +77,9 @@ const ProductPage = () => {
     }
   };
 
+
+  
+
   return (
     <div className="w-full px-2 pt-5 py-1">
       {loading ? (

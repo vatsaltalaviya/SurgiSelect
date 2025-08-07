@@ -18,6 +18,8 @@ import CompanyPage from "./pages/CompanyPage";
 import ForgetPassword from "./pages/ForgetPassword";
 import VerifyOTP from "./pages/VerifyOTP";
 import ResetPassword from "./pages/ResetPassword";
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
 
 const App = () => {
   const location = useLocation();
@@ -42,12 +44,14 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Orderpage />} />
         <Route path="/address" element={<Address />} />
-        <Route path="/signup" element={<Login />} />
-        <Route path="/signin" element={<Register />} />
+        <Route path="/signin" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/verifyotp" element={<VerifyOTP />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/companyprofile/:id" element={<CompanyPage />} />
       </Routes>
 

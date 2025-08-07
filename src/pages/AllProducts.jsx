@@ -168,6 +168,7 @@ const AllProducts = () => {
     }
   };
 
+ console.log(items);
  
 
   return (
@@ -319,7 +320,8 @@ const AllProducts = () => {
                     <div className="flex flex-col py-2 justify-between w-full">
                       <div className="w-full ">
                         <Link
-                          to={`/productdetail/${product.item._id}`}
+                          to={`/productdetail/${product.item.slug
+}`}
                           className="text-[16px]  font-semibold text-primary hover:text-red-500 "
                         >
                           <p className="text-wrap px-1.5">

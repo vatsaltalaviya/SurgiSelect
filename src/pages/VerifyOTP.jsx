@@ -18,16 +18,16 @@ const VerifyOTP = () => {
       toast.warn("Please fill OTP");
       return;
     }
-    // try {
-    //     const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
-    //     if(result){
-    //       toast.success("OTP verified successfully");
-    //           navigate('/resetpassword')
-    //     }
-    //   } catch (err) {
-    //     console.log("Error:", err);
-    //     toast.error(err || "Enter valid OTP");
-    //   }
+    try {
+        const result = await dispatch(verifyOTP({ email, fullOtp })).unwrap();
+        if(result){
+          toast.success("OTP verified successfully");
+              navigate('/resetpassword')
+        }
+      } catch (err) {
+        console.log("Error:", err);
+        toast.error(err || "Enter valid OTP");
+      }
   };
   const inputRefs = useRef([]);
 

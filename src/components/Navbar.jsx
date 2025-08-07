@@ -193,10 +193,10 @@ const Navbar = ({logOut}) => {
               <div className="w-72 rounded bg-stone-200 flex flex-col gap-0.5 p-4">
                 {!userid ? (
                   <Link
-                    to="/signup"
+                    to="/signin"
                     className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
                   >
-                    Sign UP
+                    Sign in
                   </Link>
                 ) : (
                   <Link
@@ -207,18 +207,15 @@ const Navbar = ({logOut}) => {
                     Log Out
                   </Link>
                 )}
-                <Link to="/">
-                  <p className="cursor-pointer text-lg space-x-3 hover:text-black">
-                    <i className="ri-home-9-fill text-sm" />
-                    <span className="text-sm">Home</span>
-                  </p>
-                </Link>
-                <Link to="/profile">
-                  <p className="cursor-pointer space-x-3 hover:text-black">
-                    <i className="ri-user-fill text-sm" />
-                    <span className="text-sm">Profile</span>
-                  </p>
-                </Link>
+                {[{path: "/", label: "Home",icon:"ri-home-9-fill"}, {path: "/profile", label: "Profile",icon:"ri-user-fill"}, {path: "/orders", label: "Orders",icon:"ri-dropbox-fill"}].map((item) => <Link key={item.label} to={item.path}>
+                    <p
+                      onClick={() => setshowMenu(false)}
+                      className="cursor-pointer  space-x-3 hover:text-black"
+                    >
+                      <i className={`${item.icon} text-sm`} />
+                      <span className="text-sm">{item.label}</span>
+                    </p>
+                  </Link>)}
               </div>
             </div>
           </div>
@@ -236,7 +233,7 @@ const Navbar = ({logOut}) => {
       {/* ------- for mobile version */}
 
       <div
-        className={`bg-[#2e3192] absolute w-72 transition-all  z-10 duration-200 ${
+        className={`bg-[#2e3192] absolute w-72 transition-all block lg:hidden  z-10 duration-200 ${
           showMenu ? "left-0" : "-left-1000"
         }`}
       >
@@ -270,10 +267,10 @@ const Navbar = ({logOut}) => {
                 <div className="w-full rounded bg-stone-100 flex flex-col gap-4 p-4">
                   {!userid ? (
                     <Link
-                      to="/signup"
+                      to="/signin"
                       className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
                     >
-                      Sign UP
+                      Sign in
                     </Link>
                   ) : (
                     <Link
@@ -287,24 +284,17 @@ const Navbar = ({logOut}) => {
                       Log Out
                     </Link>
                   )}
-                  <Link to="/">
+                  {[{path: "/", label: "Home",icon:"ri-home-9-fill"}, {path: "/profile", label: "Profile",icon:"ri-user-fill"}, {path: "/orders", label: "Orders",icon:"ri-dropbox-fill"}].map((item) => <Link key={item.label} to={item.path}>
                     <p
                       onClick={() => setshowMenu(false)}
                       className="cursor-pointer  space-x-3 hover:text-black"
                     >
-                      <i className="ri-home-9-fill text-sm" />
-                      <span className="text-sm">Home</span>
+                      <i className={`${item.icon} text-sm`} />
+                      <span className="text-sm">{item.label}</span>
                     </p>
-                  </Link>
-                  <Link to="/">
-                    <p
-                      onClick={() => setshowMenu(false)}
-                      className="cursor-pointer space-x-3 hover:text-black"
-                    >
-                      <i className="ri-user-fill text-sm" />
-                      <span className="text-sm">Profile</span>
-                    </p>
-                  </Link>
+                  </Link>)}
+                  
+                  
                 </div>
               </div>
             </details>

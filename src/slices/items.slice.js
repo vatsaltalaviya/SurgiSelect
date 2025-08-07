@@ -26,9 +26,11 @@ export const fetchItems = createAsyncThunk("fetchItems", async (_, thunkAPI) => 
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })
+
+//for single item
 export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thunkAPI) => {
    try {
-  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item/${id}`);
+  const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/itemSlug/${id}`);
   const data = res.data;
   const companyId = data.data.companyId;
 
@@ -54,6 +56,8 @@ export const fetchItemsById = createAsyncThunk("fetchItemsById", async (id, thun
   );
 }
 })
+
+// for cart
 export const fetchMultipleItemsById = createAsyncThunk(
   "fetchMultipleItemsById",
   async (cartItems, thunkAPI) => {
