@@ -5,7 +5,7 @@ import { getUserAddress } from "../slices/user.slice";
 const UserProfile = () => {
     const userId = localStorage.getItem("user");
     const dispatch = useDispatch();
-    const { address, loading, selectedAddress } = useSelector(
+    const { address, loading } = useSelector(
        (state) => state.user
      );
 
