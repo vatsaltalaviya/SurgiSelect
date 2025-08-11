@@ -16,13 +16,12 @@ const UserProfile = () => {
      },[userId,dispatch])
 
 const handleDelete=async(id)=>{
-    // Implement delete functionality here
-    // console.log("Delete address with id:", id);
+    
     const result =await  dispatch(deleteAddress(id)).unwrap();
     if(result){
         dispatch(getUserAddress(userId));
     }
-    // You can dispatch an action to delete the address
+   
 }
      
   return (
