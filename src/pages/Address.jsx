@@ -48,8 +48,6 @@ const Address = () => {
     if (statecode) setcityarr(getCitiesByStateName(statecode, city));
   }, [statecode]);
 
-  console.log(address);
-
   const handlesubmit = async (e) => {
     e.preventDefault();
     if (

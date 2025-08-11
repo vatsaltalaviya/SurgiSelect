@@ -141,6 +141,18 @@ export const getUserAddress = createAsyncThunk("getUserAddress", async (userId, 
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 });
+export const deleteAddress = createAsyncThunk("deleteAddress", async (id, thunkAPI) => {
+
+    try {
+        const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/address/deleteAddress/${id}`)
+        const data = res.data;
+        if (data.success) {
+            return data.message;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+});
 
 const userslices = createSlice({
     name: 'users',
@@ -259,6 +271,18 @@ const userslices = createSlice({
                 state.error = null;
             })
             .addCase(getUserAddress.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(deleteAddress.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteAddress.fulfilled, (state) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(deleteAddress.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

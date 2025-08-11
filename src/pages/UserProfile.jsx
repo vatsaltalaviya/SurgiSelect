@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserAddress } from "../slices/user.slice";
+import { deleteAddress, getUserAddress } from "../slices/user.slice";
 
 const UserProfile = () => {
     const userId = localStorage.getItem("user");
@@ -15,7 +15,15 @@ const UserProfile = () => {
         }
      },[userId,dispatch])
 
-
+const handleDelete=async(id)=>{
+    // Implement delete functionality here
+    // console.log("Delete address with id:", id);
+    const result =await  dispatch(deleteAddress(id)).unwrap();
+    if(result){
+        dispatch(getUserAddress(userId));
+    }
+    // You can dispatch an action to delete the address
+}
      
   return (
     <div className="w-full xl:min-h-[70vh] flex  justify-center px-2 py-4">
@@ -39,7 +47,7 @@ const UserProfile = () => {
                 {item.landmark} ,
               {item.address} ,{item.city} ,{item.state} ,{item.pincode}
             </h1>
-            <i className="ri-delete-bin-6-line"></i>
+            <i onClick={()=>handleDelete(item._id)} className="ri-delete-bin-6-line"></i>
           </div>)}
           
           
