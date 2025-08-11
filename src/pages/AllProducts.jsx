@@ -80,16 +80,8 @@ const AllProducts = () => {
 
   // Set subcategory name from ID
   const handleSubcategoryName = () => {
-    const subcat = subCategories?.find(
-      (subcat) => String(subcat?.slug) === String(subcategoryslug)
-    );
-
-    if (subcat) {
-      setSubcatname(subcat.name);
-    } else {
-      console.warn("Subcategory not found for:", subcategoryslug);
-      setSubcatname("Unknown Subcategory");
-    }
+   
+    setSubcatname(subcategoryslug.replace(/-/g, " "));
   };
 
   // Initial data fetch based on subcategory
