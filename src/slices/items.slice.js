@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchItemsBySubCategory = createAsyncThunk("fetchItemsBySubCategory", async (subcategoryid, thunkAPI) => {
+export const fetchItemsBySubCategory = createAsyncThunk("fetchItemsBySubCategory", async ({subcategoryslug,page}, thunkAPI) => {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item-List/${subcategoryid}`);
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/items/item-List/${subcategoryslug}?page=${page}`);
         const data = res.data;
         if (data.success) {
             return data.data;
@@ -193,8 +193,19 @@ const itemSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.fulfilled, (state, action) => {
+               
                 state.subcategoryLoading = false;
-                state.items = action.payload;
+                const newItems = action.payload;
+
+                state.items = newItems;
+                // if (action.payload.page === 1) {
+                //     state.items = newItems;
+                // } else {
+                //     state.items = [...state.items, ...newItems];
+                // }
+
+                // Check if more items available (based on API response or length)
+                state.hasMore = newItems.length > 0;
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.rejected, (state, action) => {

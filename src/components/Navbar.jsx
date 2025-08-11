@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
 import { fetchSuggestions } from "../slices/items.slice";
 
-const Navbar = ({logOut}) => {
+const Navbar = ({ logOut }) => {
   const [showMenu, setshowMenu] = useState(false);
   const [query, setQuery] = useState(null);
   const input = useDebounce(query, 1000);
@@ -207,7 +207,12 @@ const Navbar = ({logOut}) => {
                     Log Out
                   </Link>
                 )}
-                {[{path: "/", label: "Home",icon:"ri-home-9-fill"}, {path: "/profile", label: "Profile",icon:"ri-user-fill"}, {path: "/orders", label: "Orders",icon:"ri-dropbox-fill"}].map((item) => <Link key={item.label} to={item.path}>
+                {[
+                  { path: "/", label: "Home", icon: "ri-home-9-fill" },
+                  { path: "/profile", label: "Profile", icon: "ri-user-fill" },
+                  { path: "/orders", label: "Orders", icon: "ri-dropbox-fill" },
+                ].map((item) => (
+                  <Link key={item.label} to={item.path}>
                     <p
                       onClick={() => setshowMenu(false)}
                       className="cursor-pointer  space-x-3 hover:text-black"
@@ -215,7 +220,8 @@ const Navbar = ({logOut}) => {
                       <i className={`${item.icon} text-sm`} />
                       <span className="text-sm">{item.label}</span>
                     </p>
-                  </Link>)}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
@@ -276,7 +282,7 @@ const Navbar = ({logOut}) => {
                     <Link
                       to="/"
                       onClick={() => {
-                        localStorage.clear();
+                        logOut();
                         setshowMenu(false);
                       }}
                       className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
@@ -284,17 +290,29 @@ const Navbar = ({logOut}) => {
                       Log Out
                     </Link>
                   )}
-                  {[{path: "/", label: "Home",icon:"ri-home-9-fill"}, {path: "/profile", label: "Profile",icon:"ri-user-fill"}, {path: "/orders", label: "Orders",icon:"ri-dropbox-fill"}].map((item) => <Link key={item.label} to={item.path}>
-                    <p
-                      onClick={() => setshowMenu(false)}
-                      className="cursor-pointer  space-x-3 hover:text-black"
-                    >
-                      <i className={`${item.icon} text-sm`} />
-                      <span className="text-sm">{item.label}</span>
-                    </p>
-                  </Link>)}
-                  
-                  
+                  {[
+                    { path: "/", label: "Home", icon: "ri-home-9-fill" },
+                    {
+                      path: "/profile",
+                      label: "Profile",
+                      icon: "ri-user-fill",
+                    },
+                    {
+                      path: "/orders",
+                      label: "Orders",
+                      icon: "ri-dropbox-fill",
+                    },
+                  ].map((item) => (
+                    <Link key={item.label} to={item.path}>
+                      <p
+                        onClick={() => setshowMenu(false)}
+                        className="cursor-pointer  space-x-3 hover:text-black"
+                      >
+                        <i className={`${item.icon} text-sm`} />
+                        <span className="text-sm">{item.label}</span>
+                      </p>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </details>

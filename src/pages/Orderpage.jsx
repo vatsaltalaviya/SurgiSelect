@@ -209,7 +209,7 @@ const Orderpage = () => {
                   </div>
 
                   <div className="py-2 border-t-2 border-gray-300">
-                    <h1 className="text-lg  font-semibold">
+                    <h1 className="text-sm  font-semibold">
                       Another payment method
                     </h1>
 
@@ -223,7 +223,7 @@ const Orderpage = () => {
                           onChange={(e) => setPaymentMethod(e.target.value)}
                           className="items-start w-5 h-5"
                         />
-                        <h2 className="text-lg font-medium">
+                        <h2 className="text-sm font-medium">
                           Credit or debit card
                         </h2>
                       </div>
@@ -237,7 +237,7 @@ const Orderpage = () => {
                         <button
                           type="button"
                           onClick={() => setshowAddCard(true)}
-                          className="text-primary hover:underline"
+                          className="text-primary text-sm hover:underline"
                         >
                           Add your Card
                         </button>
@@ -254,13 +254,13 @@ const Orderpage = () => {
                           checked={paymentMethod == "netBanking"}
                           onChange={(e) => setPaymentMethod(e.target.value)}
                         />
-                        <h2 className="text-lg font-medium">Net banking</h2>
+                        <h2 className="text-sm font-medium">Net banking</h2>
                       </div>
                       <div className="flex flex-col item-center gap-2 py-2">
                         <select
                           id="bank"
                           name="bank"
-                          className="w-52 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          className="w-52 px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                           defaultValue=""
                         >
                           <option value="" disabled>
@@ -285,7 +285,7 @@ const Orderpage = () => {
                           onChange={(e) => setPaymentMethod(e.target.value)}
                           className="items-start w-5 h-5"
                         />
-                        <h2 className="text-lg font-medium">Other UPI Apps</h2>
+                        <h2 className="text-sm font-medium">Other UPI Apps</h2>
                       </div>
                       <div className="flex flex-col item-center gap-2 py-2">
                         <div className="flex flex-col lg:flex-row gap-2">
@@ -296,12 +296,12 @@ const Orderpage = () => {
                           />
                           <button
                             type="button"
-                            className="border border-gray-400 rounded-full px-4 py-1 text-lg hover:bg-gray-100 transition"
+                            className="border border-gray-400 rounded-full px-4 py-1 text-sm hover:bg-gray-100 transition"
                           >
                             Verify
                           </button>
                         </div>
-                        <span className="text-lg py-2 text-gray-500 font-medium">
+                        <span className="text-sm py-2 text-gray-500 font-medium">
                           The UPI ID is in the format of name/phone
                           number@bankname
                         </span>
@@ -318,7 +318,7 @@ const Orderpage = () => {
                           onChange={(e) => setPaymentMethod(e.target.value)}
                           className="items-start w-5 h-5"
                         />
-                        <h2 className="text-lg font-medium">EMI</h2>
+                        <h2 className="text-sm font-medium">EMI</h2>
                       </div>
                       <div className="flex flex-col items-start gap-2 py-2">
                         <img
@@ -331,7 +331,7 @@ const Orderpage = () => {
                         <button
                           type="button"
                           onClick={() => setshowAddCard(true)}
-                          className="text-primary hover:underline"
+                          className="text-primary text-sm hover:underline"
                         >
                           Add your Card
                         </button>
@@ -347,7 +347,7 @@ const Orderpage = () => {
                           onChange={(e) => setPaymentMethod(e.target.value)}
                           className="items-start w-5 h-5"
                         />
-                        <h2 className="text-lg font-medium">
+                        <h2 className="text-sm font-medium">
                           Cash On Delivary
                         </h2>
                       </div>
@@ -361,33 +361,33 @@ const Orderpage = () => {
                   <table>
                     <tbody>
                       <tr className="py-2">
-                        <td className="w-full text-sm font-semibold">
+                        <td className="w-full text-lg font-semibold">
                           Items ({cart?.items?.length}) :
                         </td>
-                        <td className="w-full text-sm font-medium text-right">
+                        <td className="w-full text-lg font-medium text-right">
                           {cart.finalTotal}
                         </td>
                       </tr>
                       <tr className="py-2">
-                        <td className="w-full text-sm font-semibold">
+                        <td className="w-full text-lg font-semibold">
                           Delivary:
                         </td>
-                        <td className="w-full text-sm font-medium text-right">
+                        <td className="w-full text-lg font-medium text-right">
                           40
                         </td>
                       </tr>
 
                       <tr className="py-2">
-                        <td className="w-full text-sm font-semibold">Total:</td>
-                        <td className="w-full text-sm font-medium text-right">
+                        <td className="w-full text-lg font-semibold">Total:</td>
+                        <td className="w-full text-lg font-medium text-right">
                           {cart.finalTotal}
                         </td>
                       </tr>
                       <tr className="py-2">
-                        <td className="w-full text-sm font-semibold">
+                        <td className="w-full text-lg font-semibold">
                           Promotion Applied:
                         </td>
-                        <td className="w-full text-sm font-medium text-right">
+                        <td className="w-full text-lg font-medium text-right">
                           -40
                         </td>
                       </tr>

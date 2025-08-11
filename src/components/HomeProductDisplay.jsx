@@ -79,7 +79,7 @@ const HomeProductDisplay = () => {
                   <div className="flex flex-row lg:flex-wrap flex-nowrap gap-4 xl:overflow-hidden overflow-x-scroll">
                     {cat.subCategories.map((subcat, i) => (
                       <Link
-                        to={`/allproducts/${subcat._id}`}
+                        to={`/allproducts/${subcat.slug}`}
                         key={i}
                         className="shrink-0"
                       >

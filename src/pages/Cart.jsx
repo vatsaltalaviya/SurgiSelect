@@ -153,6 +153,7 @@ const Cart = () => {
 
   const cartData = localCartState;
   const itemslength = cartData?.items?.length;
+  
 
     useEffect(()=>{
     dispatch(setCartItemCount(itemslength))
@@ -160,7 +161,7 @@ const Cart = () => {
 
   return (
     <div className="p-2 md:p-4 flex-res min-h-screen space-x-1 bg-gray-100">
-      <div className="w-full p-4 bg-white min-h-32 h-fit space-y-2 shadow-2xl">
+      <div className="w-full p-4 bg-white lg:min-h-32 h-screen lg:h-fit space-y-2 ">
         <div className="flex justify-between px-2 py-1">
           <h1 className="text-xl font-medium">Shoping Cart</h1>
           <h1 className="text-xl font-medium">{itemslength} Item</h1>

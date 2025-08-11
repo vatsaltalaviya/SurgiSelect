@@ -49,7 +49,7 @@ const sidebardata = [
 ];
 
 const AllProducts = () => {
-  const { subcategoryid, name } = useParams();
+  const { subcategoryslug, name } = useParams();
 
   const dispatch = useDispatch();
   const cityScrollRef = useRef(null);
@@ -81,32 +81,32 @@ const AllProducts = () => {
   // Set subcategory name from ID
   const handleSubcategoryName = () => {
     const subcat = subCategories?.find(
-      (subcat) => String(subcat?._id) === String(subcategoryid)
+      (subcat) => String(subcat?.slug) === String(subcategoryslug)
     );
 
     if (subcat) {
       setSubcatname(subcat.name);
     } else {
-      console.warn("Subcategory not found for:", subcategoryid);
+      console.warn("Subcategory not found for:", subcategoryslug);
       setSubcatname("Unknown Subcategory");
     }
   };
 
   // Initial data fetch based on subcategory
   useEffect(() => {
-    if (subcategoryid) {
-      dispatch(fetchItemsBySubCategory(subcategoryid));
+    if (subcategoryslug) {
+      dispatch(fetchItemsBySubCategory({subcategoryslug,page}));
       dispatch(fetchAllCompanies());
       dispatch(fetchlandingPageCategories());
     }
-  }, [subcategoryid]);
+  }, [subcategoryslug]);
 
   // Set subcategory name when available
   useEffect(() => {
-    if (subcategoryid && subCategories?.length > 0) {
+    if (subcategoryslug && subCategories?.length > 0) {
       handleSubcategoryName();
     }
-  }, [subcategoryid, subCategories]);
+  }, [subcategoryslug, subCategories]);
 
   // Reset items when `name` changes
   useEffect(() => {
@@ -116,10 +116,10 @@ const AllProducts = () => {
     }
   }, [name, dispatch]);
 
-  // Scroll to top when `name` or `subcategoryid` changes
+  // Scroll to top when `name` or `subcategoryslug` changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [name, subcategoryid]);
+  }, [name, subcategoryslug]);
 
   // Search items when `name` and `page` change
   useEffect(() => {
@@ -168,7 +168,6 @@ const AllProducts = () => {
     }
   };
 
- console.log(items);
  
 
   return (
@@ -278,7 +277,7 @@ const AllProducts = () => {
         </div>
 
         <div className="flex flex-col space-y-3 w-full">
-          {subcategoryid && subcategoryLoading ? (
+          { subcategoryLoading ? (
             <div className="w-full h-screen flex flex-col items-center justify-center">
               <Loading />
             </div>
@@ -680,7 +679,7 @@ function Loading() {
   return (
     <>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div className="bg-white w-full h-full"><section
+        <div key={i} className="bg-white w-full h-full"><section
           key={i}
           className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
         >
