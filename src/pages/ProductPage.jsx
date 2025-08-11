@@ -19,6 +19,7 @@ const ProductPage = () => {
   const { items, loading } = useSelector((state) => state.items);
   const { cartloading } = useSelector((state) => state.cart);
   const userid = localStorage.getItem("user");
+  
 
   useEffect(() => {
     dispatch(fetchItemsById(slug));
@@ -82,6 +83,7 @@ const ProductPage = () => {
 
   return (
     <div className="w-full px-2 pt-5 py-1">
+            {console.log("Product page rendered")}
       {loading ? (
         <div className="w-full h-screen">
           <ProductLoading />

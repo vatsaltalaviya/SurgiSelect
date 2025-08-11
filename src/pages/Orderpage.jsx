@@ -107,6 +107,7 @@ const Orderpage = () => {
       isOrderCancelled: false,
       totalAmount: cart.finalTotal,
       paymentMethod,
+      delivaryDate:new Date(Date.now() + 4*24*60*60*1000).toISOString(),
       city: address[selectedAddress]?.city,
       LandMark: address[selectedAddress]?.landmark,
       orderAddress: address[selectedAddress]?.address,

@@ -165,6 +165,7 @@ const AllProducts = () => {
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
       {/* Title */}
+
       <div className="my-2 flex flex-wrap gap-2 items-baseline">
         <h1 className="text-xl pl-3 sm:text-3xl font-medium">
           {name || subcatname}
