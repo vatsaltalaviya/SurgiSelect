@@ -47,7 +47,7 @@ const Navbar = ({ logOut }) => {
   const navigate = useNavigate();
   return (
     <nav
-      className={`bg-[#2e3192] w-full ${
+      className={`bg-[#2e3192] w-full xl:pr-18 ${
         showMenu ? "fixed top-0" : "relative"
       } z-30 px-4 `}
     >
@@ -180,33 +180,18 @@ const Navbar = ({ logOut }) => {
               >
                 <i className="ri-shopping-bag-3-line text-xl font-medium text-white"></i>
               </Badge>
-              <span className="text-white text-[12px] font-light">Cart</span>
+              <span className="text-white text-[14px] font-light">Cart</span>
             </div>
           </Link>
 
           <div className="flex flex-col group items-center relative">
             <i className="ri-user-line text-lg font-medium text-white"></i>
-            <span className="text-white text-[12px] font-light">
-              {username || "sign in"} <i className="ri-arrow-down-s-line"></i>
+            <span className="text-white text-[14px] font-light">
+              {username || "sign in"} <i className="ri-arrow-down-s-line rotate-0 group-hover:rotate-180"></i>
             </span>
-            <div className="absolute top-2 right-0 pt-12 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-              <div className="w-72 rounded bg-stone-200 flex flex-col gap-0.5 p-4">
-                {!userid ? (
-                  <Link
-                    to="/signin"
-                    className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
-                  >
-                    Sign in
-                  </Link>
-                ) : (
-                  <Link
-                    to="/"
-                    onClick={() => logOut()}
-                    className="px-3 py-1.5 text-white bg-primary text-sm text-center rounded-xl"
-                  >
-                    Log Out
-                  </Link>
-                )}
+            <div className="absolute shadow-2xl top-2 rounded -right-15 pt-12 text-base z-20 hidden group-hover:block">
+              <div className="w-52 rounded bg-white relative flex flex-col gap-0.5">
+                <div className="w-4 h-3 bg-white triangle absolute left-[60%] -top-3"/>
                 {[
                   { path: "/", label: "Home", icon: "ri-home-9-fill" },
                   { path: "/profile", label: "Profile", icon: "ri-user-fill" },
@@ -215,13 +200,31 @@ const Navbar = ({ logOut }) => {
                   <Link key={item.label} to={item.path}>
                     <p
                       onClick={() => setshowMenu(false)}
-                      className="cursor-pointer  space-x-3 hover:text-black"
+                      className="cursor-pointer border-t border-black/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
                     >
-                      <i className={`${item.icon} text-sm`} />
-                      <span className="text-sm">{item.label}</span>
+                      <i className={`${item.icon} text-lg`} />
+                      <span className="text-[15px]">{item.label}</span>
                     </p>
                   </Link>
                 ))}
+                {!userid ? (
+                  <Link
+                    to="/signin"
+                    className="cursor-pointer border-t border-black/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                  >
+                    <i className="ri-login-box-fill text-lg mr-2"></i>Sign in
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    onClick={() => logOut()}
+                    
+                  >
+                    <span className="cursor-pointer block w-full border-t border-black/10 py-2 px-3 space-x-5 hover:bg-zinc-100">
+                    <i className="ri-logout-box-fill text-lg mr-2"></i> Log Out</span>
+                   
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -270,49 +273,40 @@ const Navbar = ({ logOut }) => {
               </summary>
 
               <div className="w-full text-base font-medium text-gray-600">
-                <div className="w-full rounded bg-stone-100 flex flex-col gap-4 p-4">
-                  {!userid ? (
-                    <Link
-                      to="/signin"
-                      className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
-                    >
-                      Sign in
-                    </Link>
-                  ) : (
-                    <Link
-                      to="/"
-                      onClick={() => {
-                        logOut();
-                        setshowMenu(false);
-                      }}
-                      className="px-3 py-0.5 text-white bg-primary text-lg text-center rounded-xl"
-                    >
-                      Log Out
-                    </Link>
-                  )}
+                <div className="w-full rounded text-white flex flex-col gap-4 p-4">
                   {[
-                    { path: "/", label: "Home", icon: "ri-home-9-fill" },
-                    {
-                      path: "/profile",
-                      label: "Profile",
-                      icon: "ri-user-fill",
-                    },
-                    {
-                      path: "/orders",
-                      label: "Orders",
-                      icon: "ri-dropbox-fill",
-                    },
-                  ].map((item) => (
-                    <Link key={item.label} to={item.path}>
-                      <p
-                        onClick={() => setshowMenu(false)}
-                        className="cursor-pointer  space-x-3 hover:text-black"
-                      >
-                        <i className={`${item.icon} text-sm`} />
-                        <span className="text-sm">{item.label}</span>
-                      </p>
-                    </Link>
-                  ))}
+                  { path: "/", label: "Home", icon: "ri-home-9-fill" },
+                  { path: "/profile", label: "Profile", icon: "ri-user-fill" },
+                  { path: "/orders", label: "Orders", icon: "ri-dropbox-fill" },
+                ].map((item) => (
+                  <Link key={item.label} to={item.path}>
+                    <p
+                      onClick={() => setshowMenu(false)}
+                      className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                    >
+                      <i className={`${item.icon} text-lg`} />
+                      <span className="text-[15px]">{item.label}</span>
+                    </p>
+                  </Link>
+                ))}
+                {!userid ? (
+                  <Link
+                    to="/signin"
+                    className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                  >
+                    <i className="ri-login-box-fill text-lg mr-2"></i>Sign in
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    onClick={() => logOut()}
+                    
+                  >
+                    <span className="cursor-pointer block w-full border-t border-white/10 py-2 px-3 space-x-5 hover:bg-zinc-100">
+                    <i className="ri-logout-box-fill text-lg mr-2"></i> Log Out</span>
+                   
+                  </Link>
+                )}
                 </div>
               </div>
             </details>

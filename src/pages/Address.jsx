@@ -18,6 +18,8 @@ const states = state.map((state) => ({
 }));
 
 const Address = () => {
+  const [email, setemail] = useState("");
+  const [phone, setphone] = useState("");
   const [statecode, setstatecode] = useState("");
   const [cityarr, setcityarr] = useState("");
   const [Address, setaddress] = useState("");
@@ -28,9 +30,11 @@ const Address = () => {
   const userId = localStorage.getItem("user");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, address=[], selectedAddress } = useSelector(
-    (state) => state.user
-  );
+  const {
+    loading,
+    address = [],
+    selectedAddress,
+  } = useSelector((state) => state.user);
 
   function getCitiesByStateName(statecode, city) {
     if (!statecode || !Array.isArray(city)) return [];
@@ -75,72 +79,124 @@ const Address = () => {
       pincode,
     };
     const addaddress = await dispatch(AddAddress(addressData));
-    if(addaddress){
+    if (addaddress) {
       navigate("/order");
     }
   };
   return (
-    <div className=" w-full flex flex-col lg:flex-row py-2 justify-center gap-4 ">
+    <div className=" w-full flex flex-col px-2 lg:px-32  py-2 justify-center gap-4 ">
       <table>
         <tbody>
-      {address.length != 0 && (
-        <div className="lg:w-1/2 px-2 space-y-2 py-2">
-          {address.length != 0 && loading ? (
-            <div className="p-3 border rounded mb-2">
-              <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded mb-2"></div>
-            </div>
-          ) : ( address.length!= 0 && Array.isArray(address) &&
-            address?.map((add, i) => (
-              <div
-                key={i}
-                className=" flex gap-2 border items-center h-fit rounded px-2 py-1"
-              >
-                
-                  
-                    <tr>
+          {address.length != 0 && (
+            <div className="  grid grid-cols-1 lg:grid-cols-2 gap-2 space-y-2 py-2">
+              {address.length != 0 && loading ? (
+                <div className="p-3 border rounded mb-2">
+                  <div className="h-4 w-1/2 bg-gray-300 animate-pulse rounded mb-2"></div>
+                </div>
+              ) : (
+                address.length != 0 &&
+                Array.isArray(address) &&
+                address?.map((add, i) => (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      dispatch(setSelectedAddress(i));
+                    }}
+                    className={`${selectedAddress ===i ?"bg-emerald-50 border-emerald-600 flex":""} flex focus:bg-amber-300 justify-between gap-2 border  h-fit rounded px-2 py-1`}
+                  >
+                    <div>
+                      <tr>
+                      <td className="w-32 font-medium">Email:</td>
+                      <td>{add.email}</td>
+                    </tr>
+                      <tr>
+                      <td className="w-32 font-medium">Phone no:</td>
+                      <td>{add.number}</td>
+                    </tr>
+                      <tr>
+                      <td className="w-32 font-medium">LandMark:</td>
                       <td>{add.landmark}</td>
+                    </tr>
+                    <tr>
+                      <td className="w-32 font-medium">Address:</td>
                       <td>{add.address}</td>
+                    </tr>
+                    <tr>
+                      <td className="w-32 font-medium">State:</td>
                       <td>{add.state}</td>
-                      <td>{add.pincode}</td>
+                    </tr>
+                    <tr>
+                      <td className="w-32 font-medium">Address Type:</td>
+
                       <td>{add.addressType}</td>
                     </tr>
-                  
-                
-                <input
-                  type="radio"
-                  name="address"
-                  checked={selectedAddress === i}
-                  onChange={() => {
-                    dispatch(setSelectedAddress(i));
-                  }}
-                />
-                <h3 className="text-lg font-medium">
-                  {add.landmark} {add.address} {add.state} {add.pincode}, India
-                  <span className="border px-2 mx-2 rounded-full">
-                    {add.addressType}
-                  </span>
-                </h3>
-                
-              </div>
-            ))
+                    <tr>
+                      <td className="w-32 font-medium">PinCode:</td>
+                      <td>{add.pincode}</td>
+                    </tr>
+                    </div>
+
+                    <div>
+                      <input
+                      type="radio"
+                      name="address"
+                      checked={selectedAddress === i}
+                      onChange={() => {
+                        dispatch(setSelectedAddress(i));
+                      }}
+                    />
+                    </div>
+                  </div>
+                ))
+              )}
+              
+            </div>
           )}
-          {address.length != 0 && (
-            <button
-              className="px-2 py-1 rounded-xl bg-primary text-white font-medium my-2"
-              onClick={() => navigate("/order")}
-            >
-              Select
-            </button>
-          )}
-        </div>
-      )}
-      </tbody>
+        </tbody>
       </table>
+      {address.length != 0 && (
+                <button
+                  className="px-2 w-32 py-1 rounded-xl bg-primary text-white font-medium my-2"
+                  onClick={() => navigate("/order")}
+                >
+                  Select
+                </button>
+              )}
       <div className="bg-white px-5 relative border rounded py-2">
         <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
           Add your new Address
         </h1>
         <form onSubmit={handlesubmit} className="w-full flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
+            <span className="w-52 text-sm md:text-lg font-semibold">
+              Email
+            </span>
+            <input
+              type="text"
+              placeholder="Enter Your Email"
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
+              className="border border-gray-300 rounded px-3 py-1 outline-none focus:ring-1 focus:ring-blue-400 w-full"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="w-52 text-sm md:text-lg font-semibold">
+              Phone no
+            </span>
+            <input
+              type="text"
+              placeholder="Enter Your Phone No"
+              value={phone}
+              onChange={(e) => {
+                  const value = e.target.value
+                  const ismatched = /^[6-9]\d{0,9}$/.test(value);
+                  if (ismatched || value === ""){
+                    setphone(value);
+                  }
+                }}
+              className="border border-gray-300 rounded px-3 py-1 outline-none focus:ring-1 focus:ring-blue-400 w-full"
+            />
+          </div>
           <div className="flex flex-col gap-2">
             <span className="w-52 text-sm md:text-lg font-semibold">
               Address
