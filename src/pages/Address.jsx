@@ -81,6 +81,8 @@ const Address = () => {
   };
   return (
     <div className=" w-full flex flex-col lg:flex-row py-2 justify-center gap-4 ">
+      <table>
+        <tbody>
       {address.length != 0 && (
         <div className="lg:w-1/2 px-2 space-y-2 py-2">
           {address.length != 0 && loading ? (
@@ -93,6 +95,17 @@ const Address = () => {
                 key={i}
                 className=" flex gap-2 border items-center h-fit rounded px-2 py-1"
               >
+                
+                  
+                    <tr>
+                      <td>{add.landmark}</td>
+                      <td>{add.address}</td>
+                      <td>{add.state}</td>
+                      <td>{add.pincode}</td>
+                      <td>{add.addressType}</td>
+                    </tr>
+                  
+                
                 <input
                   type="radio"
                   name="address"
@@ -107,6 +120,7 @@ const Address = () => {
                     {add.addressType}
                   </span>
                 </h3>
+                
               </div>
             ))
           )}
@@ -120,6 +134,8 @@ const Address = () => {
           )}
         </div>
       )}
+      </tbody>
+      </table>
       <div className="bg-white px-5 relative border rounded py-2">
         <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
           Add your new Address
