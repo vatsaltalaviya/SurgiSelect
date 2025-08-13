@@ -35,7 +35,7 @@ const Address = () => {
   const [showform, setshowForm] = useState(false);
   const [isUpdate, setisUpdate] = useState(false);
 
-  const [cityarr, setcityarr] = useState("");
+  const [cityarr, setcityarr] = useState([]);
 
   const [updateId, setUpdateId] = useState("");
   const userId = localStorage.getItem("user");
@@ -47,40 +47,45 @@ const Address = () => {
     selectedAddress,
   } = useSelector((state) => state.user);
 
-  function getCitiesByStateName(statecode, city) {
-    if (!statecode || !Array.isArray(city)) return [];
+  function getCitiesByStateName(statename, city) {
+    if (!statename || !Array.isArray(city)) return [];
 
     return city
-      .filter((c) => c.state_name?.toLowerCase() == statecode.toLowerCase())
+      .filter((c) => c.state_name?.toLowerCase() == statename.toLowerCase())
       .map((c) => ({
         name: c.name,
       }));
   }
   useEffect(() => {
     dispatch(getUserAddress(userId));
-  }, [userId]);
+  }, []);
   useEffect(() => {
     if (formData.state) setcityarr(getCitiesByStateName(formData.state, city));
   }, [formData.state]);
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-    if (
-      formData.fullName == "" ||
-      formData.email == "" ||
-      formData.number == "" ||
-      formData.state == "" ||
-      formData.pincode == "" ||
-      formData.city == "" ||
-      formData.landmark == "" ||
-      formData.address == "" ||
-      formData.addressType == ""
-    ) {
+    const requiredFields = [
+      "fullName",
+      "email",
+      "number",
+      "state",
+      "pincode",
+      "city",
+      "landmark",
+      "address",
+      "addressType",
+    ];
+    if (requiredFields.some((field) => !formData[field]?.trim())) {
       toast.warn("All fields are required");
       return;
     }
     if (formData.pincode.trim().length !== 6) {
       toast.warn("Pincode must be 6 digits");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.warn("Enter a valid email");
       return;
     }
 
@@ -93,6 +98,17 @@ const Address = () => {
       const addaddress = await dispatch(AddAddress(addressData));
       if (addaddress) {
         navigate("/order");
+        setFromData({
+          fullName: "",
+          email: "",
+          number: "",
+          state: "",
+          pincode: "",
+          city: "",
+          landmark: "",
+          address: "",
+          addressType: "Home",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -126,18 +142,24 @@ const Address = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (
-      formData.fullName == "" ||
-      formData.email == "" ||
-      formData.number == "" ||
-      formData.state == "" ||
-      formData.pincode == "" ||
-      formData.city == "" ||
-      formData.landmark == "" ||
-      formData.address == "" ||
-      formData.addressType == ""
-    ) {
+    const requiredFields = [
+      "fullName",
+      "email",
+      "number",
+      "state",
+      "pincode",
+      "city",
+      "landmark",
+      "address",
+      "addressType",
+    ];
+    if (requiredFields.some((field) => !formData[field]?.trim())) {
       toast.warn("All fields are required");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      toast.warn("Enter a valid email");
       return;
     }
     if (formData.pincode.trim().length !== 6) {
@@ -155,6 +177,17 @@ const Address = () => {
       );
       if (addaddress) {
         toast.success("Address updated successfully");
+        setFromData({
+          fullName: "",
+          email: "",
+          number: "",
+          state: "",
+          pincode: "",
+          city: "",
+          landmark: "",
+          address: "",
+          addressType: "Home",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -292,7 +325,7 @@ const Address = () => {
       {showform && (
         <div className="bg-white px-5 relative border rounded py-2">
           <h1 className="w-full px-2 py-4 text-lg md:text-2xl font-medium">
-            Add your new Address
+            {isUpdate ? "Update your Address" : "Add your new Address"}
           </h1>
           {isUpdate ? (
             <form
