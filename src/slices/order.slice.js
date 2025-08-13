@@ -24,47 +24,10 @@ export const getOrderByUserId = createAsyncThunk(
       const res = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/orders/getUserOrder/${id}`
       );
-      const orders = res?.data?.data;
-
-      if (!Array.isArray(orders)) {
-        return thunkAPI.rejectWithValue("Invalid order data");
+      const orders = res?.data 
+      if(orders.success) {
+        return orders.data;
       }
-
-      const enrichedOrders = await Promise.all(
-        orders.map(async (order) => {
-          const enrichedItems = await Promise.all(
-            order.items.map(async (item) => {
-              try {
-                const itemRes = await axios.get(
-                  `${import.meta.env.VITE_BASE_URL}/items/item/${item.item}`
-                );
-                const itemDetails = itemRes.data?.data;
-
-                return {
-                  itemId: item.item,
-                  name: itemDetails.name,
-                  companyId: itemDetails.companyId,
-                  qty: item.quantity,
-                  image: itemDetails.logoImage,
-                  total: item.total || itemDetails.price * item.quantity,
-                  price: itemDetails.price,
-                  discount: itemDetails.discount || 0,
-                };
-              } catch (error) {
-                console.error("Item fetch error:", error);
-                return null;
-              }
-            })
-          );
-
-          return {
-            ...order,
-            items: enrichedItems.filter(Boolean), // replace with enriched
-          };
-        })
-      );
-
-      return enrichedOrders;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message || "Something went wrong");
     }
