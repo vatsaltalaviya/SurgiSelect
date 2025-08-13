@@ -83,7 +83,7 @@ const ProductPage = () => {
 
   return (
     <div className="w-full px-2 pt-5 py-1">
-            {console.log("Product page rendered")}
+          
       {loading ? (
         <div className="w-full h-screen">
           <ProductLoading />
@@ -171,7 +171,7 @@ const ProductPage = () => {
                       {updatedProduct?.about}
                     </h2>
 
-                    {parsedFeatures.length !==0  && <h1 className="text-[14px] font-semibold">Features:</h1>}
+                    {parsedFeatures?.length !==0  && <h1 className="text-[14px] font-semibold">Features:</h1>}
                     <ul className="list-disc mt-6 pl-5 space-y-2 text-gray-800">
                       {parsedFeatures?.map((feature, index) => (
                         <li

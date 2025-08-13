@@ -141,6 +141,18 @@ export const getUserAddress = createAsyncThunk("getUserAddress", async (userId, 
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 });
+export const updateAddress = createAsyncThunk("updateAddress", async ({id,addressData}, thunkAPI) => {
+ 
+    try {
+        const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/address/updateAddress/${id}`,addressData)
+        const data = res.data;
+        if (data.success) {
+            return data.data;
+        }
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
+    }
+});
 export const deleteAddress = createAsyncThunk("deleteAddress", async (id, thunkAPI) => {
 
     try {
@@ -162,6 +174,7 @@ const userslices = createSlice({
         address: [],
         selectedAddress: 0,
         loading: false,
+        addressLoading: false, 
         error: null,
     },
     reducers: {
@@ -249,41 +262,54 @@ const userslices = createSlice({
                 state.error = action.payload;
             })
             .addCase(AddAddress.pending, (state, action) => {
-                state.loading = true;
+                state.addressLoading = true;
                 state.error = null;
             })
             .addCase(AddAddress.fulfilled, (state, action) => {
-                state.loading = false;
+                state.addressLoading = false;
                 state.address = action.payload
                 state.error = null;
             })
             .addCase(AddAddress.rejected, (state, action) => {
-                state.loading = false;
+                state.addressLoading = false;
                 state.error = action.payload;
             })
             .addCase(getUserAddress.pending, (state, action) => {
-                state.loading = true;
+                state.addressLoading = true;
                 state.error = null;
             })
             .addCase(getUserAddress.fulfilled, (state, action) => {
-                state.loading = false;
+                state.addressLoading = false;
                 state.address = action.payload
                 state.error = null;
             })
             .addCase(getUserAddress.rejected, (state, action) => {
-                state.loading = false;
+                state.addressLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateAddress.pending, (state) => {
+                state.addressLoading = true;
+                state.error = null;
+            })
+            .addCase(updateAddress.fulfilled, (state,action) => {
+                state.addressLoading = false;
+                state.address = action.payload
+                state.error = null;
+            })
+            .addCase(updateAddress.rejected, (state, action) => {
+                state.addressLoading = false;
                 state.error = action.payload;
             })
             .addCase(deleteAddress.pending, (state) => {
-                state.loading = true;
+                state.addressLoading = true;
                 state.error = null;
             })
             .addCase(deleteAddress.fulfilled, (state) => {
-                state.loading = false;
+                state.addressLoading = false;
                 state.error = null;
             })
             .addCase(deleteAddress.rejected, (state, action) => {
-                state.loading = false;
+                state.addressLoading = false;
                 state.error = action.payload;
             })
     }
