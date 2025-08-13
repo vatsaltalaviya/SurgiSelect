@@ -43,7 +43,7 @@ const OrderDetails = () => {
               </div>
             </div>
 
-            <div className=" max-w-xs space-y-1 mt-2">
+            <div className=" lg:max-w-36 text-left space-y-1 mt-2">
               <h1 className="text-sm">Delivary on Jun 08</h1>
               <h1 className="text-sm">Your Item has been Delivered</h1>
             </div>
