@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { getOrderByUserId } from "../slices/order.slice";
 import Lottie from "lottie-react";
 import NoOrder from "../assets/noOrder.json";
+import ProductAside from "../components/ProductAside";
 
 const Orders = () => {
   const userId = localStorage.getItem("user");
@@ -15,22 +16,56 @@ const Orders = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full lg:pl-10 flex flex-col gap-y-2 items-center py-2 px-4 bg-gray-100">
+    <div className="min-h-screen w-full flex flex-col gap-y-2 items-center py-2 px-4 bg-gray-100">
       <div className="flex py-3 lg:py-8  justify-start w-full">
         <h1 className="text-2xl font-semibold">My Orders</h1>
       </div>
 
       <div className="w-full flex flex-col lg:flex-row gap-4 items-start">
-        <div className="bg-white w-full">
-          <h1 className="text-xl w-full">Filter</h1>
-        </div>
+        <aside className="w-xs rounded px-2 py-2 bg-white">
+          <h1 className="text-xl font-medium">Filter</h1>
+          <div className="border-t border-black/10">
+          <h1 className="text-xl py-2 font-medium">Order Status</h1>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="shipped" />
+              <label htmlFor="shipped" className="text-lg"> Shipped </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="deliver" />
+              <label htmlFor="deliver" className="text-lg"> Delivered </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="cancel" />
+              <label htmlFor="cancel" className="text-lg"> Cancelled </label>
+            </div>
+          </div>
+          <div className="border-t border-black/10">
+          <h1 className="text-xl py-2 font-medium">Order Time</h1>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="30d" />
+              <label htmlFor="30d" className="text-lg"> Last 30 Days </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="2025" />
+              <label htmlFor="2025" className="text-lg"> 2025 </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="2024" />
+              <label htmlFor="2024" className="text-lg"> 2024 </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="older" />
+              <label htmlFor="older" className="text-lg"> Older </label>
+            </div>
+          </div>
+        </aside>
         {orders?.length === 0 ? (
           <div className="size-62 my-10">
             <Lottie animationData={NoOrder} loop={true} />
             <h1 className="text-3xl text-center">No Orders Yet !</h1>
           </div>
         ) : (
-          <div className="w-full xl:px-32 space-y-2">
+          <div className="w-full  space-y-2">
             {orderloading ? (
               <OrderCardSkeleton />
             ) : (
@@ -116,12 +151,8 @@ const OrderCardSkeleton = () => {
         >
           {/* Image List Skeleton */}
           <div className="flex xl:w-3xl noscrollbar overflow-x-auto gap-x-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="size-24 lg:size-40 lg:p-5 rounded bg-gray-200 border border-black/10"
-              />
-            ))}
+            <div className="size-24 lg:size-40 lg:p-5 rounded bg-gray-200 border border-black/10" />
+            <div className="w-24 lg:w-3xl h-5 mt-3  rounded bg-gray-200 " />
           </div>
 
           {/* Order Info Skeleton */}
