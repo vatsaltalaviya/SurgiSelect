@@ -22,43 +22,160 @@ const Orders = () => {
       </div>
 
       <div className="w-full flex flex-col lg:flex-row gap-4 items-start">
-        <aside className="w-xs rounded px-2 py-2 bg-white">
+        {/* =========================== for Filter ============================ */}
+        <aside className="w-xs rounded px-2 py-2 bg-white lg:sticky top-0 hidden lg:block">
           <h1 className="text-xl font-medium">Filter</h1>
           <div className="border-t border-black/10">
-          <h1 className="text-xl py-2 font-medium">Order Status</h1>
+            <h1 className="text-xl py-2 font-medium">Order Status</h1>
             <div className="py-1 px-0.5 flex items-center gap-4">
-              <input className="size-4" type="radio" name="status" id="shipped" />
-              <label htmlFor="shipped" className="text-lg"> Shipped </label>
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="shipped"
+              />
+              <label htmlFor="shipped" className="text-lg">
+                {" "}
+                Shipped{" "}
+              </label>
             </div>
             <div className="py-1 px-0.5 flex items-center gap-4">
-              <input className="size-4" type="radio" name="status" id="deliver" />
-              <label htmlFor="deliver" className="text-lg"> Delivered </label>
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="deliver"
+              />
+              <label htmlFor="deliver" className="text-lg">
+                {" "}
+                Delivered{" "}
+              </label>
             </div>
             <div className="py-1 px-0.5 flex items-center gap-4">
-              <input className="size-4" type="radio" name="status" id="cancel" />
-              <label htmlFor="cancel" className="text-lg"> Cancelled </label>
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="cancel"
+              />
+              <label htmlFor="cancel" className="text-lg">
+                {" "}
+                Cancelled{" "}
+              </label>
             </div>
           </div>
           <div className="border-t border-black/10">
-          <h1 className="text-xl py-2 font-medium">Order Time</h1>
+            <h1 className="text-xl py-2 font-medium">Order Time</h1>
             <div className="py-1 px-0.5 flex items-center gap-4">
               <input className="size-4" type="radio" name="status" id="30d" />
-              <label htmlFor="30d" className="text-lg"> Last 30 Days </label>
+              <label htmlFor="30d" className="text-lg">
+                {" "}
+                Last 30 Days{" "}
+              </label>
             </div>
             <div className="py-1 px-0.5 flex items-center gap-4">
               <input className="size-4" type="radio" name="status" id="2025" />
-              <label htmlFor="2025" className="text-lg"> 2025 </label>
+              <label htmlFor="2025" className="text-lg">
+                {" "}
+                2025{" "}
+              </label>
             </div>
             <div className="py-1 px-0.5 flex items-center gap-4">
               <input className="size-4" type="radio" name="status" id="2024" />
-              <label htmlFor="2024" className="text-lg"> 2024 </label>
+              <label htmlFor="2024" className="text-lg">
+                {" "}
+                2024{" "}
+              </label>
             </div>
             <div className="py-1 px-0.5 flex items-center gap-4">
               <input className="size-4" type="radio" name="status" id="older" />
-              <label htmlFor="older" className="text-lg"> Older </label>
+              <label htmlFor="older" className="text-lg">
+                {" "}
+                Older{" "}
+              </label>
             </div>
           </div>
         </aside>
+
+        {/* =========================== for Filter in mobile view ============================ */}
+        <details className="w-full block lg:hidden group rounded px-2 py-2 bg-white lg:sticky top-0 shadow">
+          <summary className="list-none text-center text-lg font-medium ">
+            Filter
+            <span className="transform transition-transform duration-300 rotate-90">
+              <i className="ri-arrow-down-s-line " />
+            </span>
+          </summary>
+          <div className="border-t border-black/10">
+            <h1 className="text-xl py-2 font-medium">Order Status</h1>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="shipped"
+              />
+              <label htmlFor="shipped" className="text-lg">
+                {" "}
+                Shipped{" "}
+              </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="deliver"
+              />
+              <label htmlFor="deliver" className="text-lg">
+                {" "}
+                Delivered{" "}
+              </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input
+                className="size-4"
+                type="radio"
+                name="status"
+                id="cancel"
+              />
+              <label htmlFor="cancel" className="text-lg">
+                {" "}
+                Cancelled{" "}
+              </label>
+            </div>
+          </div>
+          <div className="border-t border-black/10">
+            <h1 className="text-xl py-2 font-medium">Order Time</h1>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="30d" />
+              <label htmlFor="30d" className="text-lg">
+                {" "}
+                Last 30 Days{" "}
+              </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="2025" />
+              <label htmlFor="2025" className="text-lg">
+                {" "}
+                2025{" "}
+              </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="2024" />
+              <label htmlFor="2024" className="text-lg">
+                {" "}
+                2024{" "}
+              </label>
+            </div>
+            <div className="py-1 px-0.5 flex items-center gap-4">
+              <input className="size-4" type="radio" name="status" id="older" />
+              <label htmlFor="older" className="text-lg">
+                {" "}
+                Older{" "}
+              </label>
+            </div>
+          </div>
+        </details>
         {orders?.length === 0 ? (
           <div className="size-62 my-10">
             <Lottie animationData={NoOrder} loop={true} />

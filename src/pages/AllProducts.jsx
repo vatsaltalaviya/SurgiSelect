@@ -16,6 +16,7 @@ import { debounce } from "lodash";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import { fetchlandingPageCategories } from "../slices/Category.slice";
+import { getBrand } from "../slices/brand.slice";
 
 const cities = [
   "Mumbai",
@@ -41,12 +42,7 @@ const cities = [
   "Nashik",
 ];
 
-const sidebardata = [
-  "Related Product",
-  "Filter result",
-  "Related Brand",
-  "Business Type",
-];
+const sidebardata = ["Related Brand"];
 
 const AllProducts = () => {
   const { subcategoryslug, name } = useParams();
@@ -55,6 +51,7 @@ const AllProducts = () => {
   const cityScrollRef = useRef(null);
 
   const [subcatname, setSubcatname] = useState("");
+  const [selectBrand, setSelect] = useState("");
   const [selectedproductId, setSelectedproductId] = useState("");
   const [showFilterforTab, setShowFilterforTab] = useState(false);
 
@@ -65,6 +62,7 @@ const AllProducts = () => {
   const { items, loading, subcategoryLoading, hasMore } = useSelector(
     (state) => state.items
   );
+  const { brands, brandloading } = useSelector((state) => state.brand);
   const { subCategories } = useSelector((state) => state.category);
   const { company } = useSelector((state) => state.companies);
 
@@ -75,18 +73,16 @@ const AllProducts = () => {
     setIsOpen(true);
   };
 
-  
-
   // Set subcategory name from ID
   const handleSubcategoryName = () => {
-   
     setSubcatname(subcategoryslug.replace(/-/g, " "));
   };
 
   // Initial data fetch based on subcategory
   useEffect(() => {
     if (subcategoryslug) {
-      dispatch(fetchItemsBySubCategory({subcategoryslug,page}));
+      dispatch(fetchItemsBySubCategory({ subcategoryslug, page }));
+      dispatch(getBrand());
       dispatch(fetchAllCompanies());
       dispatch(fetchlandingPageCategories());
     }
@@ -159,7 +155,7 @@ const AllProducts = () => {
     }
   };
 
- 
+  console.log(brands);
 
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
@@ -251,7 +247,7 @@ const AllProducts = () => {
       {/* Add Button for display aside bar */}
       <div className="relative hidden  lg:block 2xl:hidden w-fit 2xl:w-7xl my-3 overflow-hidden">
         <button
-          onClick={() => setshowFilterforTab((p) => !p)}
+          onClick={() => setShowFilterforTab((p) => !p)}
           className="flex items-center gap-2 px-2 py-1 text-xl border rounded font-semibold"
         >
           Filter
@@ -262,14 +258,14 @@ const AllProducts = () => {
       {/* =================================== main content ===================================================*/}
       <div className="w-full relative flex flex-col md:flex-row gap-2 items-start">
         {/* left side */}
-        <ProductAside />
+        <ProductAside brands={brands} />
 
         <div className="relative">
           <TabProductAside show={showFilterforTab} />
         </div>
 
         <div className="flex flex-col space-y-3 w-full">
-          { subcategoryLoading ? (
+          {subcategoryLoading ? (
             <div className="w-full h-screen flex flex-col items-center justify-center">
               <Loading />
             </div>
@@ -285,7 +281,7 @@ const AllProducts = () => {
                   </div>
                 ) : null
               }
-              scrollThreshold={0.95} // 95% scroll
+              scrollThreshold={0.95} 
             >
               {itemsObj?.map((product, i) => (
                 <section
@@ -311,8 +307,7 @@ const AllProducts = () => {
                     <div className="flex flex-col py-2 justify-between w-full">
                       <div className="w-full ">
                         <Link
-                          to={`/productdetail/${product.item.slug
-}`}
+                          to={`/productdetail/${product.item.slug}`}
                           className="text-[16px]  font-semibold text-primary hover:text-red-500 "
                         >
                           <p className="text-wrap px-1.5">
@@ -416,10 +411,8 @@ const AllProducts = () => {
                           ? product.company.number
                           : "View Phone Number"}
                       </button>
-                      
                     </div>
                   </div>
-                
                 </section>
               ))}
             </InfiniteScroll>
@@ -434,152 +427,38 @@ const AllProducts = () => {
             direction="bottom"
             className="w-full px-2 py-2 lg:hidden"
           >
-            <div className="min-h-[200px] max-h-[75vh] overflow-y-auto">
-              {drawerContent === "Related Product" && (
-                <div className="w-full">
-                  <div className="bg-white rounded px-2 py-3 text-wrap">
-                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium">
-                      Related Category
-                    </h1>
-
-                    {Array.from({ length: 10 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
-                      >
-                        <div className="w-16">
-                          <PhotoProvider>
-                            <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
-                              <img
-                                src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg"
-                                alt={`Image`}
-                                className="max-w-full max-h-full object-contain cursor-zoom-in"
-                              />
-                            </PhotoView>
-                          </PhotoProvider>
-                        </div>
-                        <div className="text-lg font-medium w-2/3 break-words">
-                          <Link className="hover:underline">
-                            Fingerprint Devices
-                          </Link>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {drawerContent === "Filter result" && (
-                <div className="w-full">
-                  <div className="bg-white rounded px-2 py-1">
-                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
-                      Filter Result
-                    </h1>
-                    <form className="w-full">
-                      <div className="py-2">
-                        <input
-                          className="form-checkbox h-5 w-5 mx-2 text-primary"
-                          type="checkbox"
-                          name=""
-                          id=""
-                        />
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          Your city
-                        </Link>
-                      </div>
-                      <div className="py-2">
-                        <input
-                          className="form-checkbox h-5 w-5 mx-2 text-primary"
-                          type="checkbox"
-                          name=""
-                          id=""
-                        />
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          Video
-                        </Link>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              )}
+            <div className="h-full overflow-y-auto">
               {drawerContent === "Related Brand" && (
                 <div className="w-full">
-                  <div className="bg-white rounded px-2 py-1 text-wrap">
-                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
-                      Related Brands
+                  <div className="bg-white rounded px-2 py-3 text-wrap">
+                    <h1 className="text-2xl text-primary py-1 font-semibold">
+                      Related Brand
                     </h1>
 
-                    {Array.from({ length: 3 }).map((_, i) => (
+                   
+
+                    {brands?.map((item) => (
                       <div
-                        key={i}
-                        className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
+                        key={item._id}
+                        className="space-x-3 py-1 border-y border-gray-400/30 flex items-center"
                       >
-                        <div className="w-1/3">
+                        <div className="w-[3em]">
                           <PhotoProvider>
-                            <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
+                            <PhotoView src={item.image}>
                               <img
-                                src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg"
+                                src={item.image}
                                 alt={`Image`}
                                 className="max-w-full max-h-full object-contain cursor-zoom-in"
                               />
                             </PhotoView>
                           </PhotoProvider>
                         </div>
-                        <div className="text-xl font-medium w-2/3 break-words">
-                          <Link className="hover:underline ">
-                            Fingerprint Devices
-                          </Link>
+
+                        <div className="text-lg font-medium w-2/3 break-words py-3">
+                          <Link className="hover:underline">{item.name}</Link>
                         </div>
                       </div>
                     ))}
-                  </div>
-                </div>
-              )}
-              {drawerContent === "Business Type" && (
-                <div className="w-full">
-                  <div className="bg-white rounded px-2 py-1">
-                    <h1 className="text-xl bg-gray-400/30 px-2 py-1 font-medium ">
-                      Business Type
-                    </h1>
-                    <div className="w-full">
-                      <div className="py-1 px-2">
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          Menufacture
-                        </Link>
-                      </div>
-                      <div className="py-1 px-2">
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          Retailer
-                        </Link>
-                      </div>
-                      <div className="py-1 px-2">
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          WholeSeller/Distributer
-                        </Link>
-                      </div>
-                      <div className="py-1 px-2">
-                        <Link
-                          className="text-xl font-medium hover:underline"
-                          to="#"
-                        >
-                          Expoter
-                        </Link>
-                      </div>
-                    </div>
                   </div>
                 </div>
               )}
@@ -591,7 +470,6 @@ const AllProducts = () => {
         {/* <div className="w-92 hidden 2xl:block">
           <ProductAside />
           </div> */}
-
       </div>
     </div>
   );
@@ -599,64 +477,64 @@ const AllProducts = () => {
 
 export default AllProducts;
 
-
-
 function Loading() {
   return (
     <>
       {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="bg-white w-full h-full"><section
-          key={i}
-          className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
-        >
-          {/* === Main Product Block === */}
-          <div className="flex flex-col md:flex-row w-full">
-            {/* Left - Image Skeleton */}
-            <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
-              <div className="w-full h-full bg-gray-300 rounded object-contain" />
-            </div>
+        <div key={i} className="bg-white w-full h-full">
+          <section
+            key={i}
+            className="w-full bg-white rounded shadow flex-col lg:flex-row flex mt-1 gap-2 animate-pulse"
+          >
+            {/* === Main Product Block === */}
+            <div className="flex flex-col md:flex-row w-full">
+              {/* Left - Image Skeleton */}
+              <div className="md:w-[300px] md:h-[200px] p-2 flex-shrink-0">
+                <div className="w-full h-full bg-gray-300 rounded object-contain" />
+              </div>
 
-            {/* Right - Product Info Skeleton */}
-            <div className="flex flex-col py-2 justify-between w-full px-2">
-              <div className="space-y-2">
-                <div className="h-5 w-3/4 bg-gray-300 rounded" />
-                <div className="h-6 w-1/2 bg-gray-300 rounded" />
+              {/* Right - Product Info Skeleton */}
+              <div className="flex flex-col py-2 justify-between w-full px-2">
+                <div className="space-y-2">
+                  <div className="h-5 w-3/4 bg-gray-300 rounded" />
+                  <div className="h-6 w-1/2 bg-gray-300 rounded" />
 
-                <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
+                  <div className="h-4 w-20 bg-gray-300 rounded mt-2" />
 
-                <table className="text-sm mt-2 w-full">
-                  <tbody className="space-y-2">
-                    {["Colour", "Size", "Type"].map((label, idx) => (
-                      <tr key={idx}>
-                        <td className="pr-2 py-1 w-32 font-medium text-black">
-                          <div className="h-4 w-3/4 bg-gray-300 rounded" />
-                        </td>
-                        <td>
-                          <div className="h-4 w-1/2 bg-gray-300 rounded" />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  <table className="text-sm mt-2 w-full">
+                    <tbody className="space-y-2">
+                      {["Colour", "Size", "Type"].map((label, idx) => (
+                        <tr key={idx}>
+                          <td className="pr-2 py-1 w-32 font-medium text-black">
+                            <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                          </td>
+                          <td>
+                            <div className="h-4 w-1/2 bg-gray-300 rounded" />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* === Company Detail Skeleton === */}
-          <div className="shrink-0 h-full xl:w-xs text-lg">
-            <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
-              <div className="h-4 w-3/4 bg-gray-300 rounded" />
-              <div className="h-4 w-2/3 bg-gray-300 rounded" />
-              <div className="h-4 w-full bg-gray-300 rounded" />
-              <div className="h-4 w-[80%] bg-gray-300 rounded" />
-              <div className="h-4 w-[60%] bg-gray-300 rounded" />
+            {/* === Company Detail Skeleton === */}
+            <div className="shrink-0 h-full xl:w-xs text-lg">
+              <div className="bg-[#f1f1f1] py-2 px-2 space-y-2">
+                <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                <div className="h-4 w-2/3 bg-gray-300 rounded" />
+                <div className="h-4 w-full bg-gray-300 rounded" />
+                <div className="h-4 w-[80%] bg-gray-300 rounded" />
+                <div className="h-4 w-[60%] bg-gray-300 rounded" />
+              </div>
+              <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
+                <div className="h-10 w-40 bg-gray-300 rounded" />
+                <div className="h-10 w-40 bg-gray-300 rounded" />
+              </div>
             </div>
-            <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center gap-2">
-              <div className="h-10 w-40 bg-gray-300 rounded" />
-              <div className="h-10 w-40 bg-gray-300 rounded" />
-            </div>
-          </div>
-        </section></div>
+          </section>
+        </div>
       ))}
     </>
   );

@@ -2,87 +2,29 @@ import React from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view'
 import { Link } from 'react-router-dom'
 
-const ProductAside = () => {
+const ProductAside = ({brands}) => {
   return (
     <aside
           className="space-y-1 xl:w-[16em] hidden shrink-0 2xl:block sticky top-4 self-start max-h-[80vh] overflow-y-auto pr-2 noscrollbar"
         >
-          {/* related Category */}
-          <div className="bg-white rounded px-2 py-1 text-wrap">
-            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
-              Related Category
-            </h1>
-
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
-              >
-                <div className="w-[3em]">
-                  <PhotoProvider>
-                    <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
-                      <img
-                        src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg"
-                        alt={`Image`}
-                        className="max-w-full max-h-full object-contain cursor-zoom-in"
-                      />
-                    </PhotoView>
-                  </PhotoProvider>
-                </div>
-                <div className="text-xs font-medium w-2/3 break-words">
-                  <Link className="hover:underline ">Fingerprint Devices</Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Filter result */}
-          <div className="bg-white rounded px-2 py-1">
-            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
-              Filter Result
-            </h1>
-            <form className="w-full">
-              <div className="py-2 flex items-center">
-                <input
-                  className="form-checkbox h-3 w-3 mx-2 text-primary"
-                  type="checkbox"
-                  name=""
-                  id=""
-                />
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  Your city
-                </Link>
-              </div>
-              <div className="py-2 flex items-center">
-                <input
-                  className="form-checkbox h-3 w-3 mx-2 text-primary"
-                  type="checkbox"
-                  name=""
-                  id=""
-                />
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  Video
-                </Link>
-              </div>
-            </form>
-          </div>
+          
 
           {/* related Brand */}
-          <div className="bg-white rounded px-2 py-1 text-wrap">
+          <div className="bg-white rounded px-2 py-1 max-h-[50vh] overflow-auto noscrollbar text-wrap">
             <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
               Related Brands
             </h1>
 
-            {Array.from({ length: 3 }).map((_, i) => (
+            {brands?.map((item) => (
               <div
-                key={i}
-                className="space-x-1 py-1 border-y border-gray-400/30 flex items-center"
+                key={item._id}
+                className="space-x-3 py-1 h-15 border-y border-gray-400/30 flex items-center"
               >
                 <div className="w-[3em]">
                   <PhotoProvider>
-                    <PhotoView src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg">
+                    <PhotoView src={item.image}>
                       <img
-                        src="https://3.imimg.com/data3/PM/GF/GLADMIN-80324/fingerprint-device-125x125.jpg"
+                        src={item.image}
                         alt={`Image`}
                         className="max-w-full max-h-full object-contain cursor-zoom-in"
                       />
@@ -90,39 +32,10 @@ const ProductAside = () => {
                   </PhotoProvider>
                 </div>
                 <div className="text-xs font-medium w-2/3 break-words">
-                  <Link className="hover:underline ">Fingerprint Devices</Link>
+                  <Link className="hover:underline ">{item.name}</Link>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Business Type */}
-          <div className="bg-white rounded px-2 py-1">
-            <h1 className="text-xs bg-gray-400/30 px-2 py-1 font-medium ">
-              Business Type
-            </h1>
-            <div className="w-full">
-              <div className="py-1 px-2">
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  Menufacture
-                </Link>
-              </div>
-              <div className="py-1 px-2">
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  Retailer
-                </Link>
-              </div>
-              <div className="py-1 px-2">
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  WholeSeller/Distributer
-                </Link>
-              </div>
-              <div className="py-1 px-2">
-                <Link className="text-xs font-medium hover:underline" to="#">
-                  Expoter
-                </Link>
-              </div>
-            </div>
           </div>
         </aside>
   )
