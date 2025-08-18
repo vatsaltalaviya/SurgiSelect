@@ -16,7 +16,7 @@ const Industry = () => {
   }, []);
   
   return (
-    <div className="w-full bg-gray-100 py-8 px-4 lg:px-12">
+    <div className="w-full bg-gray-100 py-8 px-4 lg:px-12 min-h-[calc(100vh-100px)]">
       <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
         Consumer Electronics
       </h1>
@@ -38,7 +38,7 @@ const Industry = () => {
                   />
                   <ul className=" list-inside space-y-1 text-sm text-gray-700 mx-2">
                     <li>
-                      <Link to={`/allproducts/${category.slug}`} className="hover:text-blue-600 font-medium">
+                      <Link to={`/allproducts/${category.slug}`} className="hover:text-blue-600 text-xl font-medium">
                         {category.name}
                       </Link>
                     </li>

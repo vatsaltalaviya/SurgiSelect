@@ -160,7 +160,7 @@ const Cart = () => {
   },[localCartState, dispatch, itemslength])
 
   return (
-    <div className="p-2 md:p-4 flex-res min-h-screen space-x-1 bg-gray-100">
+    <div className="p-2 md:p-4 flex-res min-h-[calc(100vh-100px)] space-x-1 bg-gray-100">
       <div className="w-full p-4 bg-white lg:min-h-32 h-screen lg:h-fit space-y-2 ">
         <div className="flex justify-between px-2 py-1">
           <h1 className="text-xl font-medium">Shoping Cart</h1>

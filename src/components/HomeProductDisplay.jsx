@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 
 const HomeProductDisplay = () => {
   const dispatch = useDispatch();
-  const { categories, landingpageCategories, loading , error } = useSelector(
+  const { categories, landingpageCategories, loading, error } = useSelector(
     (state) => state.category
   );
 
@@ -30,13 +30,10 @@ const HomeProductDisplay = () => {
     });
   }, [categories, landingpageCategories]);
 
-  
-
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchlandingPageCategories());
   }, []);
- 
 
   return (
     <div className="w-full flex flex-col items-center justify-center  ">
@@ -56,23 +53,21 @@ const HomeProductDisplay = () => {
               </Link>
               <div className="flex-res mt-5">
                 {/* ========== left side ================ */}
-                <div className="hidden shrink-0 2xl:flex w-[300px] h-[55vh] relative">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={cat?.categoryImage}
-                    alt={cat?.categoryName}
-                  />
+                <Link to={`/industry/${cat.categoryId}`}>
+                  <div className="hidden shrink-0 2xl:flex w-[300px] h-[55vh] relative">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={cat?.categoryImage}
+                      alt={cat?.categoryName}
+                    />
 
-                  <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
-                    <Link to={`/industry/${cat.categoryId}`}>
+                    <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
                       <h1 className="text-xl md:text-3xl text-white inline hover:underline font-semibold">
                         {cat?.categoryName}
                       </h1>
-                    </Link>
-
-                   
+                    </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* ================= right side =============== */}
                 <div className=" w-full relative lg:px-2">
@@ -105,7 +100,6 @@ const HomeProductDisplay = () => {
                                 {subcat.name}
                               </h1>
                             }
-                          
                           </div>
                         </div>
                       </Link>
@@ -122,43 +116,37 @@ const HomeProductDisplay = () => {
 };
 
 export default HomeProductDisplay;
-export function Loading(){
-  return(
-    
-  <div
-     
-    className="w-[95vw] border-blue-600 border-t-2 border-x-0 py-4 px-5 animate-pulse"
-  >
-    {/* Category Title Skeleton */}
-    <div className="h-6 w-1/3 bg-gray-300 rounded mb-4" />
+export function Loading() {
+  return (
+    <div className="w-[95vw] border-blue-600 border-t-2 border-x-0 py-4 px-5 animate-pulse">
+      {/* Category Title Skeleton */}
+      <div className="h-6 w-1/3 bg-gray-300 rounded mb-4" />
 
-    <div className="flex flex-col 2xl:flex-row gap-4 mt-5">
-      {/* Left Image Block */}
-      <div className="hidden 2xl:flex w-[300px] h-[55vh] bg-gray-300 rounded relative overflow-hidden">
-        <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
-          <div className="h-6 w-3/4 bg-gray-200 rounded" />
+      <div className="flex flex-col 2xl:flex-row gap-4 mt-5">
+        {/* Left Image Block */}
+        <div className="hidden 2xl:flex w-[300px] h-[55vh] bg-gray-300 rounded relative overflow-hidden">
+          <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
+            <div className="h-6 w-3/4 bg-gray-200 rounded" />
+          </div>
         </div>
-      </div>
 
-      {/* Right Side Subcategories */}
-      <div className="w-full relative lg:px-2">
-        <div className="flex flex-row lg:flex-wrap flex-nowrap gap-4 xl:overflow-hidden overflow-x-scroll">
-          {Array.from({ length: 4 }).map((_, idx) => (
-            <div
-              key={idx}
-              className="shrink-0 md:w-[22em] w-[18em] h-[8em] rounded flex gap-4 items-center border border-gray-400/30 p-2"
-            >
-              <div className="w-24 h-full bg-gray-300 rounded" />
-              <div className="flex-1 space-y-3">
-                <div className="h-4 w-3/4 bg-gray-300 rounded" />
+        {/* Right Side Subcategories */}
+        <div className="w-full relative lg:px-2">
+          <div className="flex flex-row lg:flex-wrap flex-nowrap gap-4 xl:overflow-hidden overflow-x-scroll">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="shrink-0 md:w-[22em] w-[18em] h-[8em] rounded flex gap-4 items-center border border-gray-400/30 p-2"
+              >
+                <div className="w-24 h-full bg-gray-300 rounded" />
+                <div className="flex-1 space-y-3">
+                  <div className="h-4 w-3/4 bg-gray-300 rounded" />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-
-  )
+  );
 }
