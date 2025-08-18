@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Link, useLocation, useParams } from "react-router-dom";
-import ProductAside from "../components/ProductAside";
-import TabProductAside from "../components/TabProductAside";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchItemByfilter,
@@ -58,10 +56,10 @@ const AllProducts = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
 
-  const { items, loading, subcategoryLoading, hasMore } = useSelector(
+  const { items, loading, itemsLoading, hasMore } = useSelector(
     (state) => state.items
   );
-  const { brands, brandloading } = useSelector((state) => state.brand);
+  
   const { subCategories } = useSelector((state) => state.category);
   const { company } = useSelector((state) => state.companies);
   const { search } = useLocation();
@@ -190,7 +188,7 @@ const AllProducts = () => {
       <div className="bg-white w-full flex-res space-x-3 lg:justify-between px-2 md:px-3 py-2 rounded space-y-4 lg:space-y-0">
         {/* Input + Near Me */}
 
-        <Link to='/filter' className="flex items-center gap-2 px-2 text-[18px] bg-primary text-white border rounded font-semibold">
+        <Link to='/filter' className="flex items-center gap-2 text-center w-fit px-2 text-[18px] bg-primary text-white border rounded font-semibold">
           Filter
           <i className="ri-equalizer-line font-medium"></i>
         </Link>
@@ -265,28 +263,14 @@ const AllProducts = () => {
         </div>
       </div>
 
-      {/* Add Button for display aside bar */}
-      {/* <div className="relative hidden  lg:block 2xl:hidden w-fit 2xl:w-7xl my-3 overflow-hidden">
-        <button
-          onClick={() => setShowFilterforTab((p) => !p)}
-          className="flex items-center gap-2 px-2 py-1 text-xl border rounded font-semibold"
-        >
-          Filter
-          <i className="ri-equalizer-line font-medium"></i>
-        </button>
-      </div> */}
+     
 
       {/* =================================== main content ===================================================*/}
       <div className="w-full relative flex flex-col md:flex-row gap-2 items-start">
-        {/* left side */}
-        {/* <ProductAside brands={brands} /> */}
-
-        {/* <div className="relative">
-          <TabProductAside show={showFilterforTab} />
-        </div> */}
+     
 
         <div className="flex flex-col space-y-3 w-full">
-          {subcategoryLoading ? (
+          {itemsLoading  ? (
             <div className="w-full h-screen flex flex-col items-center justify-center">
               <Loading />
             </div>

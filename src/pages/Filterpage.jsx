@@ -33,13 +33,13 @@ const Filterpage = () => {
     if (brand.length > 0) query.append("brand", brand.join(","));
 
     navigate(`/allproducts?${query.toString()}`);
+    
   };
-  
-
+    
   return (
-    <div className="px-5 py-2">
+    <div className="px-5 py-2 min-h-[calc(100vh-100px)]">
       <div className="py-2 border-t border-black/10">
-        <h1 className="text-xl lg:text-2xl font-medium">Category</h1>
+        <h1 className="text-xl lg:text-2xl font-medium py-2">Category</h1>
         <div className="flex flex-wrap  gap-2 lg:px-52 ">
           {categories?.map((item) => (
             <button
@@ -57,9 +57,9 @@ const Filterpage = () => {
         </div>
       </div>
       <div className="py-2 border-t mt-5 border-black/30">
-        <h1 className="text-xl lg:text-2xl font-medium">Sub Category</h1>
+        <h1 className="text-xl lg:text-2xl font-medium py-2">Sub Category</h1>
         <div className="flex flex-wrap  gap-2 lg:px-52 ">
-          {subCategories?.map((item) => (
+          {category && subCategories?.map((item) => (
             <button
               onClick={() => setsubcategory((p) => p.includes(item._id)? p.filter((id)=>id !=item._id): [...p, item._id])}
               className={`${
@@ -75,7 +75,7 @@ const Filterpage = () => {
         </div>
       </div>
       <div className="py-2 border-t mt-5 border-black/30">
-        <h1 className="text-xl lg:text-2xl font-medium">Brands</h1>
+        <h1 className="text-xl lg:text-2xl font-medium py-2">Brands</h1>
         <div className="flex flex-wrap  gap-2 lg:px-52 ">
           {brands?.map((item) => (
             <button

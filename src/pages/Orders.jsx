@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { getOrderByUserId } from "../slices/order.slice";
 import Lottie from "lottie-react";
 import NoOrder from "../assets/noOrder.json";
-import ProductAside from "../components/ProductAside";
+
 
 const Orders = () => {
   const userId = localStorage.getItem("user");

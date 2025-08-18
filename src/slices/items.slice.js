@@ -189,7 +189,7 @@ const itemSlice = createSlice({
         Companyitems: [],
         suggestions: [],
         loading: false,
-        subcategoryLoading: false,
+        itemsLoading: false,
         error: null,
         hasMore: true,
     },
@@ -202,16 +202,16 @@ const itemSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchItems.pending, (state) => {
-                state.subcategoryLoading = true;
+                state.itemsLoading = true;
                 state.error = null;
             })
             .addCase(fetchItems.fulfilled, (state, action) => {
-                state.subcategoryLoading = false;
+                state.itemsLoading = false;
                 state.items = action.payload;
                 state.error = null;
             })
             .addCase(fetchItems.rejected, (state, action) => {
-                state.subcategoryLoading = false;
+                state.itemsLoading = false;
                 state.error = action.payload;
             })
             .addCase(fetchMultipleItemsById.pending, (state) => {
@@ -228,12 +228,12 @@ const itemSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(fetchItemsBySubCategory.pending, (state) => {
-                state.subcategoryLoading = true;
+                state.itemsLoading = true;
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.fulfilled, (state, action) => {
                
-                state.subcategoryLoading = false;
+                state.itemsLoading = false;
                 const newItems = action.payload;
 
                 state.items = newItems;
@@ -248,7 +248,7 @@ const itemSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchItemsBySubCategory.rejected, (state, action) => {
-                state.subcategoryLoading = false;
+                state.itemsLoading = false;
                 state.error = action.payload;
             })
             .addCase(fetchItemsById.pending, (state, action) => {
@@ -278,16 +278,16 @@ const itemSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(fetchItemByfilter.pending, (state, action) => {
-                state.loading = true;
+                state.itemsLoading = true;
                 state.error = null;
             })
             .addCase(fetchItemByfilter.fulfilled, (state, action) => {
-                state.loading = false;
+                state.itemsLoading = false;
                 state.items = action.payload;
                 state.error = null;
             })
             .addCase(fetchItemByfilter.rejected, (state, action) => {
-                state.loading = false;
+                state.itemsLoading = false;
                 state.error = action.payload;
             })
             .addCase(fetchSuggestions.pending, (state, action) => {

@@ -13,7 +13,7 @@ const OrderDetails = () => {
     }, [])  
   
   return (
-    <div className="min-h-screen bg-gray-100 py-2 px-4">
+    <div className="min-h-[calc(100vh-100px)] bg-gray-100 py-2 px-4">
       <div className="flex py-3 lg:py-4 lg:pl-10 justify-start w-full">
         <h1 className="text-2xl font-semibold">Order Details</h1>
       </div>

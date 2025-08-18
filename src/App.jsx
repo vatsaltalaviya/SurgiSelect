@@ -25,7 +25,7 @@ import Filterpage from "./pages/Filterpage";
 const App = () => {
   const location = useLocation();
   const [islogOut, setislogOut] = useState(false)
-  const hideHeaderFooterRoutes = ["/signup","/signin","/forgetpassword","/verifyotp","/resetpassword","/filter"];
+  const hideHeaderFooterRoutes = ["/signup","/signin","/forgetpassword","/verifyotp","/resetpassword"];
 
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
     location.pathname
