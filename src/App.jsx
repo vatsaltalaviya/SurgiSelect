@@ -20,11 +20,12 @@ import VerifyOTP from "./pages/VerifyOTP";
 import ResetPassword from "./pages/ResetPassword";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
+import Filterpage from "./pages/Filterpage";
 
 const App = () => {
   const location = useLocation();
   const [islogOut, setislogOut] = useState(false)
-  const hideHeaderFooterRoutes = ["/signup","/signin","/forgetpassword","/verifyotp","/resetpassword"];
+  const hideHeaderFooterRoutes = ["/signup","/signin","/forgetpassword","/verifyotp","/resetpassword","/filter"];
 
   const shouldHideHeaderFooter = hideHeaderFooterRoutes.includes(
     location.pathname
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/productdetail/:slug" element={<ProductPage />} />
         <Route path="/industry/:id" element={<Industry />} />
         <Route path="/categorydetail" element={<CategoryDetail />} />
+        <Route path="/allproducts" element={<AllProducts />} />
         <Route path="/allproducts/:subcategoryslug" element={<AllProducts />} />
         <Route path="/sercheditem/:name" element={<AllProducts />} />
         <Route path="/cart" element={<Cart />} />
@@ -53,6 +55,7 @@ const App = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetails />} />
         <Route path="/companyprofile/:id" element={<CompanyPage />} />
+        <Route path="/filter" element={<Filterpage />} />
       </Routes>
 
       {!shouldHideHeaderFooter && <Footer />}

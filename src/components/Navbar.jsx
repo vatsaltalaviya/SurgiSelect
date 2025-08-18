@@ -47,7 +47,7 @@ const Navbar = ({ logOut }) => {
   const navigate = useNavigate();
   return (
     <nav
-      className={`bg-[#2e3192] w-full xl:pr-18 ${
+      className={`bg-[#2e3192] w-full ${
         showMenu ? "fixed top-0" : "relative"
       } z-30 px-4 `}
     >
@@ -189,9 +189,9 @@ const Navbar = ({ logOut }) => {
             <span className="text-white text-[14px] font-light">
               {username || "sign in"} <i className="ri-arrow-down-s-line rotate-0 group-hover:rotate-180"></i>
             </span>
-            <div className="absolute shadow-2xl top-2 rounded -right-15 pt-12 text-base z-20 hidden group-hover:block">
+            <div className="absolute shadow-2xl top-2 rounded -right-5 pt-12 text-base z-20 hidden group-hover:block">
               <div className="w-52 rounded bg-white relative flex flex-col gap-0.5">
-                <div className="w-4 h-3 bg-white triangle absolute left-[60%] -top-3"/>
+                <div className="w-4 h-3 bg-white triangle absolute left-[80%] -top-3"/>
                 {[
                   { path: "/", label: "Home", icon: "ri-home-9-fill" },
                   { path: "/profile", label: "Profile", icon: "ri-user-fill" },
@@ -210,7 +210,7 @@ const Navbar = ({ logOut }) => {
                 {!userid ? (
                   <Link
                     to="/signin"
-                    className="cursor-pointer border-t border-black/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                    className="cursor-pointer border-t border-black/10 py-2 px-3 space-x-3 capitalize hover:bg-zinc-100"
                   >
                     <i className="ri-login-box-fill text-lg mr-2"></i>Sign in
                   </Link>
@@ -267,7 +267,7 @@ const Navbar = ({ logOut }) => {
               <summary className="marker:content-none flex items-center gap-4">
                 <i className="ri-user-line text-xl font-medium text-white"></i>
                 <span className="text-white text-[16px] font-light flex items-center gap-1">
-                  {username || "sign in"}
+                  {username || "Sign in"}
                   <i className="ri-arrow-down-s-line"></i>
                 </span>
               </summary>

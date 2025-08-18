@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import ProductAside from "../components/ProductAside";
 import TabProductAside from "../components/TabProductAside";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchItemByfilter,
   fetchItemsBySearch,
   fetchItemsBySubCategory,
   resetItems,
@@ -51,9 +52,7 @@ const AllProducts = () => {
   const cityScrollRef = useRef(null);
 
   const [subcatname, setSubcatname] = useState("");
-  const [selectBrand, setSelect] = useState("");
   const [selectedproductId, setSelectedproductId] = useState("");
-  const [showFilterforTab, setShowFilterforTab] = useState(false);
 
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +64,7 @@ const AllProducts = () => {
   const { brands, brandloading } = useSelector((state) => state.brand);
   const { subCategories } = useSelector((state) => state.category);
   const { company } = useSelector((state) => state.companies);
+  const { search } = useLocation();
 
   // Toggle drawer state
   const toggleDrawer = () => setIsOpen((prev) => !prev);
@@ -131,6 +131,22 @@ const AllProducts = () => {
     };
   }, []);
 
+   // for filter products
+  
+  const params = new URLSearchParams(search);
+
+  const category = params.get("category");
+  const subcategory = params.get("subcategory")?.split(",") || [];
+  const brand = params.get("brand")?.split(",") || [];
+
+ useEffect(() => {
+    // Always call API when filters change
+    if (category || subcategory.length > 0 || brand.length > 0) {
+      dispatch(fetchItemByfilter({ category, subcategory, brand }));
+      dispatch(fetchAllCompanies());
+    }
+  }, [search]);
+
   // Map item and company data
   const itemsObj = useMemo(() => {
     if (!items?.length || !company?.length) return [];
@@ -154,14 +170,13 @@ const AllProducts = () => {
       });
     }
   };
-
-  console.log(brands);
+  
 
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
       {/* Title */}
 
-      <div className="my-2 flex flex-wrap gap-2 items-baseline">
+      {subcategoryslug && <div className="my-2 flex flex-wrap gap-2 items-baseline">
         <h1 className="text-xl pl-3 sm:text-3xl font-medium">
           {name || subcatname}
         </h1>
@@ -169,11 +184,17 @@ const AllProducts = () => {
           ({items?.length > 1000 ? "1000" : items?.length}
           {items?.length > 1000 && "+"} products available)
         </h3>
-      </div>
+      </div>}
 
       {/* Filter Row */}
-      <div className="bg-white w-full flex-res lg:justify-between px-2 md:px-3 py-2 rounded space-y-4 lg:space-y-0">
+      <div className="bg-white w-full flex-res space-x-3 lg:justify-between px-2 md:px-3 py-2 rounded space-y-4 lg:space-y-0">
         {/* Input + Near Me */}
+
+        <Link to='/filter' className="flex items-center gap-2 px-2 text-[18px] bg-primary text-white border rounded font-semibold">
+          Filter
+          <i className="ri-equalizer-line font-medium"></i>
+        </Link>
+
         <form className="flex-res w-full xl:w-1/2 items-center gap-2">
           <div className="relative w-full max-w-md">
             <i className="ri-map-pin-fill text-primary text-[12px] absolute top-2 left-3" />
@@ -245,7 +266,7 @@ const AllProducts = () => {
       </div>
 
       {/* Add Button for display aside bar */}
-      <div className="relative hidden  lg:block 2xl:hidden w-fit 2xl:w-7xl my-3 overflow-hidden">
+      {/* <div className="relative hidden  lg:block 2xl:hidden w-fit 2xl:w-7xl my-3 overflow-hidden">
         <button
           onClick={() => setShowFilterforTab((p) => !p)}
           className="flex items-center gap-2 px-2 py-1 text-xl border rounded font-semibold"
@@ -253,16 +274,16 @@ const AllProducts = () => {
           Filter
           <i className="ri-equalizer-line font-medium"></i>
         </button>
-      </div>
+      </div> */}
 
       {/* =================================== main content ===================================================*/}
       <div className="w-full relative flex flex-col md:flex-row gap-2 items-start">
         {/* left side */}
-        <ProductAside brands={brands} />
+        {/* <ProductAside brands={brands} /> */}
 
-        <div className="relative">
+        {/* <div className="relative">
           <TabProductAside show={showFilterforTab} />
-        </div>
+        </div> */}
 
         <div className="flex flex-col space-y-3 w-full">
           {subcategoryLoading ? (
@@ -281,7 +302,7 @@ const AllProducts = () => {
                   </div>
                 ) : null
               }
-              scrollThreshold={0.95} 
+              scrollThreshold={0.95}
             >
               {itemsObj?.map((product, i) => (
                 <section
@@ -434,8 +455,6 @@ const AllProducts = () => {
                     <h1 className="text-2xl text-primary py-1 font-semibold">
                       Related Brand
                     </h1>
-
-                   
 
                     {brands?.map((item) => (
                       <div

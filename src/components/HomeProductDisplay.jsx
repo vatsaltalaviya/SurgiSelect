@@ -36,6 +36,7 @@ const HomeProductDisplay = () => {
     dispatch(fetchCategories());
     dispatch(fetchlandingPageCategories());
   }, []);
+ 
 
   return (
     <div className="w-full flex flex-col items-center justify-center  ">
@@ -63,7 +64,7 @@ const HomeProductDisplay = () => {
                   />
 
                   <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
-                    <Link to="/categorydetail">
+                    <Link to={`/industry/${cat.categoryId}`}>
                       <h1 className="text-xl md:text-3xl text-white inline hover:underline font-semibold">
                         {cat?.categoryName}
                       </h1>

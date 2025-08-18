@@ -14,7 +14,7 @@ const Industry = () => {
   useEffect(() => {
     dispatch(fetchSubCategoriesbyCategoryId(id));
   }, []);
-
+  
   return (
     <div className="w-full bg-gray-100 py-8 px-4 lg:px-12">
       <h1 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
@@ -38,7 +38,7 @@ const Industry = () => {
                   />
                   <ul className=" list-inside space-y-1 text-sm text-gray-700 mx-2">
                     <li>
-                      <Link to={`/allproducts/${category._id}`} className="hover:text-blue-600 font-medium">
+                      <Link to={`/allproducts/${category.slug}`} className="hover:text-blue-600 font-medium">
                         {category.name}
                       </Link>
                     </li>

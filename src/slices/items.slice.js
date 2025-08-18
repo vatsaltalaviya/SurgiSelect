@@ -142,6 +142,45 @@ export const fetchItemByCompanyForHomePage = createAsyncThunk("fetchItemByCompan
         return thunkAPI.rejectWithValue(error.msg || "Something went wrong");
     }
 })  
+// slice/thunks.js (or wherever your thunk lives)
+
+export const fetchItemByfilter = createAsyncThunk(
+  "items/fetchByFilter",
+  async ({ brand = [], category = null, subcategory = [] }, thunkAPI) => {
+    try {
+      const base = import.meta.env.VITE_BASE_URL;
+
+      // Normalize arrays: remove empty strings just in case
+      const cleanBrand = Array.isArray(brand) ? brand.filter(Boolean) : [];
+      const cleanSub = Array.isArray(subcategory) ? subcategory.filter(Boolean) : [];
+
+      const qs = new URLSearchParams();
+      if (category) qs.set("category", category);
+      if (cleanBrand.length) qs.set("brand", cleanBrand.join(","));            // e.g. brand=1,2
+      if (cleanSub.length) qs.set("subCategory", cleanSub.join(","));          // e.g. subCategory=5,6
+
+      const url = `${base}/items/filter/search?${qs.toString()}`;
+
+      // Optional: log the final URL once to verify
+      // console.log("GET", url);
+
+      const res = await axios.get(url);
+      const data = res.data;
+
+      if (data?.success) {
+        return data.data;
+      }
+      return thunkAPI.rejectWithValue(data?.message || "Request failed");
+    } catch (error) {
+      const msg =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+ 
 
 const itemSlice = createSlice({
     name: 'items',
@@ -235,6 +274,19 @@ const itemSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchItemByCompanyForHomePage.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(fetchItemByfilter.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchItemByfilter.fulfilled, (state, action) => {
+                state.loading = false;
+                state.items = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchItemByfilter.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
