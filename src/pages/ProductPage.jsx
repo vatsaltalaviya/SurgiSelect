@@ -8,7 +8,7 @@ import { BeatLoader, ClipLoader } from "react-spinners";
 import { AddtoCart } from "../slices/Cart.slice";
 import { toast } from "react-toastify";
 import { fetchAllCompanies } from "../slices/company.slice";
-import { Helmet } from "react-helmet-async";
+import { Meta, Title } from "react-head";
 
 
 
@@ -82,12 +82,12 @@ const ProductPage = () => {
 
   return (
     <div className="w-full px-2 pt-5 py-1">
-       <Helmet>
+       
         {/* Title */}
-        <title>{updatedProduct?.metaTitle || "Surgi Select"}</title>
+        <Title>{updatedProduct?.metaTitle || "Surgi Select"}</Title>
 
         {/* Meta Description */}
-        <meta
+        <Meta
           name="description"
           content={
             updatedProduct?.metaDescription || "Default description"
@@ -95,22 +95,23 @@ const ProductPage = () => {
         />
 
         {/* Open Graph Tags */}
-        <meta
+        <Meta
           property="og:title"
           content={updatedProduct?.metaTitle || "Surgi Select"}
         />
-        <meta
+        <Meta
           property="og:description"
           content={
             updatedProduct?.metaDescription || "Default description"
           }
         />
-        <meta
+        <Meta
           property="og:image"
-          content={updatedProduct?.metaImage || "/default-image.png"}
+          content={updatedProduct?.logoImage || "/default-image.png"}
         />
-        <meta property="og:type" content="website" />
-      </Helmet>
+        <Meta property="og:type" content="website" />
+      
+      <meta name="keyword" content={updatedProduct?.metaTitle} />
       
       {loading ? (
         <div className="w-full h-screen">
@@ -269,17 +270,7 @@ const ProductPage = () => {
                   Rate
                 </h3>
               </div>
-              <div className="w-full px-2 py-4 flex flex-col items-center">
-                <button
-                  onClick={() => setshowContactNumber(true)}
-                  className=" px-4 py-2 rounded text-xl font-medium text-emerald-700 flex items-center"
-                >
-                  <i className="ri-phone-fill text-xl mr-2" />
-                  {showContactNumber
-                    ? updatedProduct?.companyData?.number
-                    : "View Phone Number"}
-                </button>
-              </div>
+              
             </div>
           </div>
           <TabSwitcher images={updatedProduct?.images} />

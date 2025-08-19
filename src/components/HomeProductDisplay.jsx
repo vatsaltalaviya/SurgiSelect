@@ -5,7 +5,6 @@ import {
   fetchCategories,
   fetchlandingPageCategories,
 } from "../slices/Category.slice";
-import { ClipLoader } from "react-spinners";
 
 const HomeProductDisplay = () => {
   const dispatch = useDispatch();
@@ -59,6 +58,7 @@ const HomeProductDisplay = () => {
                       className="w-full h-full object-cover"
                       src={cat?.categoryImage}
                       alt={cat?.categoryName}
+                      loading="lazy"
                     />
 
                     <div className="absolute inset-0 bg-zinc-900/40 flex flex-col justify-end px-10 py-4 space-y-3">
@@ -87,6 +87,7 @@ const HomeProductDisplay = () => {
                             <img
                               className="w-full h-full object-fill"
                               src={subcat.image}
+                              loading="lazy"
                               alt=""
                             />
                           </div>
