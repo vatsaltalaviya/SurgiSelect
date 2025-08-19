@@ -139,6 +139,7 @@ const Navbar = ({ logOut }) => {
                           },
                         },
                       }}
+                       
                     />
                   )}
                 />
