@@ -69,7 +69,7 @@ export const fetchlandingPageCategoriesforCompany = createAsyncThunk(
     subCategories.map(async (subcat) => {
       try {
         const itemsRes = await axios.get(
-          `${import.meta.env.VITE_BASE_URL}/items/item-List/${subcat._id}`
+          `${import.meta.env.VITE_BASE_URL}/items/item-List/${subcat.slug}`
         );
         const items = itemsRes.data?.data || [];
 

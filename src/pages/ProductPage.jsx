@@ -8,9 +8,12 @@ import { BeatLoader, ClipLoader } from "react-spinners";
 import { AddtoCart } from "../slices/Cart.slice";
 import { toast } from "react-toastify";
 import { fetchAllCompanies } from "../slices/company.slice";
+import { Helmet } from "react-helmet-async";
+
+
 
 const ProductPage = () => {
-  const [showContactNumber, setshowContactNumber] = useState(false)
+  const [showContactNumber, setshowContactNumber] = useState(false);
 
   const { slug } = useParams();
   const dispatch = useDispatch();
@@ -19,12 +22,11 @@ const ProductPage = () => {
   const { items, loading } = useSelector((state) => state.items);
   const { cartloading } = useSelector((state) => state.cart);
   const userid = localStorage.getItem("user");
-  
 
   useEffect(() => {
     dispatch(fetchItemsById(slug));
     dispatch(fetchAllCompanies());
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
   }, []);
 
   const updatedProduct = {
@@ -78,12 +80,38 @@ const ProductPage = () => {
     }
   };
 
-
-  
-
   return (
     <div className="w-full px-2 pt-5 py-1">
-          
+       <Helmet>
+        {/* Title */}
+        <title>{updatedProduct?.metaTitle || "Surgi Select"}</title>
+
+        {/* Meta Description */}
+        <meta
+          name="description"
+          content={
+            updatedProduct?.metaDescription || "Default description"
+          }
+        />
+
+        {/* Open Graph Tags */}
+        <meta
+          property="og:title"
+          content={updatedProduct?.metaTitle || "Surgi Select"}
+        />
+        <meta
+          property="og:description"
+          content={
+            updatedProduct?.metaDescription || "Default description"
+          }
+        />
+        <meta
+          property="og:image"
+          content={updatedProduct?.metaImage || "/default-image.png"}
+        />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      
       {loading ? (
         <div className="w-full h-screen">
           <ProductLoading />
@@ -102,16 +130,26 @@ const ProductPage = () => {
                   <span className="font-semibold">Price : ₹ </span>{" "}
                   {updatedProduct?.price}
                 </h1>
-                {updatedProduct?.quantity == 0 ?<span className="px-4 shrink-0 py-2 text-sm font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">Out Of Stock</span>:''}
+                {updatedProduct?.quantity == 0 ? (
+                  <span className="px-4 shrink-0 py-2 text-sm font-semibold bg-red-500 text-white w-fit my-4 rounded-lg">
+                    Out Of Stock
+                  </span>
+                ) : (
+                  ""
+                )}
                 <div className="w-full mt-4">
                   <form onSubmit={handlesubmit} className=" space-y-1">
                     <div className="w-full flex  items-center space-x-1 py-2">
                       <div className="flex items-center justify-center  border px-2 py-1 rounded gap-2">
                         <button
-                        disabled={updatedProduct?.quantity == 0}
+                          disabled={updatedProduct?.quantity == 0}
                           type="button"
                           onClick={() => setqty((p) => Math.max(p - 1, 1))}
-                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}
+                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${
+                            updatedProduct?.quantity == 0
+                              ? "cursor-not-allowed"
+                              : ""
+                          }`}
                         >
                           -
                         </button>
@@ -119,18 +157,27 @@ const ProductPage = () => {
                           {qty}
                         </span>
                         <button
-                        disabled={updatedProduct?.quantity == 0}
+                          disabled={updatedProduct?.quantity == 0}
                           type="button"
                           onClick={() => setqty((p) => p + 1)}
-                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}
+                          className={`text-2xl font-semibold text-gray-600 hover:text-black ${
+                            updatedProduct?.quantity == 0
+                              ? "cursor-not-allowed"
+                              : ""
+                          }`}
                         >
                           +
                         </button>
                       </div>
                       <div className="w-full flex items-center ">
                         <button
-                        disabled={updatedProduct?.quantity == 0}
-                        className={`px-3 w-52 py-2 rounded bg-[#2e3192] text-white font-medium ${updatedProduct?.quantity == 0?"cursor-not-allowed":""}`}>
+                          disabled={updatedProduct?.quantity == 0}
+                          className={`px-3 w-52 py-2 rounded bg-[#2e3192] text-white font-medium ${
+                            updatedProduct?.quantity == 0
+                              ? "cursor-not-allowed"
+                              : ""
+                          }`}
+                        >
                           {cartloading ? (
                             <BeatLoader color="white" size={5} />
                           ) : (
@@ -138,13 +185,10 @@ const ProductPage = () => {
                           )}
                         </button>
                       </div>
-                      
-                          
                     </div>
                   </form>
                 </div>
                 <div className="w-full py-4">
-                  
                   <div className="grid grid-cols-2 w-full odd:bg-gray-100">
                     <span className="text-sm font-medium">Colour</span>
                     <span className="text-sm font-medium">
@@ -166,12 +210,14 @@ const ProductPage = () => {
 
                   {/* =========== aditional Detail==================== */}
                   <div className="w-full mt-5">
-                       <h1 className="text-[14px] font-semibold">Details:</h1>
+                    <h1 className="text-[14px] font-semibold">Details:</h1>
                     <h2 className="text-[14px] font-medium">
                       {updatedProduct?.about}
                     </h2>
 
-                    {parsedFeatures?.length !==0  && <h1 className="text-[14px] font-semibold">Features:</h1>}
+                    {parsedFeatures?.length !== 0 && (
+                      <h1 className="text-[14px] font-semibold">Features:</h1>
+                    )}
                     <ul className="list-disc mt-6 pl-5 space-y-2 text-gray-800">
                       {parsedFeatures?.map((feature, index) => (
                         <li
@@ -224,11 +270,15 @@ const ProductPage = () => {
                 </h3>
               </div>
               <div className="w-full px-2 py-4 flex flex-col items-center">
-                <button onClick={()=>setshowContactNumber(true)} className=" px-4 py-2 rounded text-xl font-medium text-emerald-700 flex items-center">
+                <button
+                  onClick={() => setshowContactNumber(true)}
+                  className=" px-4 py-2 rounded text-xl font-medium text-emerald-700 flex items-center"
+                >
                   <i className="ri-phone-fill text-xl mr-2" />
-                  {showContactNumber ? updatedProduct?.companyData?.number:"View Phone Number"}
+                  {showContactNumber
+                    ? updatedProduct?.companyData?.number
+                    : "View Phone Number"}
                 </button>
-                
               </div>
             </div>
           </div>
@@ -240,8 +290,6 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-
-
 
 function ProductLoading() {
   return (
@@ -299,7 +347,6 @@ function ProductLoading() {
         </div>
         <div className="w-full px-2 py-4 flex flex-col items-center gap-2">
           <div className="w-40 h-10 bg-gray-300 rounded" />
-         
         </div>
       </div>
     </div>

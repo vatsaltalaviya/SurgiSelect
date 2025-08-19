@@ -24,13 +24,14 @@ const CompanyPage = () => {
   const { categories } = useSelector(
       (state) => state.category
     );
-
-    
     
     useEffect(() => {
       dispatch(fetchCompanyById(id))
       dispatch(fetchlandingPageCategoriesforCompany(id))
     }, [])
+    
+    console.log(categories);
+    console.log("product id:",productID);
     
     
     
@@ -96,7 +97,7 @@ const CompanyPage = () => {
                    {categories?.slice(0,10)?.map((data,i)=> <div key={i} className="px-2 space-y-1 shrink-0">
                       <Link onClick={()=>{
                         setproductDisplay(true)
-                        setproductID(data._id)
+                        setproductID(data.slug)
                         setActiveTab('product')
                       }} to="#"><h1 className="text-lg font-medium text-primary">{data.name}</h1></Link>
                       {data?.items?.map((d , i)=><Link  key={i} to="#"><h1 onClick={()=>{

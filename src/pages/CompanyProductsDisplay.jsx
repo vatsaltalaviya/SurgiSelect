@@ -65,6 +65,8 @@ const CompanyProductsDisplay = ({
   }
 }, [itemid]);
 
+console.log(selectedSubCategory);
+
 
   return (
     <div className="w-full flex flex-col xl:flex-row relative overflow-hidden min-h-screen">
@@ -164,7 +166,7 @@ const CompanyProductsDisplay = ({
                     className="w-full h-24 sm:h-28 md:h-32 object-contain mb-2"
                   />
                   <Link
-                    to={`/productdetail/${data._id}`}
+                    to={`/productdetail/${data.slug}`}
                     className="text-xs sm:text-sm font-medium text-blue-800 hover:underline line-clamp-2"
                   >
                     {data.name}
@@ -208,7 +210,7 @@ const CompanyProductsDisplay = ({
                 {/* Right: Product Info */}
                 <div className="w-full xl:w-1/2 flex flex-col gap-0.5">
                   <Link
-                    to={`/productdetail/${data._id}`}
+                    to={`/productdetail/${data.slug}`}
                     target=""
                     className="text-xl font-semibold text-gray-800 hover:text-red-500"
                   >

@@ -38,7 +38,7 @@ export const getOrderById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/orders/${id}`
+        `${import.meta.env.VITE_BASE_URL}/orders/orderId/${id}`
       );
       const orders = res?.data;
       if(orders.success){
@@ -54,7 +54,7 @@ export const getOrderById = createAsyncThunk(
 const orderSlice = createSlice({
     name: "order",
     initialState: {
-        orders: null,
+        orders: [],
         orderloading: false,
         error: null
     },

@@ -6,22 +6,22 @@ import { getOrderByUserId } from "../slices/order.slice";
 import Lottie from "lottie-react";
 import NoOrder from "../assets/noOrder.json";
 
-
 const Orders = () => {
   const userId = localStorage.getItem("user");
   const dispatch = useDispatch();
   const { orders, orderloading } = useSelector((state) => state.order);
+  const orderCount = orders?.length || 0;
   useEffect(() => {
     dispatch(getOrderByUserId({ id: userId }));
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col gap-y-2 items-center py-2 px-4 bg-gray-100">
+    <div className="min-h-[calc(100vh-100px)] w-full flex flex-col gap-y-2 items-center py-2 px-4 bg-gray-100">
       <div className="flex py-3 lg:py-8  justify-start w-full">
         <h1 className="text-2xl font-semibold">My Orders</h1>
       </div>
 
-      <div className="w-full flex flex-col lg:flex-row gap-4 items-start">
+      <div className="w-full flex flex-col lg:flex-row gap-4 min-w-full">
         {/* =========================== for Filter ============================ */}
         <aside className="w-xs rounded px-2 py-2 bg-white lg:sticky top-0 hidden lg:block">
           <h1 className="text-xl font-medium">Filter</h1>
@@ -176,19 +176,19 @@ const Orders = () => {
             </div>
           </div>
         </details>
-        {orders?.length === 0 ? (
-          <div className="size-62 my-10">
-            <Lottie animationData={NoOrder} loop={true} />
-            <h1 className="text-3xl text-center">No Orders Yet !</h1>
-          </div>
-        ) : (
+        <div className="mx-auto">
           <div className="w-full  space-y-2">
             {orderloading ? (
               <OrderCardSkeleton />
+            ) : orderCount === 0 ? (
+              <div className="size-90 my-10 ">
+                <Lottie animationData={NoOrder} loop={true} />
+                <h1 className="text-3xl text-center">No Orders Yet !</h1>
+              </div>
             ) : (
               Array.isArray(orders) &&
               orders?.map((order) => (
-                <Link key={order._id} to={`/orders/${order._id}`}>
+                <Link key={order.orderId} to={`/orders/${order.orderId}`}>
                   {" "}
                   <div className="w-full mb-2 bg-white flex flex-col lg:flex-row justify-between gap-x-4  px-2 py-2 border border-black/40 rounded">
                     <div className="flex xl:w-3xl noscrollbar overflow-x-auto gap-x-2">
@@ -209,9 +209,9 @@ const Orders = () => {
                         )}
                       </div>
                       {order?.items.length > 1 ? (
-                        `Surgi Select Basket ${order?.items.length} items`
+                        <span className="lg:text-xl px-4 font-medium">Surgi Select Basket {order?.items.length} items</span>
                       ) : (
-                        <h1 className="text-sm font-medium ">
+                        <h1 className="lg:text-xl px-4 font-medium ">
                           {order?.items[0].name}
                         </h1>
                       )}
@@ -250,7 +250,7 @@ const Orders = () => {
               ))
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

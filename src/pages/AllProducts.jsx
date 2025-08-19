@@ -41,7 +41,7 @@ const cities = [
   "Nashik",
 ];
 
-const sidebardata = ["Related Brand"];
+
 
 const AllProducts = () => {
   const { subcategoryslug, name } = useParams();
@@ -50,11 +50,11 @@ const AllProducts = () => {
   const cityScrollRef = useRef(null);
 
   const [subcatname, setSubcatname] = useState("");
-  const [selectedproductId, setSelectedproductId] = useState("");
+ 
 
   const [page, setPage] = useState(1);
-  const [isOpen, setIsOpen] = useState(false);
-  const [drawerContent, setDrawerContent] = useState(null);
+  
+ 
 
   const { items, loading, itemsLoading, hasMore } = useSelector(
     (state) => state.items
@@ -64,12 +64,7 @@ const AllProducts = () => {
   const { company } = useSelector((state) => state.companies);
   const { search } = useLocation();
 
-  // Toggle drawer state
-  const toggleDrawer = () => setIsOpen((prev) => !prev);
-  const openDrawerWith = (type) => {
-    setDrawerContent(type);
-    setIsOpen(true);
-  };
+  
 
   // Set subcategory name from ID
   const handleSubcategoryName = () => {
@@ -248,23 +243,7 @@ const AllProducts = () => {
         </div>
 
         {/* for mobile */}
-      </div>
-      <div className="relative block lg:hidden w-full 2xl:w-7xl my-3 overflow-hidden">
-        <div className="flex items-center gap-2">
-          <ul className="flex flex-nowrap items-center gap-3 overflow-x-auto scroll-smooth noscrollbar w-full">
-            {sidebardata.map((data, i) => (
-              <button key={i} onClick={() => openDrawerWith(data)}>
-                <li className="whitespace-nowrap px-4 py-1 bg-blue-400/10 text-primary text-sm  font-semibold rounded-full hover:bg-primary hover:text-white transition">
-                  {data}
-                </li>
-              </button>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-     
-
+      </div>   
       {/* =================================== main content ===================================================*/}
       <div className="w-full relative flex flex-col md:flex-row gap-2 items-start">
      
@@ -406,17 +385,7 @@ const AllProducts = () => {
                         <i className="ri-phone-fill  mr-2"></i>59% Response Rate
                       </h3>
                     </div>
-                    <div className="w-full bg-[#f1f1f1] px-2 py-4 flex flex-col items-center">
-                      <button
-                        onClick={() => setSelectedproductId(product.item._id)}
-                        className="text-nowrap px-4 py-2 rounded text-lg font-medium text-emerald-700 flex items-center"
-                      >
-                        <i className="ri-phone-fill text-lg mr-2" />
-                        {selectedproductId == product.item._id
-                          ? product.company.number
-                          : "View Phone Number"}
-                      </button>
-                    </div>
+                   
                   </div>
                 </section>
               ))}
@@ -424,50 +393,7 @@ const AllProducts = () => {
           )}
         </div>
 
-        {/* ====================================== Drawer =============================================== */}
-        <div className="lg:hidden">
-          <Drawer
-            open={isOpen}
-            onClose={toggleDrawer}
-            direction="bottom"
-            className="w-full px-2 py-2 lg:hidden"
-          >
-            <div className="h-full overflow-y-auto">
-              {drawerContent === "Related Brand" && (
-                <div className="w-full">
-                  <div className="bg-white rounded px-2 py-3 text-wrap">
-                    <h1 className="text-2xl text-primary py-1 font-semibold">
-                      Related Brand
-                    </h1>
-
-                    {brands?.map((item) => (
-                      <div
-                        key={item._id}
-                        className="space-x-3 py-1 border-y border-gray-400/30 flex items-center"
-                      >
-                        <div className="w-[3em]">
-                          <PhotoProvider>
-                            <PhotoView src={item.image}>
-                              <img
-                                src={item.image}
-                                alt={`Image`}
-                                className="max-w-full max-h-full object-contain cursor-zoom-in"
-                              />
-                            </PhotoView>
-                          </PhotoProvider>
-                        </div>
-
-                        <div className="text-lg font-medium w-2/3 break-words py-3">
-                          <Link className="hover:underline">{item.name}</Link>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </Drawer>
-        </div>
+       
 
         {/* right side */}
         {/* <div className="w-92 hidden 2xl:block">

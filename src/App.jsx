@@ -35,6 +35,7 @@ const App = () => {
       {!shouldHideHeaderFooter && <Navbar logOut={()=>setislogOut(true)} />}
       <ToastContainer position="top-right" autoClose={1000} />
         {/* <ScrollToTop /> */}
+        
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productdetail/:slug" element={<ProductPage />} />
