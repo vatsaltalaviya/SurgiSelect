@@ -164,6 +164,7 @@ const AllProducts = () => {
     }
   };
   
+console.log(itemsObj);
 
   return (
     <div className="w-full p-1 bg-[#e8eaeb] space-y-1">
@@ -347,13 +348,13 @@ const AllProducts = () => {
                     <div className="bg-[#f1f1f1] shrink-0 py-2 px-2">
                       <Link to={`/companyprofile/${product.item.companyId}`}>
                         <h1 className="text-sm  font-medium underline">
-                          {product.company.name}
+                          {product.company.companyName}
                         </h1>
                       </Link>
                       <h3>
                         <i className="ri-map-pin-fill text-sm  mr-2"></i>
                         <span className="text-sm ">
-                          Chandni Chowk, New Delhi
+                          {product.company.address}{product.company.city}
                         </span>
                       </h3>
                       <h3 className="space-x-1">
@@ -363,8 +364,7 @@ const AllProducts = () => {
                         <span className="text-amber-500 text-lg ">
                           <span className="text-sm ">TrustSEAL Verified</span>
                         </span>
-                        <i className="ri-user-3-line"></i>
-                        <span className="text-sm ">18 Yrs</span>
+                        
                       </h3>
                       <h3 className="space-x-1 text-sm">
                         {Array.from({ length: 4 }).map((_, idx) => (

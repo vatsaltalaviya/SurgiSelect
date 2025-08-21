@@ -291,7 +291,6 @@ const itemSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(fetchSuggestions.pending, (state, action) => {
-
                 state.error = null;
             })
             .addCase(fetchSuggestions.fulfilled, (state, action) => {

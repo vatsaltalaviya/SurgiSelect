@@ -17,6 +17,7 @@ const CompanyHome = ({
   setTab,
   setId,
   showproducts,
+  company
 }) => {
   const dispatch = useDispatch();
   const { Companyitems, loading } = useSelector((state) => state.items);
@@ -33,37 +34,37 @@ const CompanyHome = ({
     {
       img: savemoney,
       title: "Nature of Business",
-      subtitle: "NA",
+      subtitle: company?.businessType,
     },
     {
       img: balance,
       title: "Legal Status of Firm",
-      subtitle: "Limited Company",
+      subtitle: company?.legalStatus,
     },
     {
       img: report,
       title: "Annual Turnover",
-      subtitle: "0-40L",
+      subtitle: company?.annualTurnover,
     },
     {
       img: building,
       title: "GST Registration Date",
-      subtitle: "31-10-2023",
+      subtitle:new Date(company?.gstRegistrationDate).toLocaleDateString("en-GB") // dd/mm/yyyy,
     },
     {
       img: employee,
       title: "Total Number of Employees",
-      subtitle: "26 to 50 People",
+      subtitle: company?.employeesCount,
     },
     {
       img: transport,
       title: "Import Export Code (IEC)",
-      subtitle: "AAFCF5296B",
+      subtitle: company?.importExportCode,
     },
     {
       img: save,
       title: "GST Number",
-      subtitle: "24AAFCF5296B1ZS",
+      subtitle: company?.gstNumber,
     },
   ];
   const sliderRef = useRef();
@@ -154,14 +155,12 @@ const CompanyHome = ({
       <div className="w-full md:px-2 py-2">
         <h1 className="text-2xl font-medium text-center py-2">About Us</h1>
         <p className="text-xs md:text-lg font-medium md:text-center">
-          Fuerte Healthcare Private Limited - Wholesale Trader of surgical mesh,
-          surgical instruments & absorbable sutures since 2023 in Rajkot,
-          Gujarat.
+          {company?.aboutCompany}
         </p>
 
         <div className="flex flex-wrap w-full md:gap-x-6 lg:justify-center py-6">
           {companyInfo.map((d, i) => (
-            <div
+            d.subtitle?<div
               key={i}
               className="flex items-center gap-2 py-2 justify-center md:px-2"
             >
@@ -174,8 +173,10 @@ const CompanyHome = ({
                 <h1 className="text-sm md:text-lg font-semibold">{d.title}</h1>
                 <p className="text-xs md:text-sm font-medium">{d.subtitle}</p>
               </div>
-            </div>
+            </div>:<></>
           ))}
+
+          
         </div>
         
 

@@ -100,29 +100,16 @@ const CompanyAbout = ({company}) => {
     <table className="w-full text-sm text-left">
       <tbody>
         {[
-          ["Nature of Business", "NA"],
-          [
-            "Additional Business",
-            <>
-              Supplier of Services<br />
-              Retail Business<br />
-              Export
-            </>
-          ],
-          ["Company CEO", "Abhishek Kumar"],
-          ["Total Number of Employees", "26 to 50 People"],
-          ["GST Registration Date", "31-10-2023"],
-          ["Legal Status of Firm", "Limited Company"],
-          ["Annual Turnover", "0 - 40 L"],
-          [
-            "GST Partner Name",
-            <>
-              Aditya Prakash<br />
-              Mohit Ahuja<br />
-              Abhishek Kumar
-            </>
-          ],
+          ["Nature of Business", company?.businessType],
+          
+          ["Company CEO", company?.personName],
+          ["Total Number of Employees", company?.employeesCount],
+          ["GST Registration Date", new Date(company?.gstRegistrationDate).toLocaleDateString("en-GB")],
+          ["Legal Status of Firm", company?.legalStatus],
+          ["Annual Turnover", company?.annualTurnover],
+          ,
         ].map(([label, value], index) => (
+          value &&
           <tr key={index} className="align-top">
             <th className="py-2 pr-4 text-gray-600 font-medium w-64 ">
               {label}
@@ -140,7 +127,7 @@ const CompanyAbout = ({company}) => {
     <table className="w-full text-sm text-left">
       <tbody>
         {[
-          ["Import Export Code (IEC)", "AAFCF5296B"],
+          ["Import Export Code (IEC)", company?.importExportCode],
           ["GST No.", company?.gstNumber],
           ["CIN No.", company?.cinNumber],
         ].map(([label, value], index) => (

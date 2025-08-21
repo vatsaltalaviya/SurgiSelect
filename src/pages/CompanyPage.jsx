@@ -30,28 +30,25 @@ const CompanyPage = () => {
       dispatch(fetchlandingPageCategoriesforCompany(id))
     }, [])
     
-    console.log(categories);
-    console.log("product id:",productID);
     
-    
-    
+  
 
   return (
     <div className="w-full  ">
       <div className="w-full flex flex-col lg:flex-row">
         <div className="w-full px-4 py-2 ">
           {loading?<CompanyLoading />:<><h1 className="text-lg flex flex-col lg:text-3xl font-medium">
-            {company?.name}
+            {company?.companyName}
           </h1>
           <div className="flex flex-col lg:flex-row gap-x-4 lg:items-center w-full">
             <div className="py-1 flex shrink-0 items-center gap-2">
               <i className="ri-map-pin-fill"></i>
-              <h1 className="text-xs md:text-sm font-medium">Chowk, Rajkot, Gujarat</h1>
+              <h1 className="text-xs md:text-sm font-medium">{company?.address}{company?.city&& ","+company?.city}</h1>
             </div>
-            <div className="py-1 flex shrink-0 items-center gap-2">
+            {company?.gstNumber && <div className="py-1 flex shrink-0 items-center gap-2">
               <i className="ri-verified-badge-fill"></i>
               <h1 className="text-xs md:text-sm font-medium">GST - {company?.gstNumber}</h1>
-            </div>
+            </div>}
             <div className="py-1 flex shrink-0 items-center gap-2">
               <div className="space-y-1">
                 {Array.from({ length: 4 }).map((_, idx) => (
@@ -120,7 +117,7 @@ const CompanyPage = () => {
 
 
         {/* =========================== View phone number =========================== */}
-        <div className="shrink-0 px-2 py-4 flex flex-col items-center">
+        {/* <div className="shrink-0 px-2 py-4 flex flex-col items-center">
           <button className=" px-4 py-2 rounded text-sm font-medium border text-emerald-700 flex items-center">
             <i className="ri-phone-fill text-xl mr-2" />
             View Phone Number
@@ -129,14 +126,14 @@ const CompanyPage = () => {
             <i className="ri-telegram-2-fill text-xl mr-2 " />
             Contact Supplier
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-4 sm:mt-6 w-full sm:px-0">
         {activeTab === "home" && (
           <div className="md:px-6 px-2">
             <h2 className="text-base sm:text-lg font-bold mb-2">Home</h2>
-            <CompanyHome id={id} setId={(e)=>{setproductID(e)}} setTab={()=>setActiveTab('product')} showproducts={(e)=>setproductDisplay(e)} categoryData={categories} categoryloading={loading}/>
+            <CompanyHome id={id} setId={(e)=>{setproductID(e)}} setTab={()=>setActiveTab('product')} showproducts={(e)=>setproductDisplay(e)} categoryData={categories} categoryloading={loading} company={company}/>
           </div>
         )}
         {activeTab === "product" && (

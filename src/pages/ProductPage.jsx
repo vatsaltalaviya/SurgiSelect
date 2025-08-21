@@ -241,13 +241,13 @@ const ProductPage = () => {
                       to={`/companyprofile/${updatedProduct?.companyData._id}`}
                     >
                       <h1 className="text-sm font-medium underline">
-                        {updatedProduct?.companyData.name}
+                        {updatedProduct?.companyData.companyName}
                       </h1>
                     </Link>
                   )}
                 <h3>
-                  <i className="ri-map-pin-fill text-xl mr-2"></i>Chandni Chowk,
-                  New Delhi
+                  <i className="ri-map-pin-fill text-xl mr-2"></i>{updatedProduct?.companyData?.address},
+                 {updatedProduct?.companyData?.city}
                 </h3>
                 <h3 className="space-x-1">
                   <i className="ri-checkbox-circle-fill text-xl mr-2"></i>GST
