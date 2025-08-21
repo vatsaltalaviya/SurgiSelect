@@ -195,9 +195,9 @@ const Navbar = ({ logOut }) => {
                 <div className="w-4 h-3 bg-white triangle absolute left-[80%] -top-3"/>
                 {[
                   { path: "/", label: "Home", icon: "ri-home-9-fill" },
-                  { path: "/profile", label: "Profile", icon: "ri-user-fill" },
+                  { path: "/profile", label: "Profile", icon: "ri-user-fill",auth:true },
                   { path: "/orders", label: "Orders", icon: "ri-dropbox-fill" },
-                ].map((item) => (
+                ].filter((item) => (item.auth ? userid : true)).map((item) => (
                   <Link key={item.label} to={item.path}>
                     <p
                       onClick={() => setshowMenu(false)}
@@ -277,13 +277,13 @@ const Navbar = ({ logOut }) => {
                 <div className="w-full rounded text-white flex flex-col gap-4 p-4">
                   {[
                   { path: "/", label: "Home", icon: "ri-home-9-fill" },
-                  { path: "/profile", label: "Profile", icon: "ri-user-fill" },
+                  { path: "/profile", label: "Profile", icon: "ri-user-fill" ,auth:true},
                   { path: "/orders", label: "Orders", icon: "ri-dropbox-fill" },
-                ].map((item) => (
+                ].filter((item) => (item.auth ? userid : true)).map((item) => (
                   <Link key={item.label} to={item.path}>
                     <p
                       onClick={() => setshowMenu(false)}
-                      className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                      className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3"
                     >
                       <i className={`${item.icon} text-lg`} />
                       <span className="text-[15px]">{item.label}</span>
@@ -293,7 +293,7 @@ const Navbar = ({ logOut }) => {
                 {!userid ? (
                   <Link
                     to="/signin"
-                    className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3 hover:bg-zinc-100"
+                    className="cursor-pointer border-t border-white/10 py-2 px-3 space-x-3"
                   >
                     <i className="ri-login-box-fill text-lg mr-2"></i>Sign in
                   </Link>
