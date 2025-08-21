@@ -83,7 +83,6 @@ const TabSwitcher = ({images,company}) => {
               {/* Company description */}
               <p className="text-gray-800 text-sm leading-relaxed">
                 {company?.aboutCompany}
-               
               </p>
             </div>
           </div>
