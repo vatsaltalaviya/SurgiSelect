@@ -273,7 +273,7 @@ const ProductPage = () => {
               
             </div>
           </div>
-          <TabSwitcher images={updatedProduct?.images} />
+          <TabSwitcher images={updatedProduct?.images} company={updatedProduct?.companyData} />
         </>
       )}
     </div>

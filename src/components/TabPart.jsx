@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
-const companyInfo = [
-  { label: "GST Registration Date", value: "01-07-2017" },
-  { label: "Legal Status of Firm", value: "Proprietorship" },
-  { label: "Nature of Business", value: "Trader - Wholesaler/Distributor" },
-  { label: "Number of Employees", value: "11 To 25 People" },
-  { label: "Annual Turnover", value: "5 - 25 Cr" },
-  { label: "SurgiSelect Member Since", value: "Aug 2006" },
-  { label: "GST", value: "07AAVPM9674P1ZB" },
-  { label: "Import Export Code (IEC)", value: "05169*****" },
-];
 
-const TabSwitcher = ({images}) => {
+
+const TabSwitcher = ({images,company}) => {
+  const companyInfo = [
+  { label: "GST Registration Date", value:new Date(company?.gstRegistrationDate).toLocaleDateString("en-GB")  },
+  { label: "Legal Status of Firm", value: company?.legalStatus },
+  { label: "Nature of Business", value: company?.businessType },
+  { label: "Number of Employees", value: company?.employeesCount },
+  { label: "Annual Turnover", value: company?.annualTurnover },
+  { label: "SurgiSelect Member Since", value: "Aug 2006" },
+  { label: "GST", value: company?.gstNumber },
+  { label: "Import Export Code (IEC)", value: company?.importExportCode },
+];
   const [activeTab, setActiveTab] = useState("gallery");
 
   const tabs = [
@@ -81,20 +82,7 @@ const TabSwitcher = ({images}) => {
 
               {/* Company description */}
               <p className="text-gray-800 text-sm leading-relaxed">
-                Our firm <strong>Cine Audo Viso Equipments</strong> started its
-                operations in <strong>1999</strong> and since its inception, we
-                have been indulged in the manufacturing and wholesaling of
-                Sharpy Light, LED Moving Head Lights which are widely used in
-                the events industry. From the year, we started operating we have
-                been delivering a range of products installed with multiple
-                features through which we were able to gain a reputation in the
-                market.
-                <br />
-                The range which we deliver is excellent in terms of its
-                usability, durability, and reliability. These appliances are the
-                outcome of hard work and dedication of our team along with the
-                use of materials which are superlatively excellent and are
-                acquired from vendors who are certified.
+                {company?.aboutCompany}
                
               </p>
             </div>
