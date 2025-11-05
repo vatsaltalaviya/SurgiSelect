@@ -10,7 +10,7 @@ const TabSwitcher = ({images,company}) => {
   { label: "Nature of Business", value: company?.businessType },
   { label: "Number of Employees", value: company?.employeesCount },
   { label: "Annual Turnover", value: company?.annualTurnover },
-  { label: "SurgiSelect Member Since", value: "Aug 2006" },
+  { label: "SurgiSelect Member Since", value: new Date(company?.createdAt).toLocaleDateString("en-GB",{month:"short",year:"numeric"}) },
   { label: "GST", value: company?.gstNumber },
   { label: "Import Export Code (IEC)", value: company?.importExportCode },
 ];
